@@ -1,10 +1,10 @@
 package com.OrderManagementSystem.app.model;
 
 public class OrderLine {
-    String id;
-    SellableItem item;
-    UnitOfMeasure unit;
-    double quantity;
+    private String id;
+    private SellableItem item;
+    private UnitOfMeasure unit;
+    private double quantity;
 
     OrderLine(String id, SellableItem item, UnitOfMeasure unit, double quantity){
         this.id = id;
