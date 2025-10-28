@@ -1,20 +1,26 @@
 package com.OrderManagementSystem.app.model;
 
+import java.util.Date;
 import java.util.List;
 
 public class Contract {
-    String id;
-    String name;
-    String ContractTypeId;
-    Status status;
-    List<ContractLine> contractLines;
+    private String id;
+    private String name;
+    private String ContractTypeId;
+    private Status status;
+    private List<ContractLine> contractLines;
+    private Date creationDate;
+    private Date expirationDate;
 
-    public Contract(String id, String name, String contractTypeId, Status status, List<ContractLine> contracts) {
+    public Contract(String id, String name, String contractTypeId, Status status, List<ContractLine> contracts,
+                    Date creationDate, Date expirationDate) {
         this.id = id;
         this.name = name;
         ContractTypeId = contractTypeId;
         this.status = status;
         this.contractLines = contracts;
+        this.creationDate = creationDate;
+        this.expirationDate = expirationDate;
     }
 
     public String getId() {
@@ -37,6 +43,13 @@ public class Contract {
         return contractLines;
     }
 
+    public Date getCreationDate(){
+        return creationDate;
+    }
+
+    public Date getExpirationDate(){
+        return expirationDate;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -56,6 +69,14 @@ public class Contract {
 
     public void setContractLines(List<ContractLine> contractLines) {
         this.contractLines = contractLines;
+    }
+
+    public void setCreationDate(Date creationDate){
+        this.creationDate = creationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate){
+        this.expirationDate = expirationDate;
     }
 
     @Override

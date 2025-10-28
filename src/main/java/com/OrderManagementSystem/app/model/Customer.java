@@ -8,6 +8,8 @@ public class Customer {
     private String currency;
     private List<Order> orders;
     private List<Contract> contracts;
+    private String email;
+    private String phoneNumber;
 
     public Customer(String id, String name, String currency, List<Order> orders, List<Contract> contracts) {
         this.id = id;
@@ -37,6 +39,14 @@ public class Customer {
         return contracts;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -55,6 +65,14 @@ public class Customer {
 
     public void setContracts(List<Contract> contracts) {
         this.contracts = contracts;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override

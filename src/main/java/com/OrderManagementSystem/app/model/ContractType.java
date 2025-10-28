@@ -1,9 +1,9 @@
 package com.OrderManagementSystem.app.model;
 
 public class ContractType {
-    String id;
-    String name;
-    Type type;
+    private String id;
+    private String name;
+    private Type type;
 
     public ContractType(String id, String name, Type type) {
         this.id = id;
