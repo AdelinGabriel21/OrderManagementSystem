@@ -6,7 +6,7 @@ public class OrderLine {
     private UnitOfMeasure unit;
     private double quantity;
 
-    OrderLine(String id, SellableItem item, UnitOfMeasure unit, double quantity){
+    public OrderLine(String id, SellableItem item, UnitOfMeasure unit, double quantity){
         this.id = id;
         this.item = item;
         this.unit = unit;

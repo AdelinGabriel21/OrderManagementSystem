@@ -5,7 +5,7 @@ public class UnitOfMeasure {
     private String name;
     private String symbol;
 
-    UnitOfMeasure(String id, String name, String symbol){
+    public UnitOfMeasure(String id, String name, String symbol){
         this.id = id;
         this.name = name;
         this.symbol = symbol;
