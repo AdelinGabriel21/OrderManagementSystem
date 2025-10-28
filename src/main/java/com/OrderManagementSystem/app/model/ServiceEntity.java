@@ -1,9 +1,9 @@
 package com.OrderManagementSystem.app.model;
 
-public class Service extends SellableItem{
+public class ServiceEntity extends SellableItem{
     private Status status;
 
-    public Service(String id, String name, Status status) {
+    public ServiceEntity(String id, String name, Status status) {
         super(id, name);
         this.status = status;
     }
