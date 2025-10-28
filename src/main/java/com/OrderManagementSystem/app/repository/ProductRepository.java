@@ -19,7 +19,7 @@ public class ProductRepository {
         return new ArrayList<>(products.values());
     }
 
-    public Product finByID(String id){
+    public Product findById(String id){
         return products.get(id);
     }
 

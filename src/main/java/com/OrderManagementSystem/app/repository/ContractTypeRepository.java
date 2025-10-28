@@ -19,7 +19,7 @@ public class ContractTypeRepository {
         return new ArrayList<>(contractTypes.values());
     }
 
-    public ContractType finByID(String id){
+    public ContractType findById(String id){
         return contractTypes.get(id);
     }
 
