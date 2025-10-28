@@ -1,15 +1,16 @@
 package com.OrderManagementSystem.app.repository;
 
 import com.OrderManagementSystem.app.model.Product;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class ProductRepository {
-    private Map<String, Product> products;
-
-    public ProductRepository(Map<String, Product> products) {
-        this.products = products;
-    }
+    private final Map<String, Product> products = new HashMap<>();
 
     public void save(Product product){
         products.put(product.getId(), product);
