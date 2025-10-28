@@ -4,7 +4,7 @@ public class Product extends SellableItem{
     private double value;
     private int stockQuantity;
 
-    Product(String id, String name, double value, int stockQuantity){
+    public Product(String id, String name, double value, int stockQuantity){
         super(id,name);
         this.value = value;
         this.stockQuantity = stockQuantity;
