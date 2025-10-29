@@ -12,10 +12,9 @@ public class InMemoryRepo<T> implements RepoInterface<T, String> {
 
 
     @Override
-    public String save(T entity) {
+    public void save(T entity) {
         String id = Ids.createId(entity);
         storage.put(id, entity);
-        return id;
     }
 
     @Override
