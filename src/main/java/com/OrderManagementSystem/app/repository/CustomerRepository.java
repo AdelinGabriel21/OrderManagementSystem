@@ -1,15 +1,15 @@
 package com.OrderManagementSystem.app.repository;
 
 import com.OrderManagementSystem.app.model.Customer;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class CustomerRepository {
-    private Map<String, Customer> customers;
-
-    public CustomerRepository(Map<String, Customer> customers) {
-        this.customers = customers;
-    }
+    private final Map<String, Customer> customers = new HashMap<>();
 
     public void save(Customer customer) {
         customers.put(customer.getId(), customer);

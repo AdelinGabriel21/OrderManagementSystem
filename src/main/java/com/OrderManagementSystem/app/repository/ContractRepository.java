@@ -1,16 +1,15 @@
 package com.OrderManagementSystem.app.repository;
 
 import com.OrderManagementSystem.app.model.Contract;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class ContractRepository {
-    private Map<String, Contract> contracts;
-
-    public ContractRepository(Map<String, Contract> contracts) {
-        this.contracts = contracts;
-    }
+    private final Map<String, Contract> contracts = new HashMap<>();
 
     public void save(Contract contract) {
         contracts.put(contract.getId(), contract);
