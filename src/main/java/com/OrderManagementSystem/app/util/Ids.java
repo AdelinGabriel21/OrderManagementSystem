@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public final class Ids {
     private Ids() {}
-    public static String createId(Object entity) {
+    public static String createId() {
         return UUID.randomUUID().toString();
     }
 }

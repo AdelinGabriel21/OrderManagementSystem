@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Contracts</title>
 </head>
 <body>
-
+<h2>Contract List</h2>
+<a href="/contracts/new">Add Contract</a>
+<table border="1">
+    <tr><th>ID</th><th>Name</th><th>ContractType ID</th><th>Status</th><th>Contract Line</th><th>Creation Date</th><th>Expiration Date</th></tr>
+    <tr th:each="contract : ${contracts}">
+        <td th:text="${contract.id}"></td>
+        <td th:text="${contract.name}"></td>
+        <td th:text="${contract.contractTypeId}"></td>
+        <td th:text="${contract.status}">Status</td>
+        <td th:text="${#lists.size(contract.contractLines)}">Contract Lines</td>
+        <td th:text="${contract.creationDate}">Creation Date</td>
+        <td th:text="${contract.expirationDate}">Expiration Date</td>
+        <td>
+            <form th:action="@{'/contracts/' + ${contract.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

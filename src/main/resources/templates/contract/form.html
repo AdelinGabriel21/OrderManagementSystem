@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Contract</title>
 </head>
 <body>
-
+<h2>Add Contract</h2>
+<form th:action="@{/contract}" th:object="${contract}" method="post">
+    Name: <input type="text" th:field="*{name}" /><br/>
+    Contract Type ID: <input type="text" th:field="*{contractTypeId}" /><br/>
+    Status: <input type="text" th:field="*{status}" /><br/>
+    <!-- Add creationDate, expirationDate if needed -->
+    <button type="submit">Save</button>
+</form>
 </body>
 </html>

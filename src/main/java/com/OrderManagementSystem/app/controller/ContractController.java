@@ -1,16 +1,14 @@
 package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.Contract;
-import com.OrderManagementSystem.app.model.Status;
 import com.OrderManagementSystem.app.service.ContractService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.Date;
 
 @Controller
+@RequestMapping("/contracts")
 public class ContractController {
 
     private final ContractService service;
@@ -19,21 +17,29 @@ public class ContractController {
         this.service = service;
     }
 
-    @GetMapping("/test-contracts")
-    @ResponseBody
-    public String testContracts() {
-        Contract contract = new Contract(
-                "1",
-                "Example Contract",
-                "TYPE1",
-                Status.ACTIVE,
-                Collections.emptyList(),
-                new Date(),
-                new Date()
-        );
+    @GetMapping
+    public String listContracts(Model model) {
+        model.addAttribute("contracts", service.getAllContracts());
+        return "contract/index";
+    }
 
+    @GetMapping("/new")
+    public String newContractForm(Model model) {
+        model.addAttribute("contract", new Contract());
+        return "contract/form";
+    }
+
+    @PostMapping
+    public String addContract(@ModelAttribute Contract contract) {
         service.addContract(contract);
+        return "redirect:/contracts";
+    }
 
-        return "Contract added successfully! Total contracts: " + service.getAllContracts().size();
+    @PostMapping("/{id}/delete")
+    public String deleteContract(@PathVariable String id) {
+        System.out.println("Deleting contract with id: " + id);
+        service.deleteContracts(id);
+        System.out.println(service.getAllContracts());
+        return "redirect:/contracts";
     }
 }

@@ -13,7 +13,7 @@ public class InMemoryRepo<T> implements RepoInterface<T, String> {
 
     @Override
     public void save(T entity) {
-        String id = Ids.createId(entity);
+        String id = Ids.createId();
         storage.put(id, entity);
     }
 
@@ -30,5 +30,6 @@ public class InMemoryRepo<T> implements RepoInterface<T, String> {
     @Override
     public void delete(String id) {
         storage.remove(id);
+        System.out.println(storage);
     }
 }

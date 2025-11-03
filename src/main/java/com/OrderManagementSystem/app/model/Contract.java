@@ -1,27 +1,31 @@
 package com.OrderManagementSystem.app.model;
 
+import com.OrderManagementSystem.app.util.Ids;
+
 import java.util.Date;
 import java.util.List;
 
 public class Contract {
     private String id;
     private String name;
-    private String ContractTypeId;
+    private String contractTypeId;
     private Status status;
     private List<ContractLine> contractLines;
     private Date creationDate;
     private Date expirationDate;
 
-    public Contract(String id, String name, String contractTypeId, Status status, List<ContractLine> contracts,
+    public Contract(String name, String contractTypeId, Status status, List<ContractLine> contracts,
                     Date creationDate, Date expirationDate) {
-        this.id = id;
+        this.id = Ids.createId();
         this.name = name;
-        ContractTypeId = contractTypeId;
+        this.contractTypeId = contractTypeId;
         this.status = status;
         this.contractLines = contracts;
         this.creationDate = creationDate;
         this.expirationDate = expirationDate;
     }
+
+    public Contract() {}
 
     public String getId() {
         return id;
@@ -32,7 +36,7 @@ public class Contract {
     }
 
     public String getContractTypeId() {
-        return ContractTypeId;
+        return contractTypeId;
     }
 
     public Status getStatus() {
@@ -60,7 +64,7 @@ public class Contract {
     }
 
     public void setContractTypeId(String contractTypeId) {
-        ContractTypeId = contractTypeId;
+        contractTypeId = contractTypeId;
     }
 
     public void setStatus(Status status) {
@@ -84,7 +88,7 @@ public class Contract {
         return "Contract{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", ContractTypeId='" + ContractTypeId + '\'' +
+                ", ContractTypeId='" + contractTypeId + '\'' +
                 ", status=" + status +
                 ", contracts=" + contractLines +
                 '}';
