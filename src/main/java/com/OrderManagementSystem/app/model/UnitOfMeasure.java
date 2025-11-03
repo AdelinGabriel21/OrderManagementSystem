@@ -1,6 +1,6 @@
 package com.OrderManagementSystem.app.model;
 
-public class UnitOfMeasure {
+public class UnitOfMeasure implements ModelInterface {
     private String id;
     private String name;
     private String symbol;

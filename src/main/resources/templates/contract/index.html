@@ -14,7 +14,9 @@
         <td th:text="${contract.name}"></td>
         <td th:text="${contract.contractTypeId}"></td>
         <td th:text="${contract.status}">Status</td>
-        <td th:text="${#lists.size(contract.contractLines)}">Contract Lines</td>
+        <td th:text="${contract.contractLines != null ? #lists.size(contract.contractLines) : 0}">
+            Contract Lines
+        </td>
         <td th:text="${contract.creationDate}">Creation Date</td>
         <td th:text="${contract.expirationDate}">Expiration Date</td>
         <td>
