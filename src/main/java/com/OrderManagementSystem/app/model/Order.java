@@ -2,7 +2,7 @@ package com.OrderManagementSystem.app.model;
 
 import java.util.List;
 
-public class Order {
+public class Order implements ModelInterface {
     private String id;
     private String name;
     private Customer customer;

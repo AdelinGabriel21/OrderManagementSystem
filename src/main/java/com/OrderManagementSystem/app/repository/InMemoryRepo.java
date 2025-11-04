@@ -1,20 +1,23 @@
 package com.OrderManagementSystem.app.repository;
 
+import com.OrderManagementSystem.app.model.ModelInterface;
 import com.OrderManagementSystem.app.util.Ids;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
-public class InMemoryRepo<T> implements RepoInterface<T, String> {
+public class InMemoryRepo<T extends ModelInterface> implements RepoInterface<T, String> {
 
     private final Map<String, T> storage = new HashMap<>();
 
 
     @Override
     public void save(T entity) {
-        String id = Ids.createId(entity);
-        storage.put(id, entity);
+        if (entity.getId() == null || entity.getId().isEmpty()) {
+            entity.setId(Ids.createId());
+        }
+        storage.put(entity.getId(), entity);
     }
 
     @Override
@@ -30,5 +33,6 @@ public class InMemoryRepo<T> implements RepoInterface<T, String> {
     @Override
     public void delete(String id) {
         storage.remove(id);
+        System.out.println(storage);
     }
 }

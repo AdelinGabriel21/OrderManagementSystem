@@ -1,6 +1,6 @@
 package com.OrderManagementSystem.app.model;
 
-public class ContractType {
+public class ContractType implements ModelInterface {
     private String id;
     private String name;
     private Type type;

@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Contract</title>
 </head>
 <body>
-
+<h2>Add Contract</h2>
+<form th:action="@{/contracts}" th:object="${contract}" method="post">
+    Name: <input type="text" th:field="*{name}" /><br/>
+    Contract Type ID: <input type="text" th:field="*{contractTypeId}" /><br/>
+    Status: <select th:field="*{status}">
+            <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}"
+                    th:value="${st.name()}"
+                    th:text="${st.value}">
+            </option>
+        </select><br/>
+    Creation Date: <input type="date" th:field="*{creationDate}" /><br/>
+    Expiration Date: <input type="date" th:field="*{expirationDate}" /><br/>
+    <button type="submit">Save</button>
+</form>
 </body>
 </html>

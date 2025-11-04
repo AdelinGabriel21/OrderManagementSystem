@@ -26,17 +26,17 @@ public class OrderController {
         Customer customer1 = new Customer("C1", "Adelin Cracea", "EUR", new ArrayList<>(), new ArrayList<>());
         Customer customer2 = new Customer("C2", "TechWorks GmbH", "USD", new ArrayList<>(), new ArrayList<>());
 
-        Contract contract1 = new Contract("CT1", "Contract 1", "TYPE 1", Status.ACTIVE, Collections.emptyList(), new Date(), new Date());
-        Contract contract2 = new Contract("CT2", "Contract 2",  "TYPE 2", Status.DOWN, Collections.emptyList(), new Date(), new Date());
+//        Contract contract1 = new Contract("Contract 1", "TYPE 1", Status.ACTIVE, Collections.emptyList(), new Date(), new Date());
+//        Contract contract2 = new Contract("Contract 2",  "TYPE 2", Status.DOWN, Collections.emptyList(), new Date(), new Date());
 
         List<OrderLine> orderLines1 = new ArrayList<>();
         List<OrderLine> orderLines2 = new ArrayList<>();
 
-        Order o1 = new Order("O1", "Order 1", customer1, contract1, orderLines1);
-        Order o2 = new Order("O2", "Order 2", customer2, contract2, orderLines2);
-
-        service.addOrder(o1);
-        service.addOrder(o2);
+//        Order o1 = new Order("O1", "Order 1", customer1, contract1, orderLines1);
+//        Order o2 = new Order("O2", "Order 2", customer2, contract2, orderLines2);
+//
+//        service.addOrder(o1);
+//        service.addOrder(o2);
 
         var allOrders = service.findAllOrders();
 
