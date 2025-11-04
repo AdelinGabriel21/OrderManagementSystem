@@ -1,12 +1,14 @@
 package com.OrderManagementSystem.app.model;
 
-public class ServiceEntity extends SellableItem implements ModelInterface {
+public class ServiceEntity extends SellableItem {
     private Status status;
 
-    public ServiceEntity(String id, String name, Status status) {
-        super(id, name);
+    public ServiceEntity(String name, Status status) {
+        super(name);
         this.status = status;
     }
+
+    public ServiceEntity() {}
 
     public Status getStatus() {
         return status;

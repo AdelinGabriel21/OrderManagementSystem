@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Units of measure</title>
 </head>
 <body>
-
+<h2>Units of Measure List</h2>
+<a href="/unitsOfMeasure/new">Add Unit of measure</a>
+<table border="1">
+    <tr><th>ID</th><th>Name</th><th>Symbol</th>
+    <tr th:each="unitOfMeasure : ${unitsOfMeasure}">
+        <td th:text="${unitOfMeasure.id}"></td>
+        <td th:text="${unitOfMeasure.name}"></td>
+        <td th:text="${unitOfMeasure.symbol}"></td>
+        <td>
+            <form th:action="@{'/unitsOfMeasure/' + ${unitOfMeasure.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

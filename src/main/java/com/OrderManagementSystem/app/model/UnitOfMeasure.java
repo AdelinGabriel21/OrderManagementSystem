@@ -5,12 +5,14 @@ public class UnitOfMeasure implements ModelInterface {
     private String name;
     private String symbol;
 
-    public UnitOfMeasure(String id, String name, String symbol){
-        this.id = id;
+    public UnitOfMeasure(String name, String symbol){
         this.name = name;
         this.symbol = symbol;
     }
 
+    public UnitOfMeasure() {}
+
+    @Override
     public String getId() {
         return id;
     }
@@ -23,6 +25,7 @@ public class UnitOfMeasure implements ModelInterface {
         return symbol;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
