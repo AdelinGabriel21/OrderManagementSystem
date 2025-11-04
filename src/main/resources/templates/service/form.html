@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Service</title>
 </head>
 <body>
-
+<h2>Add Service</h2>
+<form th:action="@{/services}" th:object="${serviceEntity}" method="post">
+    Name: <input type="text" th:field="*{name}" /><br/>
+    Status:
+    <select th:field="*{status}">
+        <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}"
+                th:value="${st.name()}"
+                th:text="${st.value}">
+        </option>
+    </select><br/>
+    <button type="submit">Save</button>
+</form>
 </body>
 </html>

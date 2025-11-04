@@ -1,14 +1,16 @@
 package com.OrderManagementSystem.app.model;
 
-public class Product extends SellableItem implements ModelInterface {
+public class Product extends SellableItem {
     private double value;
     private int stockQuantity;
 
-    public Product(String id, String name, double value, int stockQuantity){
-        super(id,name);
+    public Product(String name, double value, int stockQuantity){
+        super(name);
         this.value = value;
         this.stockQuantity = stockQuantity;
     }
+
+    public Product() {}
 
     public double getValue(){
         return value;

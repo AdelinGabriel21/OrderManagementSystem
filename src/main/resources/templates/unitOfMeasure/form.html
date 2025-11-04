@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Unit of Measure</title>
 </head>
 <body>
-
+<h2>Add Unit of Measure</h2>
+<form th:action="@{/unitsOfMeasure}" th:object="${unitOfMeasure}" method="post">
+    Name: <input type="text" th:field="*{name}" /><br/>
+    Symbol: <input type="text" th:field="*{symbol}" /><br/>
+    <button type="submit">Save</button>
+</form>
 </body>
 </html>

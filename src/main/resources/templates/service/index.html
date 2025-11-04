@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Services</title>
 </head>
 <body>
+<h2>Service List</h2>
+<a href="/services/new">Add Service</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th><th>Name</th><th>Status</th><th>Actions</th>
+    </tr>
+    <tr th:each="service : ${services}">
+        <td th:text="${service.id}">ID</td>
+        <td th:text="${service.name}">Name</td>
+        <td th:text="${service.status}">Status</td>
+        <td>
+            <form th:action="@{'/services/' + ${service.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
 
 </body>
 </html>

@@ -1,14 +1,16 @@
 package com.OrderManagementSystem.app.model;
 
-public abstract class SellableItem {
+public abstract class SellableItem implements ModelInterface{
     protected String id;
     protected String name;
 
-    public SellableItem(String id, String name) {
-        this.id = id;
+    public SellableItem(String name) {
         this.name = name;
     }
 
+    public SellableItem() {}
+
+    @Override
     public String getId() {
         return id;
     }
@@ -21,6 +23,7 @@ public abstract class SellableItem {
         this.name = name;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
