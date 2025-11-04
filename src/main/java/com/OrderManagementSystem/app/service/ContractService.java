@@ -33,7 +33,6 @@ public class ContractService {
 
     public void deleteContracts(String id){
         repo.delete(id);
-        System.out.println(repo.findAll()+id);
     }
 
     @PostConstruct

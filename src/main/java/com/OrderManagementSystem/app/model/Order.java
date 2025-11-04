@@ -9,14 +9,14 @@ public class Order implements ModelInterface {
     private Contract contract;
     private List<OrderLine> orderLines;
 
-    public Order(String id, String name, Customer customer, Contract contract, List<OrderLine> orderLines) {
-        this.id = id;
+    public Order(String name, Customer customer, Contract contract, List<OrderLine> orderLines) {
         this.name = name;
         this.customer = customer;
         this.contract = contract;
         this.orderLines = orderLines;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -37,6 +37,7 @@ public class Order implements ModelInterface {
         return orderLines;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Order</title>
 </head>
 <body>
+<h2>Add New Order</h2>
 
+<form th:action="@{/orders}" method="post">
+    <label>Name: </label>
+    <input type="text" name="name" required /><br/><br/>
+
+    <label>Customer: </label>
+    <select name="customerId" required>
+        <option value="">-- Select Customer --</option>
+        <option th:each="customer : ${customers}"
+                th:value="${customer.id}"
+                th:text="${customer.name}"></option>
+    </select><br/><br/>
+
+    <label>Contract: </label>
+    <select name="contractId" required>
+        <option value="">-- Select Contract --</option>
+        <option th:each="contract : ${contracts}"
+                th:value="${contract.id}"
+                th:text="${contract.name}"></option>
+    </select><br/><br/>
+
+    <button type="submit">Save</button>
+</form>
+
+<a href="/orders">Back to list</a>
 </body>
 </html>

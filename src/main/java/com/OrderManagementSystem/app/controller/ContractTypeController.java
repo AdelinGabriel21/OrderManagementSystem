@@ -4,10 +4,11 @@ import com.OrderManagementSystem.app.model.ContractType;
 import com.OrderManagementSystem.app.model.Type;
 import com.OrderManagementSystem.app.service.ContractTypeService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/contract-types")
 public class ContractTypeController {
 
     private final ContractTypeService service;
@@ -16,22 +17,28 @@ public class ContractTypeController {
         this.service = service;
     }
 
-    @GetMapping("/test-contract-types")
-    @ResponseBody
-    public String testContractTypes() {
-        ContractType t1 = new ContractType("1", "Seller Contract", Type.SELLER);
-        ContractType t2 = new ContractType("2", "Customer Contract", Type.CUSTOMER);
-        ContractType t3 = new ContractType("3", "Seller Contract", Type.SELLER);
+    @GetMapping
+    public String getAllContractTypes(Model model) {
+        model.addAttribute("contractTypes", service.getAllContractTypes());
+        return "contractType/index";
+    }
 
-        service.addContractType(t1);
-        service.addContractType(t2);
-        service.addContractType(t3);
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("contractType", new ContractType("", Type.SELLER));
+        model.addAttribute("types", Type.values());
+        return "contractType/form";
+    }
 
-        var allTypes = service.getAllContractTypes();
+    @PostMapping
+    public String createContractType(@ModelAttribute ContractType contractType) {
+        service.addContractType(contractType);
+        return "redirect:/contract-types";
+    }
 
-        StringBuilder sb = new StringBuilder("All Contract Types in Repository:<br>");
-        allTypes.forEach(ct -> sb.append(ct).append("<br>"));
-
-        return sb.toString();
+    @PostMapping("/{id}/delete")
+    public String deleteContractType(@PathVariable String id) {
+        service.deleteContractType(id);
+        return "redirect:/contract-types";
     }
 }

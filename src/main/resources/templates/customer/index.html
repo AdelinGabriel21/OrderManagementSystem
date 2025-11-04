@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Customers</title>
 </head>
 <body>
+<h2>Customer List</h2>
+
+<a href="/customers/new">Add Customer</a>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Currency</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.id}">1</td>
+        <td th:text="${customer.name}">Adelin</td>
+        <td th:text="${customer.currency}">EUR</td>
+        <td th:text="${customer.email}">adelin@example.com</td>
+        <td th:text="${customer.phoneNumber}">+40773829445</td>
+        <td>
+            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
 
 </body>
 </html>

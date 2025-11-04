@@ -11,14 +11,14 @@ public class Customer implements ModelInterface {
     private String email;
     private String phoneNumber;
 
-    public Customer(String id, String name, String currency, List<Order> orders, List<Contract> contracts) {
-        this.id = id;
+    public Customer(String name, String currency, List<Order> orders, List<Contract> contracts) {
         this.name = name;
         this.currency = currency;
         this.orders = orders;
         this.contracts = contracts;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -47,6 +47,7 @@ public class Customer implements ModelInterface {
         return email;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
