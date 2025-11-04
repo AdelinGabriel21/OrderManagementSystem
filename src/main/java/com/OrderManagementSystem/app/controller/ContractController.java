@@ -37,9 +37,7 @@ public class ContractController {
 
     @PostMapping("/{id}/delete")
     public String deleteContract(@PathVariable String id) {
-        System.out.println("Deleting contract with id: " + id);
         service.deleteContracts(id);
-        System.out.println(service.getAllContracts());
         return "redirect:/contracts";
     }
 }

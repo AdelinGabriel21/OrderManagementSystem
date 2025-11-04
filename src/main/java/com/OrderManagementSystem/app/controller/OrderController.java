@@ -1,48 +1,61 @@
 package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.*;
-import com.OrderManagementSystem.app.service.OrderService;
+import com.OrderManagementSystem.app.service.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping("/orders")
 public class OrderController {
 
-    private final OrderService service;
+    private final OrderService orderService;
+    private final CustomerService customerService;
+    private final ContractService contractService;
 
-    public OrderController(OrderService service) {
-        this.service = service;
+    public OrderController(OrderService orderService, CustomerService customerService, ContractService contractService) {
+        this.orderService = orderService;
+        this.customerService = customerService;
+        this.contractService = contractService;
     }
 
-    @GetMapping("/test-orders")
-    @ResponseBody
-    public String testOrders() {
-        Customer customer1 = new Customer("C1", "Adelin Cracea", "EUR", new ArrayList<>(), new ArrayList<>());
-        Customer customer2 = new Customer("C2", "TechWorks GmbH", "USD", new ArrayList<>(), new ArrayList<>());
+    @GetMapping
+    public String showOrders(Model model) {
+        model.addAttribute("orders", orderService.findAllOrders());
+        return "order/index";
+    }
 
-//        Contract contract1 = new Contract("Contract 1", "TYPE 1", Status.ACTIVE, Collections.emptyList(), new Date(), new Date());
-//        Contract contract2 = new Contract("Contract 2",  "TYPE 2", Status.DOWN, Collections.emptyList(), new Date(), new Date());
+    @GetMapping("/new")
+    public String showAddForm(Model model) {
+        model.addAttribute("order", new Order("", null, null, new ArrayList<>()));
+        model.addAttribute("customers", customerService.getAllCustomers());
+        model.addAttribute("contracts", contractService.getAllContracts());
+        return "order/form";
+    }
 
-        List<OrderLine> orderLines1 = new ArrayList<>();
-        List<OrderLine> orderLines2 = new ArrayList<>();
+    @PostMapping
+    public String addOrder(
+            @RequestParam String name,
+            @RequestParam String customerId,
+            @RequestParam String contractId
+    ) {
+        Customer customer = customerService.getCustomerById(customerId);
+        Contract contract = contractService.getContractsById(contractId);
 
-//        Order o1 = new Order("O1", "Order 1", customer1, contract1, orderLines1);
-//        Order o2 = new Order("O2", "Order 2", customer2, contract2, orderLines2);
-//
-//        service.addOrder(o1);
-//        service.addOrder(o2);
+        Order order = new Order(name, customer, contract, new ArrayList<>());
 
-        var allOrders = service.findAllOrders();
+        orderService.addOrder(order);
+        return "redirect:/orders";
+    }
 
-        StringBuilder sb = new StringBuilder("All Orders in Repository:<br>");
-        allOrders.forEach(order -> sb.append(order).append("<br>"));
 
-        return sb.toString();
+    @PostMapping("/{id}/delete")
+    public String deleteOrder(@PathVariable String id) {
+        orderService.deleteOrder(id);
+        return "redirect:/orders";
     }
 }

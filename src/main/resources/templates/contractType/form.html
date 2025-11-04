@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add Contract Type</title>
 </head>
 <body>
+<h2>Add Contract Type</h2>
+
+<form th:action="@{/contract-types}" th:object="${contractType}" method="post">
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" /><br/>
+
+    <label>Type:</label>
+    <select th:field="*{type}">
+        <option th:each="t : ${T(com.OrderManagementSystem.app.model.Type).values()}"
+                th:value="${t.name()}"
+                th:text="${t.value}">
+        </option>
+    </select><br/>
+
+    <button type="submit">Save</button>
+</form>
+
+<a href="/contract-types">Back to list</a>
 
 </body>
 </html>

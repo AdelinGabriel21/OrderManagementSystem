@@ -5,12 +5,12 @@ public class ContractType implements ModelInterface {
     private String name;
     private Type type;
 
-    public ContractType(String id, String name, Type type) {
-        this.id = id;
+    public ContractType(String name, Type type) {
         this.name = name;
         this.type = type;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -23,6 +23,7 @@ public class ContractType implements ModelInterface {
         return type;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

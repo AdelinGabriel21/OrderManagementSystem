@@ -33,6 +33,5 @@ public class InMemoryRepo<T extends ModelInterface> implements RepoInterface<T, 
     @Override
     public void delete(String id) {
         storage.remove(id);
-        System.out.println(storage);
     }
 }
