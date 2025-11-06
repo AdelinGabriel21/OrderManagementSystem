@@ -17,7 +17,7 @@ public class ServiceEntityService {
         this.repo = repo;
     }
 
-    public void addService(ServiceEntity service){
+    public void saveService(ServiceEntity service){
         repo.save(service);
     }
 
