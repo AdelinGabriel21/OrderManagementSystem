@@ -19,7 +19,7 @@ public class ContractService {
         this.repo = repo;
     }
 
-    public void addContract(Contract contract){
+    public void saveContract(Contract contract){
         repo.save(contract);
     }
 
@@ -56,8 +56,8 @@ public class ContractService {
                     new Date(System.currentTimeMillis() + 172800000L) // +2 days
             );
 
-            addContract(c1);
-            addContract(c2);
+            saveContract(c1);
+            saveContract(c2);
         }
     }
 }

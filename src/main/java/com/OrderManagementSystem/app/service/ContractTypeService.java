@@ -16,7 +16,7 @@ public class ContractTypeService {
         this.repo = repo;
     }
 
-    public void addContractType(ContractType contractType) {
+    public void saveContractType(ContractType contractType) {
         repo.save(contractType);
     }
 
@@ -39,9 +39,9 @@ public class ContractTypeService {
             ContractType ct2 = new ContractType("Standard Customer Contract", Type.CUSTOMER);
             ContractType ct3 = new ContractType("Premium Seller Contract", Type.SELLER);
 
-            addContractType(ct1);
-            addContractType(ct2);
-            addContractType(ct3);
+            saveContractType(ct1);
+            saveContractType(ct2);
+            saveContractType(ct3);
         }
     }
 }
