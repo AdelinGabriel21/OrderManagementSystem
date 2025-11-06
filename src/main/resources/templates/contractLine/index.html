@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contract Lines</title>
+</head>
+<body>
+<h2>Contract Line List</h2>
+<a href="/contract-lines/new">Add Contract Line</a>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Item</th>
+        <th>Unit</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="line : ${contractLines}">
+        <td th:text="${line.id}"></td>
+        <td th:text="${line.item.name}"></td>
+        <td th:text="${line.unit.name}"></td>
+        <td th:text="${line.quantity}"></td>
+        <td>
+            <form th:action="@{'/contract-lines/' + ${line.id} + '/delete'}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

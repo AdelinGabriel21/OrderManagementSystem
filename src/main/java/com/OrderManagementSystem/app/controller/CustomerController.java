@@ -32,7 +32,7 @@ public class CustomerController {
 
     @PostMapping
     public String createCustomer(@ModelAttribute Customer customer) {
-        service.addCustomer(customer);
+        service.saveCustomer(customer);
         return "redirect:/customers";
     }
 

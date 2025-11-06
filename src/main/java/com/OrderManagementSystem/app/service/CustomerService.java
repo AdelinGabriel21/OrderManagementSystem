@@ -16,7 +16,7 @@ public class CustomerService {
         this.repo = repo;
     }
 
-    public void addCustomer(Customer customer) {
+    public void saveCustomer(Customer customer) {
         repo.save(customer);
     }
 
@@ -47,9 +47,9 @@ public class CustomerService {
             c3.setEmail("info@globalsupplies.ro");
             c3.setPhoneNumber("+40213123456");
 
-            addCustomer(c1);
-            addCustomer(c2);
-            addCustomer(c3);
+            saveCustomer(c1);
+            saveCustomer(c2);
+            saveCustomer(c3);
         }
     }
 }

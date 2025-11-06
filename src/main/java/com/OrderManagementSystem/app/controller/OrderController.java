@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/orders")
@@ -48,7 +47,7 @@ public class OrderController {
 
         Order order = new Order(name, customer, contract, new ArrayList<>());
 
-        orderService.addOrder(order);
+        orderService.saveOrder(order);
         return "redirect:/orders";
     }
 

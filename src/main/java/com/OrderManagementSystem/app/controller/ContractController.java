@@ -31,7 +31,7 @@ public class ContractController {
 
     @PostMapping
     public String addContract(@ModelAttribute Contract contract) {
-        service.addContract(contract);
+        service.saveContract(contract);
         return "redirect:/contracts";
     }
 

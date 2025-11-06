@@ -21,7 +21,7 @@ public class OrderService {
         this.repo = repo;
     }
 
-    public void addOrder(Order order) {
+    public void saveOrder(Order order) {
         repo.save(order);
     }
 
@@ -49,8 +49,8 @@ public class OrderService {
             Order o1 = new Order("Order A", c1, contract1, new ArrayList<>());
             Order o2 = new Order("Order B", c2, contract2, new ArrayList<>());
 
-            addOrder(o1);
-            addOrder(o2);
+            saveOrder(o1);
+            saveOrder(o2);
         }
     }
 }
