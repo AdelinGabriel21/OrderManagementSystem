@@ -1,18 +1,20 @@
 package com.OrderManagementSystem.app.model;
 
-public class OrderLine {
+public class OrderLine implements ModelInterface{
     private String id;
     private SellableItem item;
     private UnitOfMeasure unit;
     private double quantity;
 
-    public OrderLine(String id, SellableItem item, UnitOfMeasure unit, double quantity){
-        this.id = id;
+    public OrderLine(SellableItem item, UnitOfMeasure unit, double quantity){
         this.item = item;
         this.unit = unit;
         this.quantity = quantity;
     }
 
+    public OrderLine() {}
+
+    @Override
     public String getId() {
         return id;
     }
@@ -29,6 +31,7 @@ public class OrderLine {
         return quantity;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

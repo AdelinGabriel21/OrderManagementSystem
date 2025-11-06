@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -32,7 +30,7 @@ public class ProductController {
 
     @PostMapping
     public String addContract(@ModelAttribute Product product){
-        service.addProduct(product);
+        service.saveProduct(product);
         return "redirect:/products";
     }
 

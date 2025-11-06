@@ -15,7 +15,7 @@ public class ProductService {
         this.repo = repo;
     }
 
-    public void addProduct(Product product){
+    public void saveProduct(Product product){
         repo.save(product);
     }
 

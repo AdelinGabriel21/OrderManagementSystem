@@ -30,7 +30,7 @@ public class ServiceEntityController {
 
     @PostMapping
     public String addService(@ModelAttribute ServiceEntity serviceEntity) {
-        service.addService(serviceEntity);
+        service.saveService(serviceEntity);
         return "redirect:/services";
     }
 
