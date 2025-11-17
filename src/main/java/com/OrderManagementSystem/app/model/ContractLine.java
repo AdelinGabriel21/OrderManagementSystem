@@ -1,18 +1,18 @@
 package com.OrderManagementSystem.app.model;
 
-public class ContractLine {
+public class ContractLine implements ModelInterface {
     private String id;
     private SellableItem item;
     private UnitOfMeasure unit;
     private double quantity;
 
-    public ContractLine(String id, SellableItem item, UnitOfMeasure unit, double quantity) {
-        this.id = id;
+    public ContractLine(SellableItem item, UnitOfMeasure unit, double quantity) {
         this.item = item;
         this.unit = unit;
         this.quantity = quantity;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -29,6 +29,7 @@ public class ContractLine {
         return quantity;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

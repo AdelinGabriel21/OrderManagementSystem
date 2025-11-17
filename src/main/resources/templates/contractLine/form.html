@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Contract Line</title>
+</head>
+<body>
+<h2>Add New Contract Line</h2>
+
+<form action="/contract-lines" method="post">
+
+    <!-- Select a Product -->
+    <label for="product">Product / Service:</label>
+    <select id="product" name="productId" required>
+        <option th:each="p : ${product}"
+                th:value="${p.id}"
+                th:text="${p.name}">
+        </option>
+    </select>
+    <br/>
+
+    <!-- Select a Unit of Measure -->
+    <label for="unit">Unit of Measure:</label>
+    <select id="unit" name="unitOfMeasureId" required>
+        <option th:each="u : ${unitOfMeasure}"
+                th:value="${u.id}"
+                th:text="${u.name + ' (' + u.symbol + ')'}">
+        </option>
+    </select>
+    <br/>
+
+    <!-- Quantity -->
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" min="1" step="any" required>
+    <br/>
+
+    <button type="submit">Add Contract Line</button>
+</form>
+
+<a href="/contract-lines">Back to list</a>
+
+</body>
+</html>

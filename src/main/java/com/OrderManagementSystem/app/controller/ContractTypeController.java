@@ -32,7 +32,7 @@ public class ContractTypeController {
 
     @PostMapping
     public String createContractType(@ModelAttribute ContractType contractType) {
-        service.addContractType(contractType);
+        service.saveContractType(contractType);
         return "redirect:/contract-types";
     }
 
