@@ -10,6 +10,8 @@ public class ContractType implements ModelInterface {
         this.type = type;
     }
 
+    public ContractType() {}
+
     @Override
     public String getId() {
         return id;
