@@ -3,6 +3,7 @@ package com.OrderManagementSystem.app.model;
 public class Product extends SellableItem {
     private double value;
     private int stockQuantity;
+    private final String type = "product";
 
     public Product(String name, double value, int stockQuantity){
         super(name);
@@ -24,9 +25,11 @@ public class Product extends SellableItem {
         this.value = value;
     }
 
-    public void setStockQuantity(int sotckQuantity){
+    public void setStockQuantity(int stockQuantity){
         this.stockQuantity = stockQuantity;
     }
+
+    public String getType() { return type; }
 
     @Override
     public String toString() {

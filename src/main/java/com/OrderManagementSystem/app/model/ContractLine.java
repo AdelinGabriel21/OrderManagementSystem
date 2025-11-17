@@ -12,6 +12,8 @@ public class ContractLine implements ModelInterface {
         this.quantity = quantity;
     }
 
+    public ContractLine() {}
+
     @Override
     public String getId() {
         return id;

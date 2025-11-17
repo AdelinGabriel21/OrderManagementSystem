@@ -50,20 +50,4 @@ public class ContractLineService {
             saveContractLine(line2);
         }
     }
-
-    public List<UnitOfMeasure> getAllUnits() {
-        return List.of(
-                new UnitOfMeasure("Kilogram", "kg"),
-                new UnitOfMeasure("Meter", "m"),
-                new UnitOfMeasure("Liter", "L")
-        );
-    }
-
-    public List<SellableItem> getAllProducts() {
-        return List.of(
-                new Product("Laptop", 1500.0, 20),
-                new Product("Mouse", 25.0, 50)
-        );
-    }
-
 }

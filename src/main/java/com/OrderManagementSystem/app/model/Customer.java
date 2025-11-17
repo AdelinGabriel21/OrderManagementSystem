@@ -18,6 +18,8 @@ public class Customer implements ModelInterface {
         this.contracts = contracts;
     }
 
+    public Customer() {}
+
     @Override
     public String getId() {
         return id;

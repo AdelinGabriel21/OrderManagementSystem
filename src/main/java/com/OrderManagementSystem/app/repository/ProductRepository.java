@@ -4,5 +4,8 @@ import com.OrderManagementSystem.app.model.Product;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductRepository extends InMemoryRepo<Product> {
+public class ProductRepository extends InFileRepo<Product> {
+    public ProductRepository() {
+        super("products.json", Product.class);
+    }
 }

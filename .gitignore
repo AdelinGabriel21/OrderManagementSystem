@@ -1,0 +1,4 @@
+/src/
+
+# Ignore files folder containing runtime data
+src/main/java/com/OrderManagementSystem/app/files/
