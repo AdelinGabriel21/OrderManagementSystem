@@ -4,5 +4,8 @@ import com.OrderManagementSystem.app.model.UnitOfMeasure;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UnitOfMeasureRepository extends InMemoryRepo<UnitOfMeasure> {
+public class UnitOfMeasureRepository extends InFileRepo<UnitOfMeasure> {
+    public UnitOfMeasureRepository (){
+        super("unitOfMeasure.json", UnitOfMeasure.class);
+    }
 }
