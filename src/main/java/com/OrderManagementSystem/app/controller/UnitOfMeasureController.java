@@ -30,7 +30,7 @@ public class UnitOfMeasureController {
 
     @PostMapping
     public String addUnitOfMeasure(@ModelAttribute UnitOfMeasure unitOfMeasure) {
-        service.addUnitOfMeasure(unitOfMeasure);
+        service.saveUnitOfMeasure(unitOfMeasure);
         return "redirect:/unitsOfMeasure";
     }
 

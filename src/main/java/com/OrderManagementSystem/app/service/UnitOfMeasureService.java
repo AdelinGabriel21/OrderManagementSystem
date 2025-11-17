@@ -16,7 +16,7 @@ public class UnitOfMeasureService {
         this.repo = repo;
     }
 
-    public void addUnitOfMeasure(UnitOfMeasure unit){
+    public void saveUnitOfMeasure(UnitOfMeasure unit){
         repo.save(unit);
     }
 
