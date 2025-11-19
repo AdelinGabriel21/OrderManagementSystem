@@ -16,6 +16,8 @@ public class Order implements ModelInterface {
         this.orderLines = orderLines;
     }
 
+    public Order(){}
+
     @Override
     public String getId() {
         return id;

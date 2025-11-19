@@ -4,5 +4,8 @@ import com.OrderManagementSystem.app.model.ServiceEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ServiceEntityRepository extends InMemoryRepo<ServiceEntity> {
+public class ServiceEntityRepository extends InFileRepo<ServiceEntity> {
+    public ServiceEntityRepository (){
+        super("serviceEntity.json", ServiceEntity.class);
+    }
 }
