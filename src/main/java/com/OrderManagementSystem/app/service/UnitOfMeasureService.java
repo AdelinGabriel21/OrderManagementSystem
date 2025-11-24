@@ -25,35 +25,12 @@ public class UnitOfMeasureService {
     }
 
     public UnitOfMeasure getUnitOfMeasureById(String id){
-        return repo.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
     public void deleteUnitOfMeasure(String id){
-        repo.delete(id);
+        repo.delete(getUnitOfMeasureById(id));
     }
 
-    @PostConstruct
-    public void initData() {
-        if (repo.findAll().isEmpty()) {
-            UnitOfMeasure u1 = new UnitOfMeasure(
-                    "Kilogram",
-                    "kg"
-            );
-
-            UnitOfMeasure u2 = new UnitOfMeasure(
-                    "Meter",
-                    "m"
-            );
-
-            UnitOfMeasure u3 = new UnitOfMeasure(
-                    "Liter",
-                    "L"
-            );
-
-            repo.save(u1);
-            repo.save(u2);
-            repo.save(u3);
-        }
-    }
 
 }

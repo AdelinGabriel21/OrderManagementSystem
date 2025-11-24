@@ -30,27 +30,12 @@ public class OrderService {
     }
 
     public Order findOrderById(String id) {
-        return repo.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
     public void deleteOrder(String id) {
-        repo.delete(id);
+        repo.delete(findOrderById(id));
     }
 
-    @PostConstruct
-    public void initData() {
-        if (repo.findAll().isEmpty()) {
-            Customer c1 = new Customer("Adelin Cracea", "EUR", new ArrayList<>(), new ArrayList<>());
-            Customer c2 = new Customer("TechWorks GmbH", "USD", new ArrayList<>(), new ArrayList<>());
 
-            Contract contract1 = new Contract("Contract 1", "Type1", Status.ACTIVE, Collections.emptyList(), new Date(), new Date());
-            Contract contract2 = new Contract("Contract 2", "Type2", Status.DOWN, Collections.emptyList(), new Date(), new Date());
-
-            Order o1 = new Order("Order A", c1, contract1, new ArrayList<>());
-            Order o2 = new Order("Order B", c2, contract2, new ArrayList<>());
-
-            saveOrder(o1);
-            saveOrder(o2);
-        }
-    }
 }

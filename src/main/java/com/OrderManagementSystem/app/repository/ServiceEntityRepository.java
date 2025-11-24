@@ -1,11 +1,9 @@
 package com.OrderManagementSystem.app.repository;
 
 import com.OrderManagementSystem.app.model.ServiceEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ServiceEntityRepository extends InFileRepo<ServiceEntity> {
-    public ServiceEntityRepository (){
-        super("serviceEntity.json", ServiceEntity.class);
-    }
+public interface ServiceEntityRepository extends JpaRepository<ServiceEntity, String> {
 }

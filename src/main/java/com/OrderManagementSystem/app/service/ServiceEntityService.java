@@ -26,35 +26,12 @@ public class ServiceEntityService {
     }
 
     public ServiceEntity getServiceById(String id){
-        return repo.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
     public void deleteService(String id){
-        repo.delete(id);
+        repo.delete(getServiceById(id));
     }
 
-    @PostConstruct
-    public void initData() {
-        if (repo.findAll().isEmpty()) {
-            ServiceEntity s1 = new ServiceEntity(
-                    "Cleaning Service",
-                    Status.ACTIVE
-            );
-
-            ServiceEntity s2 = new ServiceEntity(
-                    "Cooking Service",
-                    Status.DOWN
-            );
-
-            ServiceEntity s3 = new ServiceEntity(
-                    "Driving Service",
-                    Status.ACTIVE
-            );
-
-            repo.save(s1);
-            repo.save(s2);
-            repo.save(s3);
-        }
-    }
 
 }
