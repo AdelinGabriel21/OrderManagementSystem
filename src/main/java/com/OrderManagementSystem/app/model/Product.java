@@ -1,8 +1,18 @@
 package com.OrderManagementSystem.app.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "products")
 public class Product extends SellableItem {
+    @Column(columnDefinition = "DOUBLE")
     private double value;
+
+    @Column(name = "stock_quantity", columnDefinition = "INT")
     private int stockQuantity;
+
     private final String type = "product";
 
     public Product(String name, double value, int stockQuantity){

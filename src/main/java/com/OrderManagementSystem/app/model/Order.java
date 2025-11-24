@@ -1,12 +1,28 @@
 package com.OrderManagementSystem.app.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name = "orders")
 public class Order implements ModelInterface {
+    @Id
+    @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
+
+    @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", columnDefinition = "VARCHAR(36)")
     private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "contract_id", columnDefinition = "VARCHAR(36)")
     private Contract contract;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLine> orderLines;
 
     public Order(String name, Customer customer, Contract contract, List<OrderLine> orderLines) {

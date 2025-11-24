@@ -1,21 +1,45 @@
 package com.OrderManagementSystem.app.model;
 
 import com.OrderManagementSystem.app.util.Ids;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
 
+@Entity
+@Table(name = "contracts")
 public class  Contract implements ModelInterface{
+    @Id
+    @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
+
+    @Column(nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
+
+    @Column(name = "contract_type_id", nullable = false, length = 36, columnDefinition = "VARCHAR(36)")
     private String contractTypeId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50, columnDefinition = "VARCHAR(50)")
     private Status status;
+
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContractLine> contractLines;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    @Column(name = "creation_date", columnDefinition = "DATE")
     private Date creationDate;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    @Column(name = "expiration_date", columnDefinition = "DATE")
     private Date expirationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", columnDefinition = "VARCHAR(36)")
+    private Customer customer;
 
     public Contract(String name, String contractTypeId, Status status, List<ContractLine> contracts,
                     Date creationDate, Date expirationDate) {
@@ -58,6 +82,10 @@ public class  Contract implements ModelInterface{
         return expirationDate;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
     @Override
     public void setId(String id) {
         this.id = id;
@@ -85,6 +113,10 @@ public class  Contract implements ModelInterface{
 
     public void setExpirationDate(Date expirationDate){
         this.expirationDate = expirationDate;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

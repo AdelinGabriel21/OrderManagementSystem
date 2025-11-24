@@ -1,14 +1,32 @@
 package com.OrderManagementSystem.app.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
+@Table(name = "customers")
 public class Customer implements ModelInterface {
+    @Id
+    @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
+
+    @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
+
+    @Column(length = 10, columnDefinition = "VARCHAR(10)")
     private String currency;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Contract> contracts;
+
+    @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String email;
+
+    @Column(name = "phone_number", length = 50, columnDefinition = "VARCHAR(50)")
     private String phoneNumber;
 
     public Customer(String name, String currency, List<Order> orders, List<Contract> contracts) {
