@@ -22,7 +22,7 @@ public class InFileRepo<T extends ModelInterface> implements RepoInterface<T, St
         try {
             File parent = file.getParentFile();
             if (!parent.exists()) {
-                parent.mkdirs(); // create directories if missing
+                parent.mkdirs();
             }
             if (!file.exists()) {
                 file.createNewFile();
