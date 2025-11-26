@@ -1,8 +1,19 @@
 package com.OrderManagementSystem.app.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "contract_type")
 public class ContractType implements ModelInterface {
+    @Id
+    @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
+
+    @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50, columnDefinition = "VARCHAR(50)")
     private Type type;
 
     public ContractType(String name, Type type) {

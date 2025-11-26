@@ -1,11 +1,9 @@
 package com.OrderManagementSystem.app.repository;
 
 import com.OrderManagementSystem.app.model.UnitOfMeasure;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UnitOfMeasureRepository extends InFileRepo<UnitOfMeasure> {
-    public UnitOfMeasureRepository (){
-        super("unitOfMeasure.json", UnitOfMeasure.class);
-    }
+public interface UnitOfMeasureRepository extends JpaRepository<UnitOfMeasure, String> {
 }

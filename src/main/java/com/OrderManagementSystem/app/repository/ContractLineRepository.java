@@ -1,12 +1,9 @@
 package com.OrderManagementSystem.app.repository;
 
 import com.OrderManagementSystem.app.model.ContractLine;
-import com.OrderManagementSystem.app.model.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ContractLineRepository extends InFileRepo<ContractLine> {
-    public ContractLineRepository() {
-        super("contractLine.json", ContractLine.class);
-    }
+public interface ContractLineRepository extends JpaRepository<ContractLine, String> {
 }

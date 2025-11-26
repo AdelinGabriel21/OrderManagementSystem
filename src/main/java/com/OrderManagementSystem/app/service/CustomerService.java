@@ -25,31 +25,12 @@ public class CustomerService {
     }
 
     public Customer getCustomerById(String id) {
-        return repo.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
     public void deleteCustomer(String id) {
-        repo.delete(id);
+        repo.delete(getCustomerById(id));
     }
 
-    @PostConstruct
-    public void initData() {
-        if (repo.findAll().isEmpty()) {
-            Customer c1 = new Customer("Adelin Cracea", "EUR", new ArrayList<>(), new ArrayList<>());
-            c1.setEmail("adelin@example.com");
-            c1.setPhoneNumber("+40773829445");
 
-            Customer c2 = new Customer("TechWorks GmbH", "USD", new ArrayList<>(), new ArrayList<>());
-            c2.setEmail("contact@techworks.com");
-            c2.setPhoneNumber("+49030123456");
-
-            Customer c3 = new Customer("Global Supplies SRL", "RON", new ArrayList<>(), new ArrayList<>());
-            c3.setEmail("info@globalsupplies.ro");
-            c3.setPhoneNumber("+40213123456");
-
-            saveCustomer(c1);
-            saveCustomer(c2);
-            saveCustomer(c3);
-        }
-    }
 }

@@ -1,7 +1,14 @@
 package com.OrderManagementSystem.app.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "services")
 public class ServiceEntity extends SellableItem {
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50, columnDefinition = "VARCHAR(50)")
     private Status status;
+
     private final String type = "service";
 
     public ServiceEntity(String name, Status status) {

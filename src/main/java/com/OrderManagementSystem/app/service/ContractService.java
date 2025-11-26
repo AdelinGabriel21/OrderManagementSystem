@@ -28,36 +28,11 @@ public class ContractService {
     }
 
     public Contract getContractsById(String id){
-        return repo.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
     public void deleteContracts(String id){
-        repo.delete(id);
+        repo.delete(getContractsById(id));
     }
 
-    @PostConstruct
-    public void initData(){
-        if (repo.findAll().isEmpty()) {
-            Contract c1 = new Contract(
-                    "Contract A",
-                    "Type1",
-                    Status.ACTIVE,
-                    Arrays.asList(),
-                    new Date(),
-                    new Date(System.currentTimeMillis() + 86400000L) // +1 day
-            );
-
-            Contract c2 = new Contract(
-                    "Contract B",
-                    "Type2",
-                    Status.DOWN,
-                    Arrays.asList(),
-                    new Date(),
-                    new Date(System.currentTimeMillis() + 172800000L) // +2 days
-            );
-
-            saveContract(c1);
-            saveContract(c2);
-        }
-    }
 }

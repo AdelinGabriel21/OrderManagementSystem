@@ -1,10 +1,28 @@
 package com.OrderManagementSystem.app.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "contract_lines")
 public class ContractLine implements ModelInterface {
+    @Id
+    @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
+
+    @ManyToOne
+    @JoinColumn(name = "item_id", columnDefinition = "VARCHAR(36)")
     private SellableItem item;
+
+    @ManyToOne
+    @JoinColumn(name = "unit_id", columnDefinition = "VARCHAR(36)")
     private UnitOfMeasure unit;
+
+    @Column(columnDefinition = "DOUBLE")
     private double quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "contract_id", columnDefinition = "VARCHAR(36)")
+    private Contract contract;
 
     public ContractLine(SellableItem item, UnitOfMeasure unit, double quantity) {
         this.item = item;
@@ -31,6 +49,10 @@ public class ContractLine implements ModelInterface {
         return quantity;
     }
 
+    public Contract getContract() {
+        return contract;
+    }
+
     @Override
     public void setId(String id) {
         this.id = id;
@@ -46,6 +68,10 @@ public class ContractLine implements ModelInterface {
 
     public void setQuantity(double quantity) {
         this.quantity = quantity;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 
     @Override

@@ -25,23 +25,11 @@ public class ContractTypeService {
     }
 
     public ContractType getContractTypesById(String id) {
-        return repo.findById(id);
+        return repo.findById(id).orElse(null);
     }
 
     public void deleteContractType(String id) {
-        repo.delete(id);
+        repo.delete(getContractTypesById(id));
     }
 
-    @PostConstruct
-    public void initData() {
-        if (repo.findAll().isEmpty()) {
-            ContractType ct1 = new ContractType("Standard Seller Contract", Type.SELLER);
-            ContractType ct2 = new ContractType("Standard Customer Contract", Type.CUSTOMER);
-            ContractType ct3 = new ContractType("Premium Seller Contract", Type.SELLER);
-
-            saveContractType(ct1);
-            saveContractType(ct2);
-            saveContractType(ct3);
-        }
-    }
 }

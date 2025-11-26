@@ -1,9 +1,11 @@
 package com.OrderManagementSystem.app.controller;
 
+import com.OrderManagementSystem.app.model.Contract;
 import com.OrderManagementSystem.app.model.ContractLine;
 import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.model.UnitOfMeasure;
 import com.OrderManagementSystem.app.service.ContractLineService;
+import com.OrderManagementSystem.app.service.ContractService;
 import com.OrderManagementSystem.app.service.ProductService;
 import com.OrderManagementSystem.app.service.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
@@ -32,7 +34,7 @@ public class ContractLineController {
 
     @GetMapping("/new")
     public String newContractLineForm(Model model) {
-        ContractLine line = new ContractLine(new Product("", 0.0, 0), new UnitOfMeasure("", ""), 0);
+        ContractLine line = new ContractLine();
         model.addAttribute("contractLine", line);
         model.addAttribute("product", productService.getAllProducts());
         model.addAttribute("unitOfMeasure", unitOfMeasureService.getAllUnitsOfMeasure());
@@ -44,7 +46,8 @@ public class ContractLineController {
     public String addContractLine(
             @RequestParam String productId,
             @RequestParam String unitOfMeasureId,
-            @RequestParam double quantity
+            @RequestParam double quantity,
+            @RequestParam String contractId
 
     ) {
         Product product = productService.getProductById(productId);
