@@ -6,7 +6,9 @@
 </head>
 <body>
 <h2>Contract Type List</h2>
-
+<div th:if="${param.error == 'in_use'}" style="color: red; font-weight: bold; margin-bottom: 10px;">
+    Error: Cannot delete this Contract Type because it is currently used by a Contract!
+</div>
 <a href="/contract-types/new">Add Contract Type</a>
 
 <table border="1">
@@ -21,7 +23,9 @@
         <td th:text="${ct.name}">Example</td>
         <td th:text="${ct.type}">Type</td>
         <td>
-            <form th:action="@{'/contract-types/' + ${ct.id} + '/delete'}" method="post">
+            <a th:href="@{'/contract-types/edit/' + ${ct.id}}">Edit</a>
+            <a th:href="@{'/contract-types/details/' + ${ct.id}}">Details</a>
+            <form th:action="@{'/contract-types/' + ${ct.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

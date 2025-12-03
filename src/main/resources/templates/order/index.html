@@ -21,7 +21,9 @@
         <td th:text="${order.customer != null ? order.customer.name : '—'}"></td>
         <td th:text="${order.contract != null ? order.contract.name : '—'}"></td>
         <td>
-            <form th:action="@{'/orders/' + ${order.id} + '/delete'}" method="post">
+            <a th:href="@{'/orders/edit/' + ${order.id}}">Edit</a>
+            <a th:href="@{'/orders/details/' + ${order.id}}">Details</a>
+            <form th:action="@{'/orders/' + ${order.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

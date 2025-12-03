@@ -7,10 +7,13 @@
 <body>
 <h2>Add Product</h2>
 <form th:action="@{/products}" th:object="${product}" method="post">
+    <input type="hidden" th:field="*{id}" />
     Name: <input type="text" th:field="*{name}" /><br/>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Error</span><br/>
+
     Value: <input type="text" th:field="*{value}" /><br/>
-    Stock Quantity: <input type="text" th:field="*{stockQuantity}" /><br/>
-    <button type="submit">Save</button>
+    <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}" style="color:red">Error</span><br/> Stock Quantity: <input type="text" th:field="*{stockQuantity}" /><br/>
+    <span th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}" style="color:red">Error</span><br/> <button type="submit">Save</button>
 </form>
 
 <a href="/products">Back to list</a>

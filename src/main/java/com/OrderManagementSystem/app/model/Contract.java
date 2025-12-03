@@ -1,8 +1,11 @@
 package com.OrderManagementSystem.app.model;
 
-import com.OrderManagementSystem.app.util.Ids;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.util.Date;
 import java.util.List;
@@ -11,15 +14,19 @@ import java.util.List;
 @Table(name = "contracts")
 public class  Contract implements ModelInterface{
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
 
+    @NotBlank(message = "Name is required.")
     @Column(nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @NotBlank(message = "Contract Type ID is required.")
     @Column(name = "contract_type_id", nullable = false, length = 36, columnDefinition = "VARCHAR(36)")
     private String contractTypeId;
 
+    @NotNull(message = "Status is required.")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50, columnDefinition = "VARCHAR(50)")
     private Status status;
@@ -27,11 +34,13 @@ public class  Contract implements ModelInterface{
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContractLine> contractLines;
 
+    @PastOrPresent(message = "Creation date cannot be in the future.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     @Column(name = "creation_date", columnDefinition = "DATE")
     private Date creationDate;
 
+    @Future(message = "Expiration date must be in the future.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     @Column(name = "expiration_date", columnDefinition = "DATE")
@@ -40,6 +49,9 @@ public class  Contract implements ModelInterface{
     @ManyToOne
     @JoinColumn(name = "customer_id", columnDefinition = "VARCHAR(36)")
     private Customer customer;
+
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
 
     public Contract(String name, String contractTypeId, Status status, List<ContractLine> contracts,
                     Date creationDate, Date expirationDate) {
@@ -84,6 +96,14 @@ public class  Contract implements ModelInterface{
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

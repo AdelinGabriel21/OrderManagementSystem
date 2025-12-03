@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Contract Details</title>
+</head>
+<body>
+<h2>Contract Details</h2>
+<p><strong>ID:</strong> <span th:text="${contract.id}"></span></p>
+<p><strong>Name:</strong> <span th:text="${contract.name}"></span></p>
+<p><strong>Status:</strong> <span th:text="${contract.status}"></span></p>
+<p><strong>Created:</strong> <span th:text="${contract.creationDate}"></span></p>
+<p><strong>Expires:</strong> <span th:text="${contract.expirationDate}"></span></p>
+<p><strong>Customer:</strong> <span th:text="${contract.customer != null ? contract.customer.name : 'None'}"></span></p>
+
+<h3>Contract Lines</h3>
+<ul th:if="${contract.contractLines != null}">
+    <li th:each="line : ${contract.contractLines}">
+        <span th:text="${line.item.name}">Item</span>:
+        <span th:text="${line.quantity}">0</span>
+        <span th:text="${line.unit.symbol}">Unit</span>
+    </li>
+</ul>
+
+<h3>Associated Orders</h3>
+<ul th:if="${contract.orders != null}">
+    <li th:each="ord : ${contract.orders}" th:text="${ord.name}">Order Name</li>
+</ul>
+
+<a href="/contracts">Back to List</a>
+</body>
+</html>

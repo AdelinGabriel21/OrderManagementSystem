@@ -3,6 +3,7 @@ package com.OrderManagementSystem.app.model;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -20,9 +21,11 @@ import jakarta.persistence.*;
 @Table(name = "sellable_item")
 public abstract class SellableItem implements ModelInterface{
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "VARCHAR(36)")
     protected String id;
 
+    @NotBlank(message = "Name is required.")
     @Column(length = 255, columnDefinition = "VARCHAR(255)")
     protected String name;
 

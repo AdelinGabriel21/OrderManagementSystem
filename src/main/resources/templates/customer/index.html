@@ -26,7 +26,9 @@
         <td th:text="${customer.email}">adelin@example.com</td>
         <td th:text="${customer.phoneNumber}">+40773829445</td>
         <td>
-            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post">
+            <a th:href="@{'/customers/edit/' + ${customer.id}}">Edit</a>
+            <a th:href="@{'/customers/details/' + ${customer.id}}">Details</a>
+            <form th:action="@{'/customers/' + ${customer.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

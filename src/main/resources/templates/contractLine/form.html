@@ -7,9 +7,17 @@
 <body>
 <h2>Add New Contract Line</h2>
 
-<form action="/contract-lines" method="post">
+<form th:action="@{/contract-lines}" th:object="${contractLine}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label for="contract">Contract:</label>
+    <select id="contract" name="contractId" required>
+        <option th:each="c : ${contracts}"
+                th:value="${c.id}"
+                th:text="${c.name}">
+        </option>
+    </select>
+    <br/>
 
-    <!-- Select a Product -->
     <label for="product">Product / Service:</label>
     <select id="product" name="productId" required>
         <option th:each="p : ${product}"
@@ -19,7 +27,6 @@
     </select>
     <br/>
 
-    <!-- Select a Unit of Measure -->
     <label for="unit">Unit of Measure:</label>
     <select id="unit" name="unitOfMeasureId" required>
         <option th:each="u : ${unitOfMeasure}"
@@ -29,9 +36,9 @@
     </select>
     <br/>
 
-    <!-- Quantity -->
     <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" name="quantity" min="1" step="any" required>
+    <input type="number" id="quantity" th:field="*{quantity}" step="any" required>
+    <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" style="color:red">Error</span>
     <br/>
 
     <button type="submit">Add Contract Line</button>

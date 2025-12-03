@@ -8,10 +8,10 @@
 <h2>Add Contract Type</h2>
 
 <form th:action="@{/contract-types}" th:object="${contractType}" method="post">
+    <input type="hidden" th:field="*{id}" />
     <label>Name:</label>
     <input type="text" th:field="*{name}" /><br/>
-
-    <label>Type:</label>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/> <label>Type:</label>
     <select th:field="*{type}">
         <option th:each="t : ${T(com.OrderManagementSystem.app.model.Type).values()}"
                 th:value="${t.name()}"

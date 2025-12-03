@@ -1,14 +1,17 @@
 package com.OrderManagementSystem.app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "contract_type")
 public class ContractType implements ModelInterface {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
 
+    @NotBlank(message = "Name is required.")
     @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 

@@ -1,19 +1,22 @@
 package com.OrderManagementSystem.app.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class UnitOfMeasure implements ModelInterface {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
 
+    @NotBlank(message = "Name is required.")
     @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @NotBlank(message = "Symbol is required.")
+    @Size(max = 10, message = "Symbol cannot exceed 10 characters.")
     @Column(length = 10, columnDefinition = "VARCHAR(10)")
     private String symbol;
 

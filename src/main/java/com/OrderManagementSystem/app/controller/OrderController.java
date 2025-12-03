@@ -5,6 +5,8 @@ import com.OrderManagementSystem.app.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,18 @@ public class OrderController {
         return "order/index";
     }
 
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Order order = orderService.findOrderById(id);
+        if (order == null) {
+            return "redirect:/orders";
+        }
+        model.addAttribute("order", order);
+        model.addAttribute("customers", customerService.getAllCustomers());
+        model.addAttribute("contracts", contractService.getAllContracts());
+        return "order/form";
+    }
+
     @GetMapping("/new")
     public String showAddForm(Model model) {
         model.addAttribute("order", new Order("", null, null, new ArrayList<>()));
@@ -36,16 +50,36 @@ public class OrderController {
         return "order/form";
     }
 
-    @PostMapping
-    public String addOrder(
-            @RequestParam String name,
-            @RequestParam String customerId,
-            @RequestParam String contractId
-    ) {
-        Customer customer = customerService.getCustomerById(customerId);
-        Contract contract = contractService.getContractsById(contractId);
+    @GetMapping("/details/{id}")
+    public String showDetails(@PathVariable String id, Model model) {
+        Order order = orderService.findOrderById(id);
+        if (order == null) {
+            return "redirect:/orders";
+        }
+        model.addAttribute("order", order);
+        return "order/details";
+    }
 
-        Order order = new Order(name, customer, contract, new ArrayList<>());
+    @PostMapping
+    public String addOrder(@Valid @ModelAttribute Order order,
+                           BindingResult bindingResult,
+                           Model model,
+                           @RequestParam(required = false) String customerId,
+                           @RequestParam(required = false) String contractId) {
+
+        if (bindingResult.hasErrors()) {
+            // Reload lists so the dropdowns don't disappear on error
+            model.addAttribute("customers", customerService.getAllCustomers());
+            model.addAttribute("contracts", contractService.getAllContracts());
+            return "order/form";
+        }
+
+        if (customerId != null && !customerId.isEmpty()) {
+            order.setCustomer(customerService.getCustomerById(customerId));
+        }
+        if (contractId != null && !contractId.isEmpty()) {
+            order.setContract(contractService.getContractsById(contractId));
+        }
 
         orderService.saveOrder(order);
         return "redirect:/orders";

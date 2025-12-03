@@ -5,6 +5,10 @@ import com.OrderManagementSystem.app.service.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/unitsOfMeasure")
@@ -22,21 +26,50 @@ public class UnitOfMeasureController {
         return "unitOfMeasure/index";
     }
 
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable String id, Model model) {
+        UnitOfMeasure unitOfMeasure = service.getUnitOfMeasureById(id);
+        if (unitOfMeasure == null) {
+            return "redirect:/unitsOfMeasure";
+        }
+        model.addAttribute("unitOfMeasure", unitOfMeasure);
+        return "unitOfMeasure/form";
+    }
+
     @GetMapping("/new")
     public String newUnitOfMeasureForm(Model model) {
         model.addAttribute("unitOfMeasure", new UnitOfMeasure());
         return "unitOfMeasure/form";
     }
 
+    @GetMapping("/details/{id}")
+    public String showDetails(@PathVariable String id, Model model) {
+        UnitOfMeasure unitOfMeasure = service.getUnitOfMeasureById(id);
+        if (unitOfMeasure == null) {
+            return "redirect:/unitsOfMeasure";
+        }
+        model.addAttribute("unitOfMeasure", unitOfMeasure);
+        return "unitOfMeasure/details";
+    }
+
     @PostMapping
-    public String addUnitOfMeasure(@ModelAttribute UnitOfMeasure unitOfMeasure) {
+    public String addUnitOfMeasure(@Valid @ModelAttribute UnitOfMeasure unitOfMeasure, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "unitOfMeasure/form";
+        }
+
         service.saveUnitOfMeasure(unitOfMeasure);
         return "redirect:/unitsOfMeasure";
     }
 
     @PostMapping("/{id}/delete")
-    public String deleteUnitOfMeasure(@PathVariable String id) {
-        service.deleteUnitOfMeasure(id);
+    public String deleteUnitOfMeasure(@PathVariable String id, RedirectAttributes redirectAttributes) {
+        try {
+            service.deleteUnitOfMeasure(id);
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addAttribute("error", "in_use");
+            return "redirect:/unitsOfMeasure";
+        }
         return "redirect:/unitsOfMeasure";
     }
 }

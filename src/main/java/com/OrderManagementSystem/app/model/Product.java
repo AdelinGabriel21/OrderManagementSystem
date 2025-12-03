@@ -3,13 +3,17 @@ package com.OrderManagementSystem.app.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "products")
 public class Product extends SellableItem {
+    @Positive(message = "Value must be positive.")
     @Column(columnDefinition = "DOUBLE")
     private double value;
 
+    @PositiveOrZero(message = "Stock cannot be negative.")
     @Column(name = "stock_quantity", columnDefinition = "INT")
     private int stockQuantity;
 

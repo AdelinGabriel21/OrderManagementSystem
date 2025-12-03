@@ -7,8 +7,9 @@
 <body>
 <h2>Add Service</h2>
 <form th:action="@{/services}" th:object="${serviceEntity}" method="post">
+    <input type="hidden" th:field="*{id}" />
     Name: <input type="text" th:field="*{name}" /><br/>
-    Status:
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/> Status:
     <select th:field="*{status}">
         <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}"
                 th:value="${st.name()}"

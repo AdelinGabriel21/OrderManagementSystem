@@ -7,9 +7,10 @@
 <body>
 <h2>Add Unit of Measure</h2>
 <form th:action="@{/unitsOfMeasure}" th:object="${unitOfMeasure}" method="post">
+    <input type="hidden" th:field="*{id}" />
     Name: <input type="text" th:field="*{name}" /><br/>
-    Symbol: <input type="text" th:field="*{symbol}" /><br/>
-    <button type="submit">Save</button>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/> Symbol: <input type="text" th:field="*{symbol}" /><br/>
+    <span th:if="${#fields.hasErrors('symbol')}" th:errors="*{symbol}" style="color:red">Symbol Error</span><br/> <button type="submit">Save</button>
 </form>
 
 <a href="/unitsOfMeasure">Back to list</a>

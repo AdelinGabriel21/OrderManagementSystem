@@ -6,6 +6,9 @@
 </head>
 <body>
 <h2>Units of Measure List</h2>
+<div th:if="${param.error == 'in_use'}" style="color: red; font-weight: bold; margin-bottom: 10px;">
+    Error: Cannot delete this Unit because it is currently used by an Order or Contract!
+</div>
 <a href="/unitsOfMeasure/new">Add Unit of measure</a>
 <table border="1">
     <tr><th>ID</th><th>Name</th><th>Symbol</th>
@@ -14,7 +17,9 @@
         <td th:text="${unitOfMeasure.name}"></td>
         <td th:text="${unitOfMeasure.symbol}"></td>
         <td>
-            <form th:action="@{'/unitsOfMeasure/' + ${unitOfMeasure.id} + '/delete'}" method="post">
+            <a th:href="@{'/unitsOfMeasure/edit/' + ${unitOfMeasure.id}}">Edit</a>
+            <a th:href="@{'/unitsOfMeasure/details/' + ${unitOfMeasure.id}}">Details</a>
+            <form th:action="@{'/unitsOfMeasure/' + ${unitOfMeasure.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

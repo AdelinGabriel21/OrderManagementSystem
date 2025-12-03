@@ -8,19 +8,17 @@
 <h2>Add Customer</h2>
 
 <form th:action="@{/customers}" th:object="${customer}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
     <label>Name:</label>
     <input type="text" th:field="*{name}" /><br/>
-
-    <label>Currency:</label>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Error</span><br/> <label>Currency:</label>
     <input type="text" th:field="*{currency}" /><br/>
-
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" /><br/>
-
-    <label>Phone Number:</label>
+    <span th:if="${#fields.hasErrors('currency')}" th:errors="*{currency}" style="color:red">Error</span><br/> <label>Email:</label>
+    <input type="text" th:field="*{email}" /><br/>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red">Error</span><br/> <label>Phone Number:</label>
     <input type="text" th:field="*{phoneNumber}" /><br/>
-
-    <button type="submit">Save</button>
+    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color:red">Error</span><br/> <button type="submit">Save</button>
 </form>
 
 <a href="/customers">Back to list</a>

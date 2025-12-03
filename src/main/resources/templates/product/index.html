@@ -6,6 +6,9 @@
 </head>
 <body>
 <h2>Product List</h2>
+<div th:if="${param.error == 'in_use'}" style="color: red; font-weight: bold; margin-bottom: 10px;">
+    Error: Cannot delete this Product because it is currently used by an Order or Contract!
+</div>
 <a href="/products/new">Add Product</a>
 <table border="1">
     <tr><th>ID</th><th>Name</th><th>Value</th><th>Stock quantity</th>
@@ -15,7 +18,9 @@
         <td th:text="${product.value}"></td>
         <td th:text="${product.stockQuantity}">Status</td>
         <td>
-            <form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post">
+            <a th:href="@{'/products/edit/' + ${product.id}}">Edit</a>
+            <a th:href="@{'/products/details/' + ${product.id}}">Details</a>
+            <form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

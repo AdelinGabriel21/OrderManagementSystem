@@ -7,8 +7,17 @@
 <body>
 <h2>Add Order Line</h2>
 
-<form th:action="@{/orderLines}" method="post">
+<form th:action="@{/orderLines}" th:object="${orderLine}" method="post">
+    <input type="hidden" th:field="*{id}" />
 
+    <label for="order">Order:</label>
+    <select id="order" name="orderID" required>
+        <option th:each="o : ${orders}"
+                th:value="${o.id}"
+                th:text="${o.name}">
+        </option>
+    </select>
+    <br/>
     Item:
     <select name="productID">
         <option th:each="it : ${products}"
@@ -28,7 +37,9 @@
     <br/>
 
     Quantity:
-    <input type="number" step="0.01" name="quantity"/><br/>
+    <input type="number" step="0.01" th:field="*{quantity}" /><br/>
+    <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" style="color:red">Quantity Error</span>
+    <br/>
 
     <button type="submit">Save</button>
 </form>

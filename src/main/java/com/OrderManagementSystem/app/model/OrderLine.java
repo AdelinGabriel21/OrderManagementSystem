@@ -1,11 +1,13 @@
 package com.OrderManagementSystem.app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "order_lines")
 public class OrderLine implements ModelInterface{
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
 
@@ -17,6 +19,7 @@ public class OrderLine implements ModelInterface{
     @JoinColumn(name = "unit_id", columnDefinition = "VARCHAR(36)")
     private UnitOfMeasure unit;
 
+    @Positive(message = "Quantity must be positive.")
     @Column(columnDefinition = "DOUBLE")
     private double quantity;
 

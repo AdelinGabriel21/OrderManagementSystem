@@ -5,7 +5,8 @@ import com.OrderManagementSystem.app.service.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 import java.util.ArrayList;
 
 @Controller
@@ -21,17 +22,41 @@ public class CustomerController {
     @GetMapping
     public String getAllCustomers(Model model) {
         model.addAttribute("customers", service.getAllCustomers());
-        return "customer/index"; // templates/customer/index.html
+        return "customer/index";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable String id, Model model) {
+        Customer customer = service.getCustomerById(id);
+        if (customer == null) {
+            return "redirect:/customers";
+        }
+        model.addAttribute("customer", customer);
+        return "customer/form";
     }
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
         model.addAttribute("customer", new Customer("", "EUR", new ArrayList<>(), new ArrayList<>()));
-        return "customer/form"; // templates/customer/form.html
+        return "customer/form";
+    }
+
+    @GetMapping("/details/{id}")
+    public String showDetails(@PathVariable String id, Model model) {
+        Customer customer = service.getCustomerById(id);
+        if (customer == null) {
+            return "redirect:/customers";
+        }
+        model.addAttribute("customer", customer);
+        return "customer/details";
     }
 
     @PostMapping
-    public String createCustomer(@ModelAttribute Customer customer) {
+    public String createCustomer(@Valid @ModelAttribute Customer customer, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "customer/form";
+        }
+
         service.saveCustomer(customer);
         return "redirect:/customers";
     }

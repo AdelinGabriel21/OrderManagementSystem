@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order Details</title>
+</head>
+<body>
+<h2>Order Details</h2>
+<p><strong>ID:</strong> <span th:text="${order.id}"></span></p>
+<p><strong>Name:</strong> <span th:text="${order.name}"></span></p>
+<p><strong>Customer:</strong> <span th:text="${order.customer != null ? order.customer.name : 'None'}"></span></p>
+<p><strong>Contract:</strong> <span th:text="${order.contract != null ? order.contract.name : 'None'}"></span></p>
+
+<h3>Order Lines</h3>
+<ul th:if="${order.orderLines != null}">
+    <li th:each="line : ${order.orderLines}">
+        <span th:text="${line.item.name}">Item</span>:
+        <span th:text="${line.quantity}">0</span>
+        <span th:text="${line.unit.symbol}">Unit</span>
+    </li>
+</ul>
+
+<a href="/orders">Back to List</a>
+</body>
+</html>
