@@ -2,6 +2,8 @@ package com.OrderManagementSystem.app.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 @Entity
@@ -16,10 +18,12 @@ public class Order implements ModelInterface {
     @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @NotNull(message = "Customer is required.")
     @ManyToOne
     @JoinColumn(name = "customer_id", columnDefinition = "VARCHAR(36)")
     private Customer customer;
 
+    @NotNull(message = "Contract is required.")
     @ManyToOne
     @JoinColumn(name = "contract_id", columnDefinition = "VARCHAR(36)")
     private Contract contract;

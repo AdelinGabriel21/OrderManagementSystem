@@ -22,9 +22,10 @@ public class  Contract implements ModelInterface{
     @Column(nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 
-    @NotBlank(message = "Contract Type ID is required.")
-    @Column(name = "contract_type_id", nullable = false, length = 36, columnDefinition = "VARCHAR(36)")
-    private String contractTypeId;
+    @NotNull(message = "Contract Type is required.")
+    @ManyToOne
+    @JoinColumn(name = "contract_type_id", nullable = false)
+    private ContractType contractType;
 
     @NotNull(message = "Status is required.")
     @Enumerated(EnumType.STRING)
@@ -53,12 +54,10 @@ public class  Contract implements ModelInterface{
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
-    public Contract(String name, String contractTypeId, Status status, List<ContractLine> contracts,
-                    Date creationDate, Date expirationDate) {
+    public Contract(String name, ContractType contractType, Status status, Date creationDate, Date expirationDate) {
         this.name = name;
-        this.contractTypeId = contractTypeId;
+        this.contractType = contractType;
         this.status = status;
-        this.contractLines = contracts;
         this.creationDate = creationDate;
         this.expirationDate = expirationDate;
     }
@@ -74,8 +73,8 @@ public class  Contract implements ModelInterface{
         return name;
     }
 
-    public String getContractTypeId() {
-        return contractTypeId;
+    public ContractType getContractType() {
+        return contractType;
     }
 
     public Status getStatus() {
@@ -115,8 +114,8 @@ public class  Contract implements ModelInterface{
         this.name = name;
     }
 
-    public void setContractTypeId(String contractTypeId) {
-        this.contractTypeId = contractTypeId;
+    public void setContractType(ContractType contractType) {
+        this.contractType = contractType;
     }
 
     public void setStatus(Status status) {
@@ -144,7 +143,7 @@ public class  Contract implements ModelInterface{
         return "Contract{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", ContractTypeId='" + contractTypeId + '\'' +
+                ", ContractTypeId='" + contractType + '\'' +
                 ", status=" + status +
                 ", contracts=" + contractLines +
                 '}';

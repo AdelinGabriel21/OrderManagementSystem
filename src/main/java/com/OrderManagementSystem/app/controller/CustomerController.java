@@ -56,7 +56,9 @@ public class CustomerController {
         if (bindingResult.hasErrors()) {
             return "customer/form";
         }
-
+        if (customer.getId() != null && customer.getId().isEmpty()) {
+            customer.setId(null);
+        }
         service.saveCustomer(customer);
         return "redirect:/customers";
     }

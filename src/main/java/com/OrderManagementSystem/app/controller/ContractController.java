@@ -1,7 +1,9 @@
 package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.Contract;
+import com.OrderManagementSystem.app.model.ContractType;
 import com.OrderManagementSystem.app.service.ContractService;
+import com.OrderManagementSystem.app.service.ContractTypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,11 @@ import jakarta.validation.Valid;
 public class ContractController {
 
     private final ContractService service;
+    private final ContractTypeService contractTypeService;
 
-    public ContractController(ContractService service) {
+    public ContractController(ContractService service, ContractTypeService contractTypeService) {
         this.service = service;
+        this.contractTypeService = contractTypeService;
     }
 
     @GetMapping
@@ -38,6 +42,7 @@ public class ContractController {
     @GetMapping("/new")
     public String newContractForm(Model model) {
         model.addAttribute("contract", new Contract());
+        model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
         return "contract/form";
     }
 
@@ -52,7 +57,19 @@ public class ContractController {
     }
 
     @PostMapping
-    public String addContract(@Valid @ModelAttribute Contract contract, BindingResult bindingResult) {
+    public String addContract(@Valid @ModelAttribute Contract contract,
+                              BindingResult bindingResult,
+                              @RequestParam(required = false) String contractTypeId) {
+
+        if (contractTypeId != null && !contractTypeId.isEmpty()) {
+            ContractType type = contractTypeService.getContractTypesById(contractTypeId);
+            contract.setContractType(type);
+        }
+
+        if (contract.getContractType() == null) {
+            bindingResult.rejectValue("contractType", "error.contractType", "Invalid or missing Contract Type");
+        }
+
         if (bindingResult.hasErrors()) {
             return "contract/form";
         }

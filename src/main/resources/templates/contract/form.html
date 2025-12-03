@@ -8,17 +8,35 @@
 <h2>Add Contract</h2>
 <form th:action="@{/contracts}" th:object="${contract}" method="post">
     <input type="hidden" th:field="*{id}" />
+
     Name: <input type="text" th:field="*{name}" /><br/>
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/> Contract Type ID: <input type="text" th:field="*{contractTypeId}" /><br/>
-    <span th:if="${#fields.hasErrors('contractTypeId')}" th:errors="*{contractTypeId}" style="color:red">Type ID Error</span><br/> Status: <select th:field="*{status}">
-            <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}"
-                    th:value="${st.name()}"
-                    th:text="${st.value}">
-            </option>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/>
+
+    <label>Contract Type:</label>
+    <select name="contractTypeId">
+        <option th:each="type : ${contractTypes}"
+                th:value="${type.id}"
+                th:text="${type.name}"
+                th:selected="${contract.contractType != null and type.id == contract.contractType.id}">
+        </option>
+    </select><br/>
+    <span th:if="${#fields.hasErrors('contractType')}" th:errors="*{contractType}" style="color:red">Contract Type Error</span><br/>
+
+    Status: <select th:field="*{status}">
+    <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}"
+            th:value="${st.name()}"
+            th:text="${st.value}">
+    </option>
 </select><br/>
-    <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color:red">Status Error</span><br/> Creation Date: <input type="date" th:field="*{creationDate}" /><br/>
-    <span th:if="${#fields.hasErrors('creationDate')}" th:errors="*{creationDate}" style="color:red">Creation Date Error</span><br/> Expiration Date: <input type="date" th:field="*{expirationDate}" /><br/>
-    <span th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}" style="color:red">Expiration Date Error</span><br/> <button type="submit">Save</button>
+    <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color:red">Status Error</span><br/>
+
+    Creation Date: <input type="date" th:field="*{creationDate}" /><br/>
+    <span th:if="${#fields.hasErrors('creationDate')}" th:errors="*{creationDate}" style="color:red">Creation Date Error</span><br/>
+
+    Expiration Date: <input type="date" th:field="*{expirationDate}" /><br/>
+    <span th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}" style="color:red">Expiration Date Error</span><br/>
+
+    <button type="submit">Save</button>
 </form>
 
 <a href="/contracts">Back to list</a>
