@@ -2,18 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Product</title>
+    <title>Add/Edit Product</title>
 </head>
 <body>
-<h2>Add Product</h2>
+<h2>Add/Edit Product</h2>
+
 <form th:action="@{/products}" th:object="${product}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    Name: <input type="text" th:field="*{name}" /><br/>
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red; font-weight: bold;"></p>
+    </div>
+
+    <th:block th:if="${product.id != null}">
+        <input type="hidden" th:field="*{id}" />
+    </th:block>
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" id="name" /><br/>
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Error</span><br/>
 
-    Value: <input type="text" th:field="*{value}" /><br/>
-    <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}" style="color:red">Error</span><br/> Stock Quantity: <input type="text" th:field="*{stockQuantity}" /><br/>
-    <span th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}" style="color:red">Error</span><br/> <button type="submit">Save</button>
+    <label for="value">Value:</label>
+    <input type="number" th:field="*{value}" id="value" step="0.01" /><br/>
+    <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}" style="color:red">Error</span><br/>
+
+    <label for="stockQuantity">Stock Quantity:</label>
+    <input type="number" th:field="*{stockQuantity}" id="stockQuantity" /><br/>
+    <span th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}" style="color:red">Error</span><br/>
+
+    <button type="submit">Save</button>
 </form>
 
 <a href="/products">Back to list</a>

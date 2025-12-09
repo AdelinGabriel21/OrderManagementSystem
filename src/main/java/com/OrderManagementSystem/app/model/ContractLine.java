@@ -1,6 +1,7 @@
 package com.OrderManagementSystem.app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @Entity
@@ -11,10 +12,12 @@ public class ContractLine implements ModelInterface {
     @Column(length = 36, columnDefinition = "VARCHAR(36)")
     private String id;
 
+    @NotNull(message = "Item is required.")
     @ManyToOne
     @JoinColumn(name = "item_id", columnDefinition = "VARCHAR(36)")
     private SellableItem item;
 
+    @NotNull(message = "Unit of Measure is required.")
     @ManyToOne
     @JoinColumn(name = "unit_id", columnDefinition = "VARCHAR(36)")
     private UnitOfMeasure unit;
@@ -23,6 +26,7 @@ public class ContractLine implements ModelInterface {
     @Column(columnDefinition = "DOUBLE")
     private double quantity;
 
+    @NotNull(message = "Contract is required.")
     @ManyToOne
     @JoinColumn(name = "contract_id", columnDefinition = "VARCHAR(36)")
     private Contract contract;

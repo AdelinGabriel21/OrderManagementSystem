@@ -26,7 +26,7 @@ public class OrderLine implements ModelInterface{
     @Column(columnDefinition = "DOUBLE")
     private double quantity;
 
-    @NotNull(message = "Order reference is required.")
+    @NotNull(message = "Order is required.")
     @ManyToOne
     @JoinColumn(name = "order_id", columnDefinition = "VARCHAR(36)")
     private Order order;
@@ -90,4 +90,5 @@ public class OrderLine implements ModelInterface{
                 ", quantity=" + quantity +
                 '}';
     }
+
 }

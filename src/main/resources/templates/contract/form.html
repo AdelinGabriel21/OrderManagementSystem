@@ -2,38 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Contract</title>
+    <title>Add/Edit Contract</title>
 </head>
 <body>
-<h2>Add Contract</h2>
-<form th:action="@{/contracts}" th:object="${contract}" method="post">
-    <input type="hidden" th:field="*{id}" />
+<h2>Add/Edit Contract</h2>
 
-    Name: <input type="text" th:field="*{name}" /><br/>
+<form th:action="@{/contracts}" th:object="${contract}" method="post">
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red; font-weight: bold;"></p>
+    </div>
+
+    <th:block th:if="${contract.id != null}">
+        <input type="hidden" th:field="*{id}" />
+    </th:block>
+
+    <label for="name">Name: </label>
+    <input type="text" th:field="*{name}" id="name" /><br/>
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/>
 
-    <label>Contract Type:</label>
-    <select name="contractTypeId">
+    <label for="contractTypeId">Contract Type: </label>
+    <select id="contractTypeId" th:field="*{contractTypeId}">
+        <option value="">-- Select Contract Type --</option>
         <option th:each="type : ${contractTypes}"
                 th:value="${type.id}"
-                th:text="${type.name}"
-                th:selected="${contract.contractType != null and type.id == contract.contractType.id}">
+                th:text="${type.name}">
+            Type Name Placeholder
         </option>
     </select><br/>
-    <span th:if="${#fields.hasErrors('contractType')}" th:errors="*{contractType}" style="color:red">Contract Type Error</span><br/>
+    <span th:if="${#fields.hasErrors('contractTypeId')}" th:errors="*{contractTypeId}" style="color:red">Type ID Error</span><br/>
 
-    Status: <select th:field="*{status}">
-    <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}"
-            th:value="${st.name()}"
-            th:text="${st.value}">
-    </option>
-</select><br/>
+    <label for="customer">Customer: </label>
+    <select id="customer" name="customer"> <option value="">-- Select Customer --</option>
+        <option th:each="cust : ${customers}"
+                th:value="${cust.id}"
+                th:text="${cust.name}"
+                th:selected="${contract.customer != null AND cust.id == contract.customer.id}">
+            Customer Name Placeholder
+        </option>
+    </select><br/>
+    <span th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}" style="color:red">Customer Error</span><br/>
+
+    <label for="status">Status: </label>
+    <select th:field="*{status}" id="status">
+        <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}"
+                th:value="${st.name()}"
+                th:text="${st.value}">
+        </option>
+    </select><br/>
     <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color:red">Status Error</span><br/>
 
-    Creation Date: <input type="date" th:field="*{creationDate}" /><br/>
+    <label for="creationDate">Creation Date: </label>
+    <input type="date" th:field="*{creationDate}" id="creationDate" /><br/>
     <span th:if="${#fields.hasErrors('creationDate')}" th:errors="*{creationDate}" style="color:red">Creation Date Error</span><br/>
 
-    Expiration Date: <input type="date" th:field="*{expirationDate}" /><br/>
+    <label for="expirationDate">Expiration Date: </label>
+    <input type="date" th:field="*{expirationDate}" id="expirationDate" /><br/>
     <span th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}" style="color:red">Expiration Date Error</span><br/>
 
     <button type="submit">Save</button>

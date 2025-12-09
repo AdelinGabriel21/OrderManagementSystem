@@ -2,6 +2,7 @@ package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.UnitOfMeasure;
 import com.OrderManagementSystem.app.service.UnitOfMeasureService;
+import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +54,19 @@ public class UnitOfMeasureController {
     }
 
     @PostMapping
-    public String addUnitOfMeasure(@Valid @ModelAttribute UnitOfMeasure unitOfMeasure, BindingResult bindingResult) {
+    public String addUnitOfMeasure(@Valid @ModelAttribute UnitOfMeasure unitOfMeasure, BindingResult bindingResult, Model model) { // Added Model
+
+        if (bindingResult.hasErrors()) {
+            return "unitOfMeasure/form";
+        }
+
+        try {
+            service.saveUnitOfMeasure(unitOfMeasure);
+        } catch (ValidationException e) {
+            bindingResult.reject("globalError", e.getMessage());
+            return "unitOfMeasure/form";
+        }
+
         if (bindingResult.hasErrors()) {
             return "unitOfMeasure/form";
         }

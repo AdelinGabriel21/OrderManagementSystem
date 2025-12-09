@@ -3,7 +3,7 @@ package com.OrderManagementSystem.app.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -15,6 +15,7 @@ public class Order implements ModelInterface {
     private String id;
 
     @NotBlank(message = "Order name is required.")
+    @Size(max = 100, message = "Order name cannot exceed 100 characters.")
     @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 
@@ -22,6 +23,7 @@ public class Order implements ModelInterface {
     @ManyToOne
     @JoinColumn(name = "customer_id", columnDefinition = "VARCHAR(36)")
     private Customer customer;
+
 
     @NotNull(message = "Contract is required.")
     @ManyToOne
@@ -87,9 +89,6 @@ public class Order implements ModelInterface {
         return "Order{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", customer=" + customer +
-                ", contract=" + contract +
-                ", orderLines=" + orderLines +
                 '}';
     }
 }

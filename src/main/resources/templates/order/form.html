@@ -2,24 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Order</title>
+    <title>Order Form</title>
 </head>
 <body>
-<h2>Add New Order</h2>
+<h2>Add/Edit Order</h2>
 
 <form th:action="@{/orders}" th:object="${order}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <label>Name: </label>
-    <input type="text" th:field="*{name}" /><br/>
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red; font-weight: bold;"></p>
+    </div>
+
+    <th:block th:if="${order.id != null}">
+        <input type="hidden" th:field="*{id}" />
+    </th:block>
+
+    <label for="name">Name: </label>
+    <input type="text" th:field="*{name}" id="name" /><br/>
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Error</span><br/><br/>
 
-    <label>Customer: </label>
-    <select name="customerId">
-    </select><br/><br/>
+    <label for="customer">Customer: </label>
+    <select id="customer" name="customer">
+        <option value="">-- Select Customer --</option>
+        <option th:each="customer : ${customers}"
+                th:value="${customer.id}"
+                th:text="${customer.name}"
+                th:selected="${order.customer != null AND customer.id == order.customer.id}">
+            Customer Name Placeholder
+        </option>
+    </select>
+    <br/>
+    <span th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}" style="color:red">Error</span>
+    <br/><br/>
 
-    <label>Contract: </label>
-    <select name="contractId">
-    </select><br/><br/>
+    <label for="contract">Contract: </label>
+    <select id="contract" name="contract">
+        <option value="">-- Select Contract --</option>
+        <option th:each="contract : ${contracts}"
+                th:value="${contract.id}"
+                th:text="${contract.name}"
+                th:selected="${order.contract != null && contract.id == order.contract.id}">
+            Contract Name Placeholder
+        </option>
+    </select>
+    <br/>
+    <span th:if="${#fields.hasErrors('contract')}" th:errors="*{contract}" style="color:red">Error</span>
+    <br/><br/>
 
     <button type="submit">Save</button>
 </form>

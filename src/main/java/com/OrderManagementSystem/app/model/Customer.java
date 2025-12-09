@@ -3,6 +3,7 @@ package com.OrderManagementSystem.app.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class Customer implements ModelInterface {
     private String email;
 
     @NotBlank(message = "Phone number is required.")
+    @Size(max = 20, message = "Phone number cannot exceed 20 characters.")
+    @Pattern(regexp = "^[0-9]{7,15}$", message = "Phone number must contain between 7 and 15 digits.")
     @Column(name = "phone_number", length = 50, columnDefinition = "VARCHAR(50)")
     private String phoneNumber;
 
@@ -112,8 +115,6 @@ public class Customer implements ModelInterface {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", currency='" + currency + '\'' +
-                ", orders=" + orders +
-                ", contracts=" + contracts +
                 '}';
     }
 }
