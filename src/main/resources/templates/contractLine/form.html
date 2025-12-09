@@ -2,46 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New Contract Line</title>
+    <title>Add/Edit Contract Line</title>
 </head>
 <body>
-<h2>Add New Contract Line</h2>
+<h2>Add/Edit Contract Line</h2>
 
 <form th:action="@{/contract-lines}" th:object="${contractLine}" method="post">
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red; font-weight: bold;"></p>
+    </div>
+
     <input type="hidden" th:field="*{id}" />
+
     <label for="contract">Contract:</label>
-    <select id="contract" name="contractId" required>
+    <select id="contract" th:field="*{contract}">
+        <option value="">-- Select Contract --</option>
         <option th:each="c : ${contracts}"
                 th:value="${c.id}"
                 th:text="${c.name}">
         </option>
     </select>
+    <span th:if="${#fields.hasErrors('contract')}" th:errors="*{contract}" style="color:red">Contract Error</span>
     <br/>
 
-    <label for="product">Product / Service:</label>
-    <select id="product" name="productId" required>
-        <option th:each="p : ${product}"
+    <label for="item">Product / Service:</label>
+    <select id="item" th:field="*{item}">
+        <option value="">-- Select Item --</option>
+        <option th:each="p : ${products}"
                 th:value="${p.id}"
                 th:text="${p.name}">
         </option>
     </select>
+    <span th:if="${#fields.hasErrors('item')}" th:errors="*{item}" style="color:red">Item Error</span>
     <br/>
 
     <label for="unit">Unit of Measure:</label>
-    <select id="unit" name="unitOfMeasureId" required>
-        <option th:each="u : ${unitOfMeasure}"
+    <select id="unit" th:field="*{unit}">
+        <option value="">-- Select Unit --</option>
+        <option th:each="u : ${units}"
                 th:value="${u.id}"
                 th:text="${u.name + ' (' + u.symbol + ')'}">
         </option>
     </select>
+    <span th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}" style="color:red">Unit Error</span>
     <br/>
 
     <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" th:field="*{quantity}" step="any" required>
-    <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" style="color:red">Error</span>
+    <input type="number" id="quantity" th:field="*{quantity}" step="any">
+    <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" style="color:red">Quantity Error</span>
     <br/>
 
-    <button type="submit">Add Contract Line</button>
+    <button type="submit">Save Contract Line</button>
 </form>
 
 <a href="/contract-lines">Back to list</a>

@@ -1,10 +1,9 @@
 package com.OrderManagementSystem.app.service;
 
-import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.model.ServiceEntity;
-import com.OrderManagementSystem.app.model.Status;
 import com.OrderManagementSystem.app.repository.ServiceEntityRepository;
-import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +16,9 @@ public class ServiceEntityService {
         this.repo = repo;
     }
 
+    @Transactional
     public void saveService(ServiceEntity service){
+        validateBusinessRules(service);
         repo.save(service);
     }
 
@@ -33,5 +34,17 @@ public class ServiceEntityService {
         repo.delete(getServiceById(id));
     }
 
+    public void validateBusinessRules(ServiceEntity serviceEntity) {
+       List<ServiceEntity> allServices = repo.findAll();
 
+        boolean nameExists = allServices.stream()
+                .anyMatch(existingService ->
+                        existingService.getName().equalsIgnoreCase(serviceEntity.getName()) &&
+                                (serviceEntity.getId() == null || !existingService.getId().equals(serviceEntity.getId()))
+                );
+
+        if (nameExists) {
+            throw new ValidationException("A service with the name '" + serviceEntity.getName() + "' already exists.");
+        }
+    }
 }

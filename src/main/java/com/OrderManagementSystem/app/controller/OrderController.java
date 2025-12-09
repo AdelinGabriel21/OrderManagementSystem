@@ -2,13 +2,16 @@ package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.*;
 import com.OrderManagementSystem.app.service.*;
+import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import java.beans.PropertyEditorSupport;
 
-import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/orders")
@@ -44,7 +47,7 @@ public class OrderController {
 
     @GetMapping("/new")
     public String showAddForm(Model model) {
-        model.addAttribute("order", new Order("", null, null, new ArrayList<>()));
+        model.addAttribute("order", new Order());
         model.addAttribute("customers", customerService.getAllCustomers());
         model.addAttribute("contracts", contractService.getAllContracts());
         return "order/form";
@@ -63,32 +66,47 @@ public class OrderController {
     @PostMapping
     public String addOrder(@Valid @ModelAttribute Order order,
                            BindingResult bindingResult,
-                           Model model,
-                           @RequestParam(required = false) String customerId,
-                           @RequestParam(required = false) String contractId) {
+                           Model model) {
 
         if (bindingResult.hasErrors()) {
-            // Reload lists so the dropdowns don't disappear on error
             model.addAttribute("customers", customerService.getAllCustomers());
             model.addAttribute("contracts", contractService.getAllContracts());
             return "order/form";
         }
 
-        if (customerId != null && !customerId.isEmpty()) {
-            order.setCustomer(customerService.getCustomerById(customerId));
-        }
-        if (contractId != null && !contractId.isEmpty()) {
-            order.setContract(contractService.getContractsById(contractId));
+        try {
+            orderService.saveOrder(order);
+        } catch (ValidationException e) {
+            bindingResult.reject("globalError", e.getMessage());
+
+            model.addAttribute("customers", customerService.getAllCustomers());
+            model.addAttribute("contracts", contractService.getAllContracts());
+            return "order/form";
         }
 
-        orderService.saveOrder(order);
         return "redirect:/orders";
     }
-
 
     @PostMapping("/{id}/delete")
     public String deleteOrder(@PathVariable String id) {
         orderService.deleteOrder(id);
         return "redirect:/orders";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Customer.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String customerId) {
+                setValue((customerId != null && !customerId.isEmpty()) ? customerService.getCustomerById(customerId) : null);
+            }
+        });
+
+        binder.registerCustomEditor(Contract.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String contractId) {
+                setValue((contractId != null && !contractId.isEmpty()) ? contractService.getContractsById(contractId) : null);
+            }
+        });
     }
 }

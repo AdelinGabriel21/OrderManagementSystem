@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -26,6 +27,7 @@ public abstract class SellableItem implements ModelInterface{
     protected String id;
 
     @NotBlank(message = "Name is required.")
+    @Size(max = 100, message = "Name cannot exceed 100 characters.")
     @Column(length = 255, columnDefinition = "VARCHAR(255)")
     protected String name;
 
@@ -40,6 +42,8 @@ public abstract class SellableItem implements ModelInterface{
         return id;
     }
 
+    public abstract String getType();
+
     public String getName() {
         return name;
     }
@@ -47,6 +51,7 @@ public abstract class SellableItem implements ModelInterface{
     public void setName(String name) {
         this.name = name;
     }
+
 
     @Override
     public void setId(String id) {

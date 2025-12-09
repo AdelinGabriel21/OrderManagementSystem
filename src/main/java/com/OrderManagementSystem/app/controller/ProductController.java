@@ -2,6 +2,7 @@ package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.service.ProductService;
+import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +54,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addContract(@Valid @ModelAttribute Product product, BindingResult bindingResult){
+    public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()) {
+            return "product/form";
+        }
+
+        try {
+            service.validateBusinessRules(product);
+        } catch (ValidationException e) {
+            bindingResult.reject("validation.business.error", e.getMessage());
+        }
+
         if (bindingResult.hasErrors()) {
             return "product/form";
         }

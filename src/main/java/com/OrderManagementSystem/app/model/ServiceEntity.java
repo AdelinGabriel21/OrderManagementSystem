@@ -1,10 +1,13 @@
 package com.OrderManagementSystem.app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "services")
 public class ServiceEntity extends SellableItem {
+
+    @NotNull(message = "Status is required.")
     @Enumerated(EnumType.STRING)
     @Column(length = 50, columnDefinition = "VARCHAR(50)")
     private Status status;

@@ -2,23 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Contract Type</title>
+    <title>Add/Edit Contract Type</title>
 </head>
 <body>
-<h2>Add Contract Type</h2>
+<h2>Add/Edit Contract Type</h2>
 
 <form th:action="@{/contract-types}" th:object="${contractType}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <label>Name:</label>
-    <input type="text" th:field="*{name}" /><br/>
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/> <label>Type:</label>
-    <select th:field="*{type}">
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red; font-weight: bold;"></p>
+    </div>
+
+    <th:block th:if="${contractType.id != null}">
+        <input type="hidden" th:field="*{id}" />
+    </th:block>
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" id="name" /><br/>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/>
+
+    <label for="type">Type:</label>
+    <select th:field="*{type}" id="type">
         <option th:each="t : ${T(com.OrderManagementSystem.app.model.Type).values()}"
                 th:value="${t.name()}"
-                th:text="${t.value}">
-        </option>
+                th:text="${t.name()}"> </option>
     </select><br/>
-
     <button type="submit">Save</button>
 </form>
 

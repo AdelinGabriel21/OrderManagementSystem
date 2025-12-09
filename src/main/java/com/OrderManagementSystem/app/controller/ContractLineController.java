@@ -1,18 +1,19 @@
 package com.OrderManagementSystem.app.controller;
 
-import com.OrderManagementSystem.app.model.Contract;
-import com.OrderManagementSystem.app.model.ContractLine;
-import com.OrderManagementSystem.app.model.Product;
-import com.OrderManagementSystem.app.model.UnitOfMeasure;
+import com.OrderManagementSystem.app.model.*;
 import com.OrderManagementSystem.app.service.ContractLineService;
 import com.OrderManagementSystem.app.service.ContractService;
 import com.OrderManagementSystem.app.service.ProductService;
 import com.OrderManagementSystem.app.service.UnitOfMeasureService;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor; // Don't forget this!
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
+
+import java.beans.PropertyEditorSupport;
 
 @Controller
 @RequestMapping("/contract-lines")
@@ -43,20 +44,14 @@ public class ContractLineController {
             return "redirect:/contract-lines";
         }
         model.addAttribute("contractLine", contractLine);
-        model.addAttribute("product", productService.getAllProducts());
-        model.addAttribute("unitOfMeasure", unitOfMeasureService.getAllUnitsOfMeasure());
-        model.addAttribute("contracts", contractService.getAllContracts());
+        populateDependencies(model);
         return "contractLine/form";
     }
 
     @GetMapping("/new")
     public String newContractLineForm(Model model) {
-        ContractLine line = new ContractLine();
-        model.addAttribute("contractLine", line);
-        model.addAttribute("product", productService.getAllProducts());
-        model.addAttribute("unitOfMeasure", unitOfMeasureService.getAllUnitsOfMeasure());
-        model.addAttribute("contracts", contractService.getAllContracts());
-
+        model.addAttribute("contractLine", new ContractLine());
+        populateDependencies(model);
         return "contractLine/form";
     }
 
@@ -70,39 +65,62 @@ public class ContractLineController {
         return "contractLine/details";
     }
 
-
     @PostMapping
-    public String addContractLine(
-            @Valid @ModelAttribute ContractLine contractLine,
-            BindingResult bindingResult,
-            Model model,
-            @RequestParam String productId,
-            @RequestParam String unitOfMeasureId,
-            @RequestParam String contractId
-    ) {
+    public String addContractLine(@Valid @ModelAttribute ContractLine contractLine,
+                                  BindingResult bindingResult,
+                                  Model model) {
+
         if (bindingResult.hasErrors()) {
-            model.addAttribute("product", productService.getAllProducts());
-            model.addAttribute("unitOfMeasure", unitOfMeasureService.getAllUnitsOfMeasure());
-            model.addAttribute("contracts", contractService.getAllContracts());
+            populateDependencies(model);
             return "contractLine/form";
         }
 
-        Product product = productService.getProductById(productId);
-        UnitOfMeasure unitOfMeasure = unitOfMeasureService.getUnitOfMeasureById(unitOfMeasureId);
-        Contract contract = contractService.getContractsById(contractId);
+        try {
+            service.saveContractLine(contractLine);
+        } catch (jakarta.validation.ValidationException e) {
+            bindingResult.reject("globalError", e.getMessage());
+            populateDependencies(model);
+            return "contractLine/form";
+        }
 
-        contractLine.setItem(product);
-        contractLine.setUnit(unitOfMeasure);
-        contractLine.setContract(contract);
-
-        service.saveContractLine(contractLine);
         return "redirect:/contract-lines";
     }
-
 
     @PostMapping("/{id}/delete")
     public String deleteContractLine(@PathVariable String id) {
         service.deleteContractLine(id);
         return "redirect:/contract-lines";
+    }
+
+    private void populateDependencies(Model model) {
+        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("units", unitOfMeasureService.getAllUnitsOfMeasure());
+        model.addAttribute("contracts", contractService.getAllContracts());
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+
+        binder.registerCustomEditor(SellableItem.class, "item", new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String itemId) {
+                setValue((itemId != null && !itemId.isEmpty()) ? productService.getProductById(itemId) : null);
+            }
+        });
+
+        binder.registerCustomEditor(UnitOfMeasure.class, "unit", new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String unitId) {
+                setValue((unitId != null && !unitId.isEmpty()) ? unitOfMeasureService.getUnitOfMeasureById(unitId) : null);
+            }
+        });
+
+        binder.registerCustomEditor(Contract.class, "contract", new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String contractId) {
+                setValue((contractId != null && !contractId.isEmpty()) ? contractService.getContractsById(contractId) : null);
+            }
+        });
     }
 }

@@ -1,11 +1,8 @@
 package com.OrderManagementSystem.app.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +16,7 @@ public class  Contract implements ModelInterface{
     private String id;
 
     @NotBlank(message = "Name is required.")
+    @Size(max = 100, message = "Contract name cannot exceed 100 characters.")
     @Column(nullable = false, length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 
@@ -46,6 +44,7 @@ public class  Contract implements ModelInterface{
     @Column(name = "expiration_date", columnDefinition = "DATE")
     private Date expirationDate;
 
+    @NotNull(message = "Customer is required.")
     @ManyToOne
     @JoinColumn(name = "customer_id", columnDefinition = "VARCHAR(36)")
     private Customer customer;
@@ -144,9 +143,7 @@ public class  Contract implements ModelInterface{
         return "Contract{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", ContractTypeId='" + contractTypeId + '\'' +
                 ", status=" + status +
-                ", contracts=" + contractLines +
                 '}';
     }
 }

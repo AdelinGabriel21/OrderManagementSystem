@@ -2,6 +2,7 @@ package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.Customer;
 import com.OrderManagementSystem.app.service.CustomerService;
+import jakarta.validation.ValidationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class CustomerController {
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("customer", new Customer("", "EUR", new ArrayList<>(), new ArrayList<>()));
+        model.addAttribute("customer", new Customer());
         return "customer/form";
     }
 
@@ -52,12 +53,19 @@ public class CustomerController {
     }
 
     @PostMapping
-    public String createCustomer(@Valid @ModelAttribute Customer customer, BindingResult bindingResult) {
+    public String createCustomer(@Valid @ModelAttribute Customer customer, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             return "customer/form";
         }
 
-        service.saveCustomer(customer);
+        try {
+            service.saveCustomer(customer);
+        } catch (ValidationException e) {
+            bindingResult.reject("globalError", e.getMessage());
+            return "customer/form";
+        }
+
         return "redirect:/customers";
     }
 
