@@ -3,6 +3,7 @@ package com.OrderManagementSystem.app.controller;
 import com.OrderManagementSystem.app.model.ContractType;
 import com.OrderManagementSystem.app.model.Type;
 import com.OrderManagementSystem.app.service.ContractTypeService;
+import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,7 @@ public class ContractTypeController {
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("contractType", new ContractType("", Type.SELLER));
+        model.addAttribute("contractType", new ContractType());
         model.addAttribute("types", Type.values());
         return "contractType/form";
     }
@@ -57,12 +58,20 @@ public class ContractTypeController {
 
     @PostMapping
     public String createContractType(@Valid @ModelAttribute ContractType contractType, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", Type.values());
             return "contractType/form";
         }
 
-        service.saveContractType(contractType);
+        try {
+            service.saveContractType(contractType);
+        } catch (ValidationException e) {
+            bindingResult.reject("validation.business.error", e.getMessage());
+            model.addAttribute("types", Type.values());
+            return "contractType/form";
+        }
+
         return "redirect:/contract-types";
     }
 

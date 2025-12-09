@@ -2,15 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Unit of Measure</title>
+    <title>Add/Edit Unit of Measure</title>
 </head>
 <body>
-<h2>Add Unit of Measure</h2>
+<h2>Add/Edit Unit of Measure</h2>
+
 <form th:action="@{/unitsOfMeasure}" th:object="${unitOfMeasure}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    Name: <input type="text" th:field="*{name}" /><br/>
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/> Symbol: <input type="text" th:field="*{symbol}" /><br/>
-    <span th:if="${#fields.hasErrors('symbol')}" th:errors="*{symbol}" style="color:red">Symbol Error</span><br/> <button type="submit">Save</button>
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red; font-weight: bold;"></p>
+    </div>
+
+    <th:block th:if="${unitOfMeasure.id != null}">
+        <input type="hidden" th:field="*{id}" />
+    </th:block>
+
+    <label for="name">Name:</label>
+    <input type="text" th:field="*{name}" id="name" /><br/>
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/>
+
+    <label for="symbol">Symbol:</label>
+    <input type="text" th:field="*{symbol}" id="symbol" /><br/>
+    <span th:if="${#fields.hasErrors('symbol')}" th:errors="*{symbol}" style="color:red">Symbol Error</span><br/>
+
+    <button type="submit">Save</button>
 </form>
 
 <a href="/unitsOfMeasure">Back to list</a>

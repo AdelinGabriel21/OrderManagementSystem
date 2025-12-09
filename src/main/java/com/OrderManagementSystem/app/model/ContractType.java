@@ -2,6 +2,8 @@ package com.OrderManagementSystem.app.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "contract_type")
@@ -12,9 +14,11 @@ public class ContractType implements ModelInterface {
     private String id;
 
     @NotBlank(message = "Name is required.")
+    @Size(max = 100, message = "Name cannot exceed 100 characters.")
     @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @NotNull(message = "Type is required.")
     @Enumerated(EnumType.STRING)
     @Column(length = 50, columnDefinition = "VARCHAR(50)")
     private Type type;

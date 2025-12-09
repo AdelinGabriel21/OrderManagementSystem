@@ -2,6 +2,7 @@ package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.ServiceEntity;
 import com.OrderManagementSystem.app.service.ServiceEntityService;
+import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,12 +34,14 @@ public class ServiceEntityController {
             return "redirect:/services";
         }
         model.addAttribute("serviceEntity", serviceEntity);
+        model.addAttribute("statuses", com.OrderManagementSystem.app.model.Status.values());
         return "service/form";
     }
 
     @GetMapping("/new")
     public String newServiceForm(Model model) {
         model.addAttribute("serviceEntity", new ServiceEntity());
+        model.addAttribute("statuses", com.OrderManagementSystem.app.model.Status.values());
         return "service/form";
     }
 
@@ -53,12 +56,21 @@ public class ServiceEntityController {
     }
 
     @PostMapping
-    public String addService(@Valid @ModelAttribute ServiceEntity serviceEntity, BindingResult bindingResult) {
+    public String addService(@Valid @ModelAttribute ServiceEntity serviceEntity, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("statuses", com.OrderManagementSystem.app.model.Status.values());
             return "service/form";
         }
 
-        service.saveService(serviceEntity);
+        try {
+            service.saveService(serviceEntity);
+        } catch (ValidationException e) {
+            bindingResult.reject("globalError", e.getMessage());
+
+            model.addAttribute("statuses", com.OrderManagementSystem.app.model.Status.values());
+            return "service/form";
+        }
+
         return "redirect:/services";
     }
 

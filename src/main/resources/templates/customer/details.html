@@ -1,21 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Customer Details</title>
 </head>
 <body>
 <h2>Customer Details</h2>
+
 <p><strong>ID:</strong> <span th:text="${customer.id}"></span></p>
 <p><strong>Name:</strong> <span th:text="${customer.name}"></span></p>
-<p><strong>Email:</strong> <span th:text="${customer.email}"></span></p>
 <p><strong>Currency:</strong> <span th:text="${customer.currency}"></span></p>
+<p><strong>Email:</strong> <span th:text="${customer.email}"></span></p>
 <p><strong>Phone:</strong> <span th:text="${customer.phoneNumber}"></span></p>
 
-<h3>Orders</h3>
-<ul>
-    <li th:each="order : ${customer.orders}" th:text="${order.name}"></li>
+<h3>Associated Orders</h3>
+
+<ul th:if="${customer.orders != null && !customer.orders.isEmpty()}">
+    <li th:each="order : ${customer.orders}">
+        <span th:text="${order.name}">Order Name</span>
+        (ID: <span th:text="${order.id}"></span>)
+    </li>
 </ul>
 
+<p th:unless="${customer.orders != null && !customer.orders.isEmpty()}" style="color: grey;">
+    No associated orders found.
+</p>
+
+<h3>Associated Contracts</h3>
+
+<ul th:if="${customer.contracts != null && !customer.contracts.isEmpty()}">
+    <li th:each="contract : ${customer.contracts}">
+        <span th:text="${contract.name}">Contract Name</span>
+        - Status: <span th:text="${contract.status}">Status</span>
+    </li>
+</ul>
+
+<p th:unless="${customer.contracts != null && !customer.contracts.isEmpty()}" style="color: grey;">
+    No associated contracts found.
+</p>
+<br/>
 <a href="/customers">Back to List</a>
+
 </body>
 </html>

@@ -12,6 +12,7 @@ public class UnitOfMeasure implements ModelInterface {
     private String id;
 
     @NotBlank(message = "Name is required.")
+    @Size(max = 100, message = "Name cannot exceed 100 characters.")
     @Column(length = 255, columnDefinition = "VARCHAR(255)")
     private String name;
 

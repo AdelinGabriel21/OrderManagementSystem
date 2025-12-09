@@ -13,19 +13,26 @@
 <p><strong>Customer:</strong> <span th:text="${contract.customer != null ? contract.customer.name : 'None'}"></span></p>
 
 <h3>Contract Lines</h3>
-<ul th:if="${contract.contractLines != null}">
+
+<ul th:if="${contract.contractLines != null && !contract.contractLines.isEmpty()}">
     <li th:each="line : ${contract.contractLines}">
         <span th:text="${line.item.name}">Item</span>:
         <span th:text="${line.quantity}">0</span>
         <span th:text="${line.unit.symbol}">Unit</span>
     </li>
 </ul>
+<p th:unless="${contract.contractLines != null && !contract.contractLines.isEmpty()}" style="color: grey;">
+    No contract lines are defined for this contract.
+</p>
 
 <h3>Associated Orders</h3>
-<ul th:if="${contract.orders != null}">
+
+<ul th:if="${contract.orders != null && !contract.orders.isEmpty()}">
     <li th:each="ord : ${contract.orders}" th:text="${ord.name}">Order Name</li>
 </ul>
-
+<p th:unless="${contract.orders != null && !contract.orders.isEmpty()}" style="color: grey;">
+    No associated orders found.
+</p>
 <a href="/contracts">Back to List</a>
 </body>
 </html>

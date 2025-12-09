@@ -107,17 +107,26 @@ INSERT INTO unit_of_measure (id, name, symbol) VALUES
 -- ----------------------------
 -- Contracts
 -- ----------------------------
+-- ----------------------------
+-- Contracts
+-- ----------------------------
 INSERT INTO contracts (id, name, contract_type_id, status, creation_date, expiration_date, customer_id) VALUES
-                                                                                                            ('f12460f8-1b62-4f89-a60e-50629c872042','Contract A','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-11-20','2025-12-20',NULL),
-                                                                                                            ('ce68db62-ea51-40ec-bb02-1098d25859cf','Contract B','97267a65-3ff3-4a7c-8bba-ee4a194c4cdb','DOWN','2025-11-21','2026-01-21',NULL),
-                                                                                                            ('a247d889-53f2-423f-bce3-a9d0afc886f1','Contract C','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-10-01','2026-10-01',NULL),
-                                                                                                            ('91eb09c0-15bd-4cf9-b50c-51e060b1e26d','Contract D','ad1f5cee-047b-48d6-874a-577ffb68bdd1','ACTIVE','2025-09-15','2026-09-15',NULL),
-                                                                                                            ('f2b8e42a-17b2-4494-b162-454fb6f5cc4e','Contract G','ad1f5cee-047b-48d6-874a-577ffb68bdd1','ACTIVE','2025-08-20','2026-08-20',NULL),
-                                                                                                            ('e30bd6fd-00e6-4fcb-9b1a-404d235b7f4b','Contract H','b5e68a42-0ee2-4e07-9c28-ebcf447cfd15','DOWN','2025-07-10','2026-07-10',NULL),
-                                                                                                            ('c9e743e4-5106-4b8b-8acb-9b329a4b6ff3','Contract I','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-06-05','2026-06-05',NULL),
-                                                                                                            ('1ca2b902-5a37-4767-9e1e-0c553958e1a7','Contract J','f0c3e0e3-2d4b-4bf8-8a6a-91da52a7adb8','DOWN','2025-05-01','2026-05-01',NULL),
-                                                                                                            ('34c9f2e1-8b7a-4d6c-9e5f-1a2b3c4d5e6f','Contract K','97267a65-3ff3-4a7c-8bba-ee4a194c4cdb','ACTIVE','2025-11-22','2025-12-22',NULL),
-                                                                                                            ('56d0a3b2-9c8d-4e7f-0a1b-2c3d4e5f6a7b','Contract L','ad1f5cee-047b-48d6-874a-577ffb68bdd1','DOWN','2025-11-23','2025-12-23',NULL);
+                                                                                                            -- Mapped to Adelin-Gabriel Cracea (ID: 75067466-5776-4bac-817d-9f600f4047b6)
+                                                                                                            ('f12460f8-1b62-4f89-a60e-50629c872042','Contract A','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-11-20','2025-12-20','75067466-5776-4bac-817d-9f600f4047b6'),
+                                                                                                            ('ce68db62-ea51-40ec-bb02-1098d25859cf','Contract B','97267a65-3ff3-4a7c-8bba-ee4a194c4cdb','DOWN','2025-11-21','2026-01-21','75067466-5776-4bac-817d-9f600f4047b6'),
+                                                                                                            ('a247d889-53f2-423f-bce3-a9d0afc886f1','Contract C','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-10-01','2026-10-01','f1cd9d54-bc77-4c89-8af0-f151388e4d8d'),
+
+                                                                                                            -- Mapped to Maria Popescu (ID: f1cd9d54-bc77-4c89-8af0-f151388e4d8d)
+                                                                                                            ('91eb09c0-15bd-4cf9-b50c-51e060b1e26d','Contract D','ad1f5cee-047b-48d6-874a-577ffb68bdd1','ACTIVE','2025-09-15','2026-09-15','f1cd9d54-bc77-4c89-8af0-f151388e4d8d'),
+                                                                                                            ('f2b8e42a-17b2-4494-b162-454fb6f5cc4e','Contract G','ad1f5cee-047b-48d6-874a-577ffb68bdd1','ACTIVE','2025-08-20','2026-08-20','f1cd9d54-bc77-4c89-8af0-f151388e4d8d'),
+
+                                                                                                            -- Mapped to Andrei Ionescu (ID: a8ce5a42-ee45-4ab3-b374-89b6c7316bf5)
+                                                                                                            ('e30bd6fd-00e6-4fcb-9b1a-404d235b7f4b','Contract H','b5e68a42-0ee2-4e07-9c28-ebcf447cfd15','DOWN','2025-07-10','2026-07-10','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5'),
+                                                                                                            ('c9e743e4-5106-4b8b-8acb-9b329a4b6ff3','Contract I','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-06-05','2026-06-05','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5'),
+
+                                                                                                            ('1ca2b902-5a37-4767-9e1e-0c553958e1a7','Contract J','f0c3e0e3-2d4b-4bf8-8a6a-91da52a7adb8','DOWN','2025-05-01','2026-05-01','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5'),
+                                                                                                            ('34c9f2e1-8b7a-4d6c-9e5f-1a2b3c4d5e6f','Contract K','97267a65-3ff3-4a7c-8bba-ee4a194c4cdb','ACTIVE','2025-11-22','2025-12-22','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5'),
+                                                                                                            ('56d0a3b2-9c8d-4e7f-0a1b-2c3d4e5f6a7b','Contract L','ad1f5cee-047b-48d6-874a-577ffb68bdd1','DOWN','2025-11-23','2025-12-23','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5');
 
 -- ----------------------------
 -- Contract Lines
