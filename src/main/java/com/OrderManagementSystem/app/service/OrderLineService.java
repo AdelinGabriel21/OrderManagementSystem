@@ -3,10 +3,9 @@ package com.OrderManagementSystem.app.service;
 import com.OrderManagementSystem.app.model.OrderLine;
 import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.model.SellableItem;
-import com.OrderManagementSystem.app.model.UnitOfMeasure;
 import com.OrderManagementSystem.app.repository.OrderLineRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.validation.ValidationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +23,12 @@ public class OrderLineService {
         repo.save(orderLine);
     }
 
-    public List<OrderLine> getAllOrderLines(){
-        return repo.findAll();
+    public List<OrderLine> searchOrderLines(String sortField, String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        return repo.findAll(sort);
     }
 
     public OrderLine getOrderLineById(String id){
