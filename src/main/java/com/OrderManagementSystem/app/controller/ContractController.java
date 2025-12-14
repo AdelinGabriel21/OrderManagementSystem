@@ -61,7 +61,7 @@ public class ContractController {
             return "redirect:/contracts";
         }
         model.addAttribute("contract", contract);
-        model.addAttribute("customers", customerService.getAllCustomers());
+        model.addAttribute("customers", customerService.searchCustomers());
         model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
         return "contract/form";
     }
@@ -69,7 +69,7 @@ public class ContractController {
     @GetMapping("/new")
     public String newContractForm(Model model) {
         model.addAttribute("contract", new Contract());
-        model.addAttribute("customers", customerService.getAllCustomers());
+        model.addAttribute("customers", customerService.searchCustomers());
         model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
         return "contract/form";
     }
@@ -90,7 +90,7 @@ public class ContractController {
                               Model model) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("customers", customerService.getAllCustomers());
+            model.addAttribute("customers", customerService.searchCustomers());
             model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
             return "contract/form";
         }
@@ -114,7 +114,7 @@ public class ContractController {
         } catch (ValidationException e) {
             bindingResult.reject("globalError", e.getMessage());
 
-            model.addAttribute("customers", customerService.getAllCustomers());
+            model.addAttribute("customers", customerService.searchCustomers());
             model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
             return "contract/form";
         }
