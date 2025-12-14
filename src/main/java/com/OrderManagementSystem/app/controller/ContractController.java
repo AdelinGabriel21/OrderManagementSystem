@@ -2,10 +2,12 @@ package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.Contract;
 import com.OrderManagementSystem.app.model.Customer;
+import com.OrderManagementSystem.app.model.Status;
 import com.OrderManagementSystem.app.service.ContractService;
 import com.OrderManagementSystem.app.service.ContractTypeService;
 import com.OrderManagementSystem.app.service.CustomerService;
 import jakarta.validation.ValidationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
 
 import java.beans.PropertyEditorSupport;
+import java.util.Date;
 
 
 @Controller
@@ -30,9 +33,24 @@ public class ContractController {
         this.contractTypeService = contractTypeService;
     }
 
+
     @GetMapping
-    public String listContracts(Model model) {
-        model.addAttribute("contracts", service.getAllContracts());
+    public String listContracts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Status status,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate,
+            Model model) {
+
+        model.addAttribute("contracts", service.searchContracts(name, status, fromDate, toDate));
+
+        model.addAttribute("filterName", name);
+        model.addAttribute("filterStatus", status);
+        model.addAttribute("filterFromDate", fromDate);
+        model.addAttribute("filterToDate", toDate);
+
+        model.addAttribute("statusOptions", com.OrderManagementSystem.app.model.Status.values());
+
         return "contract/index";
     }
 
