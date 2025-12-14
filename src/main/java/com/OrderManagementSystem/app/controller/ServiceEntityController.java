@@ -22,8 +22,15 @@ public class ServiceEntityController {
     }
 
     @GetMapping
-    public String listServices(Model model) {
-        model.addAttribute("services", service.getAllServices());
+    public String showServices(Model model,
+                               @RequestParam(defaultValue = "name") String sortField,
+                               @RequestParam(defaultValue = "asc") String sortDir) {
+
+        model.addAttribute("services", service.getAllServices(sortField, sortDir));
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+
         return "service/index";
     }
 

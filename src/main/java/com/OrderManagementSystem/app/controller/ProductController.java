@@ -22,8 +22,15 @@ public class ProductController {
     }
 
     @GetMapping
-    public String listProducts(Model model){
-        model.addAttribute("products", service.getAllProducts());
+    public String showProducts(Model model,
+                               @RequestParam(defaultValue = "name") String sortField,
+                               @RequestParam(defaultValue = "asc") String sortDir){
+
+        model.addAttribute("products", service.getAllProducts(sortField, sortDir));
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+
         return "product/index";
     }
 

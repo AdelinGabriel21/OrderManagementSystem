@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +27,13 @@ public class ProductService {
         repo.save(product);
     }
 
-    public List<Product> getAllProducts(){
-        return repo.findAll();
-    }
+    public List<Product> getAllProducts(String sortField, String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
 
+        return repo.findAll(sort);
+    }
     public Product getProductById(String id){
         return repo.findById(id).orElse(null);
     }

@@ -9,6 +9,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,8 +32,17 @@ public class OrderService {
         repo.save(order);
     }
 
-    public List<Order> findAllOrders() {
-        return repo.findAll();
+    public List<Order> findAllOrders(String sortField1, String sortDir1, String sortField2, String sortDir2) {
+
+        Sort sort1 = sortDir1.equalsIgnoreCase("asc") ?
+                Sort.by(sortField1).ascending() :
+                Sort.by(sortField1).descending();
+
+        Sort sort2 = sortDir2.equalsIgnoreCase("asc") ?
+                Sort.by(sortField2).ascending() :
+                Sort.by(sortField2).descending();
+
+        return repo.findAll(sort1.and(sort2));
     }
 
     public Order findOrderById(String id) {

@@ -6,6 +6,7 @@ import com.OrderManagementSystem.app.repository.UnitOfMeasureRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +25,13 @@ public class UnitOfMeasureService {
         repo.save(unit);
     }
 
-    public List<UnitOfMeasure> getAllUnitsOfMeasure(){
-        return repo.findAll();
+
+    public List<UnitOfMeasure> getAllUnitsOfMeasure(String sortField, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        return repo.findAll(sort);
     }
 
     public UnitOfMeasure getUnitOfMeasureById(String id){
@@ -39,7 +45,6 @@ public class UnitOfMeasureService {
     public void validateBusinessRules(UnitOfMeasure unit) {
         List<UnitOfMeasure> allUnits = repo.findAll();
 
-        // --- Business Rule 1: Unique Name Check ---
         boolean nameExists = allUnits.stream()
                 .anyMatch(existingUnit ->
                         existingUnit.getName().equalsIgnoreCase(unit.getName()) &&
@@ -50,7 +55,6 @@ public class UnitOfMeasureService {
             throw new ValidationException("A unit of measure with the name '" + unit.getName() + "' already exists.");
         }
 
-        // --- Business Rule 2: Unique Symbol Check ---
         boolean symbolExists = allUnits.stream()
                 .anyMatch(existingUnit ->
                         existingUnit.getSymbol().equalsIgnoreCase(unit.getSymbol()) &&

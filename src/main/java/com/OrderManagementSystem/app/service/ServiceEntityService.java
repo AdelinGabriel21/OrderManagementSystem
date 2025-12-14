@@ -4,6 +4,7 @@ import com.OrderManagementSystem.app.model.ServiceEntity;
 import com.OrderManagementSystem.app.repository.ServiceEntityRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +23,13 @@ public class ServiceEntityService {
         repo.save(service);
     }
 
-    public List<ServiceEntity> getAllServices(){
-        return repo.findAll();
-    }
+    public List<ServiceEntity> getAllServices(String sortField, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
 
+        return repo.findAll(sort);
+    }
     public ServiceEntity getServiceById(String id){
         return repo.findById(id).orElse(null);
     }
