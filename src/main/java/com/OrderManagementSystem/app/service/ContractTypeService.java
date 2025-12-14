@@ -1,12 +1,11 @@
 package com.OrderManagementSystem.app.service;
 
 import com.OrderManagementSystem.app.model.ContractType;
-import com.OrderManagementSystem.app.model.Type;
 import com.OrderManagementSystem.app.repository.ContractTypeRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +25,12 @@ public class ContractTypeService {
         repo.save(contractType);
     }
 
-    public List<ContractType> getAllContractTypes() {
-        return repo.findAll();
+    public List<ContractType> searchContractTypes(String sortField, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        return repo.findAll(sort);
     }
 
     public ContractType getContractTypesById(String id) {

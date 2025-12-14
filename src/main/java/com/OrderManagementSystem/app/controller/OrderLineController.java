@@ -32,8 +32,15 @@ public class OrderLineController {
     }
 
     @GetMapping
-    public String listOrderLines(Model model) {
-        model.addAttribute("orderLines", service.getAllOrderLines());
+    public String showOrderLines(Model model,
+                                 @RequestParam(defaultValue = "quantity") String sortField,
+                                 @RequestParam(defaultValue = "asc") String sortDir) {
+
+        model.addAttribute("orderLines", service.searchOrderLines(sortField, sortDir));
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+
         return "orderLine/index";
     }
 

@@ -1,14 +1,13 @@
 package com.OrderManagementSystem.app.service;
 
 import com.OrderManagementSystem.app.model.ContractLine;
-import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.model.SellableItem;
 import com.OrderManagementSystem.app.model.UnitOfMeasure;
 import com.OrderManagementSystem.app.repository.ContractLineRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,10 +27,13 @@ public class ContractLineService {
         repo.save(contractLine);
     }
 
-    public List<ContractLine> getAllContractLines() {
-        return repo.findAll();
-    }
+    public List<ContractLine> searchContractLines(String sortField, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
 
+        return repo.findAll(sort);
+    }
     public ContractLine getContractLineById(String id) {
         return repo.findById(id).orElse(null);
     }

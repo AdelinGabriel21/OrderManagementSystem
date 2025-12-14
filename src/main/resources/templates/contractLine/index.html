@@ -6,11 +6,30 @@
 </head>
 <body>
 <h2>Contract Line List</h2>
+
 <a href="/contract-lines/new">Add Contract Line</a>
+
+<form action="/contract-lines" method="get" style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9; border-radius: 5px;">
+    <label for="sortField" style="font-weight: bold;">Sort by:</label>
+    <select name="sortField" id="sortField" style="margin-right: 15px;">
+        <option value="quantity" th:selected="${sortField == 'quantity'}">Quantity</option>
+        <option value="item.name" th:selected="${sortField == 'item.name'}">Item Name</option>
+        <option value="contract.name" th:selected="${sortField == 'contract.name'}">Contract Name</option>
+    </select>
+
+    <label for="sortDir" style="font-weight: bold;">Direction:</label>
+    <select name="sortDir" id="sortDir" style="margin-right: 15px;">
+        <option value="asc" th:selected="${sortDir == 'asc'}">Ascending</option>
+        <option value="desc" th:selected="${sortDir == 'desc'}">Descending</option>
+    </select>
+
+    <button type="submit">Apply Sort</button>
+</form>
 <table border="1">
     <tr>
         <th>ID</th>
         <th>Item</th>
+        <th>Contract</th>
         <th>Unit</th>
         <th>Quantity</th>
         <th>Actions</th>
@@ -18,6 +37,7 @@
     <tr th:each="line : ${contractLines}">
         <td th:text="${line.id}"></td>
         <td th:text="${line.item.name}"></td>
+        <td th:text="${line.contract.name}"></td>
         <td th:text="${line.unit.name}"></td>
         <td th:text="${line.quantity}"></td>
         <td>

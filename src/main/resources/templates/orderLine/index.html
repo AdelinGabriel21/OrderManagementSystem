@@ -6,7 +6,25 @@
 </head>
 <body>
 <h2>Order Line List</h2>
+
 <a href="/orderLines/new">Add Order Line</a>
+
+<form action="/orderLines" method="get" style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9; border-radius: 5px;">
+    <label for="sortField" style="font-weight: bold;">Sort by:</label>
+    <select name="sortField" id="sortField" style="margin-right: 15px;">
+        <option value="quantity" th:selected="${sortField == 'quantity'}">Quantity</option>
+        <option value="item.name" th:selected="${sortField == 'item.name'}">Item Name</option>
+        <option value="order.name" th:selected="${sortField == 'order.name'}">Order Name</option>
+    </select>
+
+    <label for="sortDir" style="font-weight: bold;">Direction:</label>
+    <select name="sortDir" id="sortDir" style="margin-right: 15px;">
+        <option value="asc" th:selected="${sortDir == 'asc'}">Ascending</option>
+        <option value="desc" th:selected="${sortDir == 'desc'}">Descending</option>
+    </select>
+
+    <button type="submit">Apply Sort</button>
+</form>
 <table border="1">
     <tr>
         <th>ID</th>
@@ -18,8 +36,8 @@
 
     <tr th:each="orderLine : ${orderLines}">
         <td th:text="${orderLine.id}"></td>
-        <td th:text="${orderLine.item}"></td>
-        <td th:text="${orderLine.unit}"></td>
+        <td th:text="${orderLine.item.name}"></td>
+        <td th:text="${orderLine.unit.name}"></td>
         <td th:text="${orderLine.quantity}"></td>
 
         <td>

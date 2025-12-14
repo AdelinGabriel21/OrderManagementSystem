@@ -32,8 +32,17 @@ public class ContractLineController {
     }
 
     @GetMapping
-    public String listContractLines(Model model) {
-        model.addAttribute("contractLines", service.getAllContractLines());
+    public String showContractLines(Model model,
+                                    @RequestParam(defaultValue = "quantity") String sortField,
+                                    @RequestParam(defaultValue = "asc") String sortDir) {
+
+        // Pass params to service
+        model.addAttribute("contractLines", service.searchContractLines(sortField, sortDir));
+
+        // Pass params back to UI
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+
         return "contractLine/index";
     }
 

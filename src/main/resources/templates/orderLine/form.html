@@ -57,8 +57,7 @@
 </form>
 
 <br/>
-<a th:if="${orderLine.order != null}" th:href="@{'/orders/details/' + ${orderLine.order.id}}">Back to Order</a>
-<a th:if="${orderLine.order == null}" href="/orderLines">Back to list</a>
+<a href="/orderLines">Back to list</a>
 
 </body>
 </html>
