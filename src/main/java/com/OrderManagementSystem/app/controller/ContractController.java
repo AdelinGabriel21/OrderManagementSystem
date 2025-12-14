@@ -35,21 +35,28 @@ public class ContractController {
 
 
     @GetMapping
-    public String listContracts(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Status status,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate,
-            Model model) {
+    public String showContracts(Model model,
+                                @RequestParam(required = false) String name,
+                                @RequestParam(required = false) Status status,
+                                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fromDate,
+                                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate,
+                                @RequestParam(defaultValue = "name") String sortField1,
+                                @RequestParam(defaultValue = "asc") String sortDir1,
+                                @RequestParam(defaultValue = "creationDate") String sortField2,
+                                @RequestParam(defaultValue = "desc") String sortDir2) {
 
-        model.addAttribute("contracts", service.searchContracts(name, status, fromDate, toDate));
+        model.addAttribute("contracts", service.searchContracts(name, status, fromDate, toDate, sortField1, sortDir1, sortField2, sortDir2));
 
         model.addAttribute("filterName", name);
         model.addAttribute("filterStatus", status);
         model.addAttribute("filterFromDate", fromDate);
         model.addAttribute("filterToDate", toDate);
+        model.addAttribute("statusOptions", Status.values());
 
-        model.addAttribute("statusOptions", com.OrderManagementSystem.app.model.Status.values());
+        model.addAttribute("sortField1", sortField1);
+        model.addAttribute("sortDir1", sortDir1);
+        model.addAttribute("sortField2", sortField2);
+        model.addAttribute("sortDir2", sortDir2);
 
         return "contract/index";
     }
@@ -61,7 +68,7 @@ public class ContractController {
             return "redirect:/contracts";
         }
         model.addAttribute("contract", contract);
-        model.addAttribute("customers", customerService.searchCustomers());
+        model.addAttribute("customers", customerService.searchCustomers("name", "asc", "name", "asc"));
         model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
         return "contract/form";
     }
@@ -69,7 +76,7 @@ public class ContractController {
     @GetMapping("/new")
     public String newContractForm(Model model) {
         model.addAttribute("contract", new Contract());
-        model.addAttribute("customers", customerService.searchCustomers());
+        model.addAttribute("customers", customerService.searchCustomers("name", "asc", "name", "asc"));
         model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
         return "contract/form";
     }
@@ -90,7 +97,7 @@ public class ContractController {
                               Model model) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("customers", customerService.searchCustomers());
+            model.addAttribute("customers", customerService.searchCustomers("name", "asc", "name", "asc"));
             model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
             return "contract/form";
         }
@@ -114,7 +121,7 @@ public class ContractController {
         } catch (ValidationException e) {
             bindingResult.reject("globalError", e.getMessage());
 
-            model.addAttribute("customers", customerService.searchCustomers());
+            model.addAttribute("customers", customerService.searchCustomers("name", "asc", "name", "asc"));
             model.addAttribute("contractTypes", contractTypeService.getAllContractTypes());
             return "contract/form";
         }
