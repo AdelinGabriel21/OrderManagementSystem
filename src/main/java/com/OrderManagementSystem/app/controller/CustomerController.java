@@ -21,12 +21,19 @@ public class CustomerController {
 
     @GetMapping
     public String showAllCustomers(Model model,
+                                   @RequestParam(required = false) String name,
+                                   @RequestParam(required = false) String email,
+                                   @RequestParam(required = false) String currency,
                                    @RequestParam(defaultValue = "name") String sortField1,
                                    @RequestParam(defaultValue = "asc") String sortDir1,
                                    @RequestParam(defaultValue = "id") String sortField2,
                                    @RequestParam(defaultValue = "asc") String sortDir2) {
 
-        model.addAttribute("customers", service.getAllCustomers(sortField1, sortDir1, sortField2, sortDir2));
+        model.addAttribute("customers", service.searchCustomers(name, email, currency, sortField1, sortDir1, sortField2, sortDir2));
+
+        model.addAttribute("filterName", name);
+        model.addAttribute("filterEmail", email);
+        model.addAttribute("filterCurrency", currency);
 
         model.addAttribute("sortField1", sortField1);
         model.addAttribute("sortDir1", sortDir1);

@@ -51,7 +51,7 @@ public class OrderController {
             return "redirect:/orders";
         }
         model.addAttribute("order", order);
-        model.addAttribute("customers", customerService.getAllCustomers("name", "asc", "name", "asc"));
+        model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
         model.addAttribute("contracts", contractService.getAllContracts());
         return "order/form";
     }
@@ -59,7 +59,7 @@ public class OrderController {
     @GetMapping("/new")
     public String showAddForm(Model model) {
         model.addAttribute("order", new Order());
-        model.addAttribute("customers", customerService.getAllCustomers("name", "asc", "name", "asc"));
+        model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
         model.addAttribute("contracts", contractService.getAllContracts());
         return "order/form";
     }
@@ -80,7 +80,7 @@ public class OrderController {
                            Model model) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("customers", customerService.getAllCustomers("name", "asc", "name", "asc"));
+            model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
             model.addAttribute("contracts", contractService.getAllContracts());
             return "order/form";
         }
@@ -90,7 +90,7 @@ public class OrderController {
         } catch (ValidationException e) {
             bindingResult.reject("globalError", e.getMessage());
 
-            model.addAttribute("customers", customerService.getAllCustomers("name", "asc", "name", "asc"));
+            model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
             model.addAttribute("contracts", contractService.getAllContracts());
             return "order/form";
         }

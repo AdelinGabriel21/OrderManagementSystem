@@ -2,13 +2,11 @@ package com.OrderManagementSystem.app.service;
 
 import com.OrderManagementSystem.app.model.Customer;
 import com.OrderManagementSystem.app.repository.CustomerRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,7 +23,8 @@ public class CustomerService {
         repo.save(customer);
     }
 
-    public List<Customer> getAllCustomers(String sortField1, String sortDir1,
+    public List<Customer> searchCustomers(String name, String email, String currency,
+                                          String sortField1, String sortDir1,
                                           String sortField2, String sortDir2) {
 
         Sort sort1 = sortDir1.equalsIgnoreCase("asc") ?
@@ -36,8 +35,9 @@ public class CustomerService {
                 Sort.by(sortField2).ascending() :
                 Sort.by(sortField2).descending();
 
-        return repo.findAll(sort1.and(sort2));
+        return repo.searchCustomers(name, email, currency, sort1.and(sort2));
     }
+
     public Customer getCustomerById(String id) {
         return repo.findById(id).orElse(null);
     }

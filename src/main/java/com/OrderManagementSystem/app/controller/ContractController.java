@@ -68,16 +68,16 @@ public class ContractController {
             return "redirect:/contracts";
         }
         model.addAttribute("contract", contract);
-        model.addAttribute("customers", customerService.getAllCustomers("name", "asc", "name", "asc"));
-        model.addAttribute("contractTypes", contractTypeService.searchContractTypes("name","asc"));
+        model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
+        model.addAttribute("contractTypes", contractTypeService.searchContractTypes("name", "asc"));
         return "contract/form";
     }
 
     @GetMapping("/new")
     public String newContractForm(Model model) {
         model.addAttribute("contract", new Contract());
-        model.addAttribute("customers", customerService.getAllCustomers("name", "asc", "name", "asc"));
-        model.addAttribute("contractTypes", contractTypeService.searchContractTypes("name","asc"));
+        model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
+        model.addAttribute("contractTypes", contractTypeService.searchContractTypes("name", "asc"));
         return "contract/form";
     }
 
@@ -97,8 +97,8 @@ public class ContractController {
                               Model model) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("customers", customerService.getAllCustomers("name", "asc", "name", "asc"));
-            model.addAttribute("contractTypes", contractTypeService.searchContractTypes("name","asc"));
+            model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
+            model.addAttribute("contractTypes", contractTypeService.searchContractTypes("name", "asc"));
             return "contract/form";
         }
 
@@ -121,8 +121,8 @@ public class ContractController {
         } catch (ValidationException e) {
             bindingResult.reject("globalError", e.getMessage());
 
-            model.addAttribute("customers", customerService.getAllCustomers("name", "asc", "name", "asc"));
-            model.addAttribute("contractTypes", contractTypeService.searchContractTypes("name","asc"));
+            model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
+            model.addAttribute("contractTypes", contractTypeService.searchContractTypes("name", "asc"));
             return "contract/form";
         }
 
