@@ -6,10 +6,28 @@
 </head>
 <body>
 <h2>Service List</h2>
+
 <div th:if="${param.error == 'in_use'}" style="color: red; font-weight: bold; margin-bottom: 10px;">
     Error: Cannot delete this Service because it is currently used by an Order or Contract!
 </div>
+
 <a href="/services/new">Add Service</a>
+
+<form action="/services" method="get" style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9; border-radius: 5px;">
+    <label for="sortField" style="font-weight: bold;">Sort by:</label>
+    <select name="sortField" id="sortField" style="margin-right: 15px;">
+        <option value="name" th:selected="${sortField == 'name'}">Name</option>
+        <option value="status" th:selected="${sortField == 'status'}">Status</option>
+    </select>
+
+    <label for="sortDir" style="font-weight: bold;">Direction:</label>
+    <select name="sortDir" id="sortDir" style="margin-right: 15px;">
+        <option value="asc" th:selected="${sortDir == 'asc'}">Ascending (A-Z)</option>
+        <option value="desc" th:selected="${sortDir == 'desc'}">Descending (Z-A)</option>
+    </select>
+
+    <button type="submit">Apply Sort</button>
+</form>
 <table border="1">
     <tr>
         <th>ID</th><th>Name</th><th>Status</th><th>Actions</th>

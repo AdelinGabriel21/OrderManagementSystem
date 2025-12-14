@@ -7,6 +7,40 @@
 <body>
 <h2>Order List</h2>
 <a href="/orders/new">Add New Order</a>
+
+<form action="/orders" method="get" style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9; border-radius: 5px;">
+
+    <div style="margin-bottom: 10px;">
+        <label for="sortField1" style="font-weight: bold; width: 80px; display: inline-block;">Sort by:</label>
+        <select name="sortField1" id="sortField1" style="margin-right: 10px;">
+            <option value="name" th:selected="${sortField1 == 'name'}">Order Name</option>
+            <option value="customer.name" th:selected="${sortField1 == 'customer.name'}">Customer Name</option>
+            <option value="contract.name" th:selected="${sortField1 == 'contract.name'}">Contract Name</option>
+        </select>
+
+        <select name="sortDir1" id="sortDir1">
+            <option value="asc" th:selected="${sortDir1 == 'asc'}">Ascending</option>
+            <option value="desc" th:selected="${sortDir1 == 'desc'}">Descending</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="sortField2" style="font-weight: bold; width: 80px; display: inline-block;">Then by:</label>
+        <select name="sortField2" id="sortField2" style="margin-right: 10px;">
+            <option value="name" th:selected="${sortField2 == 'name'}">Order Name</option>
+            <option value="customer.name" th:selected="${sortField2 == 'customer.name'}">Customer Name</option>
+            <option value="contract.name" th:selected="${sortField2 == 'contract.name'}">Contract Name</option>
+        </select>
+
+        <select name="sortDir2" id="sortDir2" style="margin-right: 15px;">
+            <option value="asc" th:selected="${sortDir2 == 'asc'}">Ascending</option>
+            <option value="desc" th:selected="${sortDir2 == 'desc'}">Descending</option>
+        </select>
+
+        <button type="submit">Apply Sort</button>
+    </div>
+
+</form>
 <table border="1">
     <tr>
         <th>ID</th>

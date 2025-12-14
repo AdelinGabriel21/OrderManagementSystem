@@ -108,9 +108,9 @@ public class OrderLineController {
     }
 
     private void populateDependencies(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("units", unitService.getAllUnitsOfMeasure());
-        model.addAttribute("orders", orderService.findAllOrders());
+        model.addAttribute("products", productService.getAllProducts("name", "asc"));
+        model.addAttribute("units", unitService.getAllUnitsOfMeasure("name","asc"));
+        model.addAttribute("orders", orderService.findAllOrders("name","asc", "name", "asc"));
     }
 
     @InitBinder

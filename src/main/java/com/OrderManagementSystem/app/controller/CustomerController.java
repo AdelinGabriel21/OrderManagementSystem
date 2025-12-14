@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
-import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/customers")
@@ -21,8 +20,19 @@ public class CustomerController {
     }
 
     @GetMapping
-    public String getAllCustomers(Model model) {
-        model.addAttribute("customers", service.getAllCustomers());
+    public String showAllCustomers(Model model,
+                                   @RequestParam(defaultValue = "name") String sortField1,
+                                   @RequestParam(defaultValue = "asc") String sortDir1,
+                                   @RequestParam(defaultValue = "id") String sortField2,
+                                   @RequestParam(defaultValue = "asc") String sortDir2) {
+
+        model.addAttribute("customers", service.getAllCustomers(sortField1, sortDir1, sortField2, sortDir2));
+
+        model.addAttribute("sortField1", sortField1);
+        model.addAttribute("sortDir1", sortDir1);
+        model.addAttribute("sortField2", sortField2);
+        model.addAttribute("sortDir2", sortDir2);
+
         return "customer/index";
     }
 
