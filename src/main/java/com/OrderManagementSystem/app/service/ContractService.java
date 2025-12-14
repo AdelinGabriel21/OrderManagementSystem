@@ -8,6 +8,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -33,6 +34,24 @@ public class ContractService {
         return repo.findAll();
     }
 
+    public List<Contract> searchContracts(String name, Status status, Date fromDate, Date toDate,
+                                          String sortField1, String sortDir1,
+                                          String sortField2, String sortDir2) {
+
+        // 1. Primary Sort
+        Sort sort1 = sortDir1.equalsIgnoreCase("asc") ?
+                Sort.by(sortField1).ascending() :
+                Sort.by(sortField1).descending();
+
+        // 2. Secondary Sort
+        Sort sort2 = sortDir2.equalsIgnoreCase("asc") ?
+                Sort.by(sortField2).ascending() :
+                Sort.by(sortField2).descending();
+
+        // 3. Pass filters AND combined sort to Repository
+        return repo.searchContracts(name, status, fromDate, toDate, sort1.and(sort2));
+    }
+
     @Transactional
     public Contract getContractsById(String id){
         return repo.findById(id).orElse(null);
@@ -51,7 +70,5 @@ public class ContractService {
         }
     }
 
-    public List<Contract> searchContracts(String name, Status status, Date fromDate, Date toDate) {
-        return repo.searchContracts(name, status, fromDate, toDate);
-    }
+
 }
