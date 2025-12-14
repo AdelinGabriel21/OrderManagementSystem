@@ -35,9 +35,7 @@ public class CustomerService {
                 Sort.by(sortField2).ascending() :
                 Sort.by(sortField2).descending();
 
-        Sort finalSort = sort1.and(sort2);
-
-        return repo.searchCustomers(name, email, currency, finalSort);
+        return repo.searchCustomers(name, email, currency, sort1.and(sort2));
     }
 
     public Customer getCustomerById(String id) {
