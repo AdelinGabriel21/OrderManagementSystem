@@ -50,4 +50,8 @@ public class ContractService {
             throw new ValidationException("The Expiration Date cannot be before the Creation Date.");
         }
     }
+
+    public List<Contract> searchContracts(String name, Status status, Date fromDate, Date toDate) {
+        return repo.searchContracts(name, status, fromDate, toDate);
+    }
 }
