@@ -2,6 +2,7 @@ package com.OrderManagementSystem.app.repository;
 
 import com.OrderManagementSystem.app.model.Contract;
 import com.OrderManagementSystem.app.model.Status;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +21,6 @@ public interface ContractRepository extends JpaRepository<Contract, String> {
     List<Contract> searchContracts(@Param("name") String name,
                                    @Param("status") Status status,
                                    @Param("fromDate") Date fromDate,
-                                   @Param("toDate") Date toDate);
+                                   @Param("toDate") Date toDate,
+                                   Sort sort);
 }
