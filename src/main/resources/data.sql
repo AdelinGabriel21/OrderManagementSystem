@@ -1,174 +1,221 @@
--- ----------------------------
--- Customers
--- ----------------------------
-INSERT INTO customers (id, name, currency, email, phone_number) VALUES
-                                                                    ('75067466-5776-4bac-817d-9f600f4047b6', 'Adelin-Gabriel Cracea', 'EUR', 'adelincracea99@gmail.com', '0773829445'),
-                                                                    ('f1cd9d54-bc77-4c89-8af0-f151388e4d8d', 'Maria Popescu', 'EUR', 'maria.popescu@example.com', '0721345678'),
-                                                                    ('a8ce5a42-ee45-4ab3-b374-89b6c7316bf5', 'Andrei Ionescu', 'USD', 'andrei.ionescu@example.com', '0732123456'),
-                                                                    ('9b54bfa7-34ff-4f4f-b3bc-a939a3c1818b', 'Elena Marinescu', 'GBP', 'elena.marinescu@example.com', '0756123456'),
-                                                                    ('3ac096c2-9b6c-40c2-9ded-55163e0c339a', 'Victor Ciobanu', 'EUR', 'victor.ciobanu@example.com', '0789234567'),
-                                                                    ('95cd13a1-6c3f-4e0e-bef0-470ab2246c5e', 'Ana-Maria Stancu', 'RON', 'ana.stancu@example.com', '0765123987'),
-                                                                    ('6fd2c99c-df50-4dd6-9ad4-b02acf525d7a', 'George Mihalache', 'USD', 'george.mihalache@example.com', '0745123987'),
-                                                                    ('e2faac09-214d-4f36-a824-3f4b91a489b8', 'Cristina Pavel', 'EUR', 'cristina.pavel@example.com', '0729988776'),
-                                                                    ('1223b686-264e-4d49-81ea-bfdc31c2ca1a', 'Radu Alexandrescu', 'CAD', 'radu.alex@example.com', '0733556677'),
-                                                                    ('7f330c99-5266-44f0-875f-b467e0ed1bb2', 'Ioana Dumitrescu', 'EUR', 'ioana.dumitrescu@example.com', '0753442211'),
-                                                                    ('c86a8565-ddf3-4180-99fd-b4ab655cafa0', 'Czika Stefania', 'EUR', 'steficzika@gmail.com', '0746074113'),
-                                                                    ('e3bd0e0f-274f-4311-be87-dbdaa9fe9ff0', 'a', 'EUR', 'czikastefania@yahoo.com', '0746074113');
+-- ==================================================================================
+-- 1. MASTER DATA
+-- ==================================================================================
 
--- ----------------------------
--- Contract Types
--- ----------------------------
+-- ----------------------------------------------------------------------------------
+-- Contract Types (10 Instances)
+-- ----------------------------------------------------------------------------------
 INSERT INTO contract_type (id, name, type) VALUES
-                                               ('d483e576-ab02-427d-954c-599bafc857d9','Standard Seller Contract','SELLER'),
-                                               ('97267a65-3ff3-4a7c-8bba-ee4a194c4cdb','Standard Customer Contract','CUSTOMER'),
-                                               ('ad1f5cee-047b-48d6-874a-577ffb68bdd1','Premium Seller Contract','SELLER'),
-                                               ('f0c3e0e3-2d4b-4bf8-8a6a-91da52a7adb8','Premium Customer Contract','CUSTOMER'),
-                                               ('b5e68a42-0ee2-4e07-9c28-ebcf447cfd15','Enterprise Seller Contract','SELLER'),
-                                               ('a64d4dc5-2d76-41fd-8458-41f5826c1a56','Enterprise Customer Contract','CUSTOMER'),
-                                               ('e33d2e62-eed3-4c35-9373-f92f1f4ceb77','Basic Seller Contract','SELLER'),
-                                               ('5e884334-d334-48cf-88e0-fddbb1c2df80','Basic Customer Contract','CUSTOMER'),
-                                               ('328a72f7-b55f-455d-8df4-f48a2c8cbad4','International Seller Contract','SELLER'),
-                                               ('8df7fb37-3cc3-4b1d-bb88-63fe91d28234','International Customer Contract','CUSTOMER'),
-                                               ('0ba47268-ded6-4e71-861f-6bcd7607907b','NTT','CUSTOMER');
+('a1b2c3d4-e5f6-7890-1234-56789abcdef0', 'Standard Seller Agreement', 'SELLER'),
+('b2c3d4e5-f678-9012-3456-789abcdef012', 'Standard Customer Agreement', 'CUSTOMER'),
+('c3d4e5f6-7890-1234-5678-9abcdef01234', 'Premium Seller B2B', 'SELLER'),
+('d4e5f678-9012-3456-7890-abcdef012345', 'Premium Customer B2B', 'CUSTOMER'),
+('e5f67890-1234-5678-9012-bcdef0123456', 'Enterprise Partner Seller', 'SELLER'),
+('f6789012-3456-7890-1234-cdef01234567', 'Enterprise Partner Customer', 'CUSTOMER'),
+('07890123-4567-8901-2345-def012345678', 'Government Procurement', 'CUSTOMER'),
+('18901234-5678-9012-3456-ef0123456789', 'Vendor Framework 2025', 'SELLER'),
+('29012345-6789-0123-4567-f0123456789a', 'Internal Transfer Protocol', 'CUSTOMER'),
+('30123456-7890-1234-5678-0123456789ab', 'Temporary Service Order', 'SELLER');
 
--- ----------------------------
--- Sellable Items (Parent Table)
--- ----------------------------
--- Contains names and IDs for BOTH Products and Services
+-- ----------------------------------------------------------------------------------
+-- Units of Measure (10 Instances)
+-- ----------------------------------------------------------------------------------
+INSERT INTO unit_of_measure (id, name, symbol) VALUES
+('41234567-89ab-cdef-0123-456789abcdef', 'Kilogram', 'kg'),
+('52345678-9abc-def0-1234-56789abcdef0', 'Meter', 'm'),
+('63456789-abcd-ef01-2345-6789abcdef01', 'Liter', 'L'),
+('74567890-bcde-f012-3456-789abcdef012', 'Second', 's'),
+('85678901-cdef-0123-4567-89abcdef0123', 'Piece', 'pcs'),
+('96789012-def0-1234-5678-9abcdef01234', 'Box', 'box'),
+('a7890123-ef01-2345-6789-abcdef012345', 'Pallet', 'plt'),
+('b8901234-f012-3456-7890-bcdef0123456', 'Hour', 'hr'),
+('c9012345-0123-4567-8901-cdef01234567', 'Day', 'day'),
+('d0123456-1234-5678-9012-def012345678', 'Month', 'mo');
+
+-- ----------------------------------------------------------------------------------
+-- Sellable Items (Parent Table - 20 Total: 10 Products + 10 Services)
+-- ----------------------------------------------------------------------------------
 INSERT INTO sellable_item (id, name) VALUES
 -- Products
-('5d2dcfce-fa49-4f77-a4b7-4d45803f50c2','Laptop'),
-('45fb0809-c813-48a0-ab42-ebf863761dfb','Smartphone'),
-('358a5000-ea8e-42ff-b737-6f1858b05649','Headphones'),
-('6e7d8c9a-b0c1-d2e3-f4a5-6b7c8d9e0f1a','Monitor'),
-('7f8e9d0b-c1d2-e3f4-a5b6-7c8d9e0f1a2b','Keyboard'),
-('8g9h0i1j-2k3l-4m5n-6o7p-8q9r0s1t2u3v','Mouse'),
-('9h0i1j2k-3l4m-5n6o-7p8q-9r0s1t2u3v4w','Printer'),
-('0i1j2k3l-4m5n-6o7p-8q9r-0s1t2u3v4w5x','Webcam'),
-('1j2k3l4m-5n6o-7p8q-9r0s-1t2u3v4w5x6y','Tablet'),
-('2k3l4m5n-6o7p-8q9r-0s1t-2u3v4w5x6y7z','Gaming Console'),
+('11e4d3f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f', 'Dell XPS 15'),
+('22f5e4a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a', 'iPhone 15 Pro'),
+('33a6b7c8-d9e0-4f1a-2b3c-4d5e6f7a8b9c', 'Logitech MX Master 3'),
+('44b7c8d9-e0f1-4a2b-3c4d-5e6f7a8b9c0d', 'Samsung Odyssey Monitor'),
+('55c8d9e0-f1a2-4b3c-4d5e-6f7a8b9c0d1e', 'Keychron K2 Keyboard'),
+('66d9e0f1-a2b3-4c4d-5e6f-7a8b9c0d1e2f', 'Office Chair Ergo'),
+('77e0f1a2-b3c4-4d5e-6f7a-8b9c0d1e2f3a', 'Standing Desk'),
+('88f1a2b3-c4d5-4e6f-7a8b-9c0d1e2f3a4b', 'USB-C Docking Station'),
+('99a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c', 'Sony WH-1000XM5'),
+('00b3c4d5-e6f7-4a8b-9c0d-1e2f3a4b5c6d', 'Webcam 4K Pro'),
 -- Services
-('eedbdf4d-c539-4834-bfd5-a5319c0feb83','Cleaning Service'),
-('d6289943-e5e2-4c88-a564-b6a08064e329','Cooking Service'),
-('3a9f499e-7eea-4d09-9ae6-be515c097ea8','Driving Service'),
-('7741d7d0-7a0e-4f51-a2c3-9d413e11b8b6','Plumbing Service'),
-('1c3f2d4e-5a6b-7c8d-9e0f-1a2b3c4d5e6f','IT Support'),
-('2e4d3f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a','Gardening Service'),
-('3f5e4d6b-7c8d-9e0f-1a2b-3c4d5e6f7a8b','Laundry Service'),
-('4d6f5e7c-8d9e-0f1a-2b3c-4d5e6f7a8b9c','Pet Grooming'),
-('5e7d6f8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d','Delivery Service'),
-('6f8e7d9e-0f1a-2b3c-4d5e-6f7a8b9c0d1e','Tutoring Service');
+('aa112233-4455-6677-8899-aabbccddeeff', 'General Cleaning'),
+('bb223344-5566-7788-99aa-bbccddeeff00', 'IT Support L1'),
+('cc334455-6677-8899-aabb-ccddeeff0011', 'Cloud Consulting'),
+('dd445566-7788-99aa-bbcc-ddeeff001122', 'Legal Advisory'),
+('ee556677-8899-aabb-ccdd-eeff00112233', 'Security Auditing'),
+('ff667788-99aa-bbcc-ddee-ff0011223344', 'Software Development'),
+('00778899-aabb-ccdd-eeff-001122334455', 'Project Management'),
+('118899aa-bbcc-ddee-ff00-112233445566', 'Training Workshop'),
+('2299aabb-ccdd-eeff-0011-223344556677', 'Network Maintenance'),
+('33aabbcc-ddee-ff00-1122-334455667788', 'Data Recovery');
 
--- ----------------------------
--- Products (Child Table)
--- ----------------------------
+-- ----------------------------------------------------------------------------------
+-- Products (Child Table - 10 Instances)
+-- ----------------------------------------------------------------------------------
 INSERT INTO products (id, value, stock_quantity) VALUES
-                                                     ('5d2dcfce-fa49-4f77-a4b7-4d45803f50c2', 1200.0, 15),
-                                                     ('45fb0809-c813-48a0-ab42-ebf863761dfb', 800.0, 30),
-                                                     ('358a5000-ea8e-42ff-b737-6f1858b05649', 150.0, 50),
-                                                     ('6e7d8c9a-b0c1-d2e3-f4a5-6b7c8d9e0f1a', 350.0, 25),
-                                                     ('7f8e9d0b-c1d2-e3f4-a5b6-7c8d9e0f1a2b', 75.0, 60),
-                                                     ('8g9h0i1j-2k3l-4m5n-6o7p-8q9r0s1t2u3v', 30.0, 80),
-                                                     ('9h0i1j2k-3l4m-5n6o-7p8q-9r0s1t2u3v4w', 250.0, 10),
-                                                     ('0i1j2k3l-4m5n-6o7p-8q9r-0s1t2u3v4w5x', 50.0, 45),
-                                                     ('1j2k3l4m-5n6o-7p8q-9r0s-1t2u3v4w5x6y', 600.0, 20),
-                                                     ('2k3l4m5n-6o7p-8q9r-0s1t-2u3v4w5x6y7z', 500.0, 5);
+('11e4d3f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f', 2500.00, 50),
+('22f5e4a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a', 1200.00, 100),
+('33a6b7c8-d9e0-4f1a-2b3c-4d5e6f7a8b9c', 99.99, 200),
+('44b7c8d9-e0f1-4a2b-3c4d-5e6f7a8b9c0d', 450.00, 30),
+('55c8d9e0-f1a2-4b3c-4d5e-6f7a8b9c0d1e', 120.00, 75),
+('66d9e0f1-a2b3-4c4d-5e6f-7a8b9c0d1e2f', 300.00, 20),
+('77e0f1a2-b3c4-4d5e-6f7a-8b9c0d1e2f3a', 600.00, 15),
+('88f1a2b3-c4d5-4e6f-7a8b-9c0d1e2f3a4b', 150.00, 60),
+('99a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c', 350.00, 40),
+('00b3c4d5-e6f7-4a8b-9c0d-1e2f3a4b5c6d', 200.00, 80);
 
--- ----------------------------
--- Services (Child Table)
--- ----------------------------
+-- ----------------------------------------------------------------------------------
+-- Services (Child Table - 10 Instances)
+-- ----------------------------------------------------------------------------------
 INSERT INTO services (id, status) VALUES
-                                      ('eedbdf4d-c539-4834-bfd5-a5319c0feb83', 'ACTIVE'),
-                                      ('d6289943-e5e2-4c88-a564-b6a08064e329', 'DOWN'),
-                                      ('3a9f499e-7eea-4d09-9ae6-be515c097ea8', 'ACTIVE'),
-                                      ('7741d7d0-7a0e-4f51-a2c3-9d413e11b8b6', 'ACTIVE'),
-                                      ('1c3f2d4e-5a6b-7c8d-9e0f-1a2b3c4d5e6f', 'DOWN'),
-                                      ('2e4d3f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a', 'ACTIVE'),
-                                      ('3f5e4d6b-7c8d-9e0f-1a2b-3c4d5e6f7a8b', 'ACTIVE'),
-                                      ('4d6f5e7c-8d9e-0f1a-2b3c-4d5e6f7a8b9c', 'DOWN'),
-                                      ('5e7d6f8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d', 'ACTIVE'),
-                                      ('6f8e7d9e-0f1a-2b3c-4d5e-6f7a8b9c0d1e', 'ACTIVE');
+('aa112233-4455-6677-8899-aabbccddeeff', 'ACTIVE'),
+('bb223344-5566-7788-99aa-bbccddeeff00', 'ACTIVE'),
+('cc334455-6677-8899-aabb-ccddeeff0011', 'ACTIVE'),
+('dd445566-7788-99aa-bbcc-ddeeff001122', 'DOWN'),
+('ee556677-8899-aabb-ccdd-eeff00112233', 'ACTIVE'),
+('ff667788-99aa-bbcc-ddee-ff0011223344', 'ACTIVE'),
+('00778899-aabb-ccdd-eeff-001122334455', 'DOWN'),
+('118899aa-bbcc-ddee-ff00-112233445566', 'ACTIVE'),
+('2299aabb-ccdd-eeff-0011-223344556677', 'ACTIVE'),
+('33aabbcc-ddee-ff00-1122-334455667788', 'ACTIVE');
 
--- ----------------------------
--- Units of Measure
--- ----------------------------
-INSERT INTO unit_of_measure (id, name, symbol) VALUES
-                                                   ('43d1b8d9-a418-42df-adaf-44e8dc3c799e','Kilogram','kg'),
-                                                   ('81005363-2bce-416e-925c-6894c24f820c','Meter','m'),
-                                                   ('a567ba84-091a-4fe6-991f-0a52e9c3e73e','Liter','L'),
-                                                   ('2e9c3e73-a091-49b2-a42e-1c6f9b2d8e4a','Second','s'),
-                                                   ('b1c7d8a9-5f6e-43c2-8710-0a3b2c1d4e5f','Ampere','A'),
-                                                   ('6g4h5i6j-7k8l-9m0n-1p2q-3r4s5t6u7v8w','Kelvin','K'),
-                                                   ('c3d4e5f6-7a8b-9c0d-1e2f-3g4h5i6j7k8l','Mole','mol'),
-                                                   ('d5e6f7g8-9h0i-1j2k-3l4m-5n6o7p8q9r0s','Candela','cd'),
-                                                   ('e7f8g9h0-1i2j-3k4l-5m6n-7o8p9q0r1s2t','Hertz','Hz'),
-                                                   ('f9g0h1i2-3j4k-5l6m-7n8o-9p0q1r2s3t4u','Joule','J');
 
--- ----------------------------
--- Contracts
--- ----------------------------
--- ----------------------------
--- Contracts
--- ----------------------------
+-- ==================================================================================
+-- 2. CUSTOMERS (10 Instances)
+-- ==================================================================================
+
+INSERT INTO customers (id, name, currency, email, phone_number) VALUES
+('9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d', 'TechCorp Solutions', 'USD', 'contact@techcorp.com', '0722145678'),
+('8b7c6d5e-4f3a-2b1c-0d9e-8f7a6b5c4d3e', 'GreenLeaf Energy', 'EUR', 'info@greenleaf.eu', '0745982103'),
+('7c6d5e4f-3a2b-1c0d-9e8f-7a6b5c4d3e2f', 'Rapid Logistics', 'GBP', 'support@rapidlog.uk', '0766334455'),
+('6d5e4f3a-2b1c-0d9e-8f7a-6b5c4d3e2f1a', 'Alpha Medical', 'USD', 'sales@alphamed.com', '0771556677'),
+('5e4f3a2b-1c0d-9e8f-7a6b-5c4d3e2f1a0b', 'BlueSky Aviation', 'EUR', 'ops@bluesky.com', '0733448899'),
+('4f3a2b1c-0d9e-8f7a-6b5c-4d3e2f1a0b9c', 'Urban Construction', 'RON', 'office@urbanconst.ro', '0755112233'),
+('3a2b1c0d-9e8f-7a6b-5c4d-3e2f1a0b9c8d', 'Quantum Finance', 'USD', 'hello@quantumfi.com', '0729887766'),
+('2b1c0d9e-8f7a-6b5c-4d3e-2f1a0b9c8d7e', 'Solaris Power', 'EUR', 'contact@solaris.eu', '0740554433'),
+('1c0d9e8f-7a6b-5c4d-3e2f-1a0b9c8d7e6f', 'Nordic Designs', 'SEK', 'design@nordic.se', '0770123987'),
+('0d9e8f7a-6b5c-4d3e-2f1a-0b9c8d7e6f5a', 'Pacific Imports', 'USD', 'trade@pacific.com', '0761234509');
+
+-- ==================================================================================
+-- 3. CONTRACTS (10 Instances - 1 per Customer minimum)
+-- ==================================================================================
+
 INSERT INTO contracts (id, name, contract_type_id, status, creation_date, expiration_date, customer_id) VALUES
-                                                                                                            -- Mapped to Adelin-Gabriel Cracea (ID: 75067466-5776-4bac-817d-9f600f4047b6)
-                                                                                                            ('f12460f8-1b62-4f89-a60e-50629c872042','Contract A','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-11-20','2025-12-20','75067466-5776-4bac-817d-9f600f4047b6'),
-                                                                                                            ('ce68db62-ea51-40ec-bb02-1098d25859cf','Contract B','97267a65-3ff3-4a7c-8bba-ee4a194c4cdb','DOWN','2025-11-21','2026-01-21','75067466-5776-4bac-817d-9f600f4047b6'),
-                                                                                                            ('a247d889-53f2-423f-bce3-a9d0afc886f1','Contract C','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-10-01','2026-10-01','f1cd9d54-bc77-4c89-8af0-f151388e4d8d'),
+-- TechCorp (Active)
+('c01a1b2c-3d4e-5f67-8901-23456789abcd', 'TechCorp 2025 MSA', 'b2c3d4e5-f678-9012-3456-789abcdef012', 'ACTIVE', '2025-01-01', '2026-01-01', '9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d'),
+-- GreenLeaf (Active)
+('c02b2c3d-4e5f-6789-0123-456789abcdef', 'GreenLeaf Supply Agmt', 'd4e5f678-9012-3456-7890-abcdef012345', 'ACTIVE', '2025-02-01', '2026-02-01', '8b7c6d5e-4f3a-2b1c-0d9e-8f7a6b5c4d3e'),
+-- Rapid Logistics (Active)
+('c03c3d4e-5f67-8901-2345-6789abcdef01', 'RapidLog Service Level', 'e5f67890-1234-5678-9012-bcdef0123456', 'ACTIVE', '2025-03-01', '2026-03-01', '7c6d5e4f-3a2b-1c0d-9e8f-7a6b5c4d3e2f'),
+-- Alpha Medical (Down)
+('c04d4e5f-6789-0123-4567-89abcdef0123', 'Alpha Med Expired', 'b2c3d4e5-f678-9012-3456-789abcdef012', 'DOWN', '2023-01-01', '2024-01-01', '6d5e4f3a-2b1c-0d9e-8f7a-6b5c4d3e2f1a'),
+-- Alpha Medical (Active - Replacement)
+('c05e5f67-8901-2345-6789-abcdef012345', 'Alpha Med 2025 Renewal', 'b2c3d4e5-f678-9012-3456-789abcdef012', 'ACTIVE', '2025-01-15', '2026-01-15', '6d5e4f3a-2b1c-0d9e-8f7a-6b5c4d3e2f1a'),
+-- BlueSky (Active)
+('c06f6789-0123-4567-8901-cdef01234567', 'BlueSky Maintenance', 'f6789012-3456-7890-1234-cdef01234567', 'ACTIVE', '2025-04-01', '2026-04-01', '5e4f3a2b-1c0d-9e8f-7a6b-5c4d3e2f1a0b'),
+-- Urban Const (Active)
+('c0701234-5678-9012-3456-def012345678', 'Urban Construction B2B', 'a1b2c3d4-e5f6-7890-1234-56789abcdef0', 'ACTIVE', '2025-05-01', '2026-05-01', '4f3a2b1c-0d9e-8f7a-6b5c-4d3e2f1a0b9c'),
+-- Quantum (Active)
+('c0812345-6789-0123-4567-ef0123456789', 'Quantum IT Support', 'c3d4e5f6-7890-1234-5678-9abcdef01234', 'ACTIVE', '2025-06-01', '2026-06-01', '3a2b1c0d-9e8f-7a6b-5c4d-3e2f1a0b9c8d'),
+-- Solaris (Active)
+('c0923456-7890-1234-5678-f0123456789a', 'Solaris Framework', '07890123-4567-8901-2345-def012345678', 'ACTIVE', '2025-07-01', '2026-07-01', '2b1c0d9e-8f7a-6b5c-4d3e-2f1a0b9c8d7e'),
+-- Nordic (Active)
+('c1034567-8901-2345-6789-0123456789ab', 'Nordic Design Retainer', '30123456-7890-1234-5678-0123456789ab', 'ACTIVE', '2025-08-01', '2026-08-01', '1c0d9e8f-7a6b-5c4d-3e2f-1a0b9c8d7e6f'),
+-- Pacific (Down)
+('c1145678-9012-3456-7890-123456789abc', 'Pacific Old Deal', 'd4e5f678-9012-3456-7890-abcdef012345', 'DOWN', '2022-01-01', '2022-12-31', '0d9e8f7a-6b5c-4d3e-2f1a-0b9c8d7e6f5a');
 
-                                                                                                            -- Mapped to Maria Popescu (ID: f1cd9d54-bc77-4c89-8af0-f151388e4d8d)
-                                                                                                            ('91eb09c0-15bd-4cf9-b50c-51e060b1e26d','Contract D','ad1f5cee-047b-48d6-874a-577ffb68bdd1','ACTIVE','2025-09-15','2026-09-15','f1cd9d54-bc77-4c89-8af0-f151388e4d8d'),
-                                                                                                            ('f2b8e42a-17b2-4494-b162-454fb6f5cc4e','Contract G','ad1f5cee-047b-48d6-874a-577ffb68bdd1','ACTIVE','2025-08-20','2026-08-20','f1cd9d54-bc77-4c89-8af0-f151388e4d8d'),
 
-                                                                                                            -- Mapped to Andrei Ionescu (ID: a8ce5a42-ee45-4ab3-b374-89b6c7316bf5)
-                                                                                                            ('e30bd6fd-00e6-4fcb-9b1a-404d235b7f4b','Contract H','b5e68a42-0ee2-4e07-9c28-ebcf447cfd15','DOWN','2025-07-10','2026-07-10','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5'),
-                                                                                                            ('c9e743e4-5106-4b8b-8acb-9b329a4b6ff3','Contract I','d483e576-ab02-427d-954c-599bafc857d9','ACTIVE','2025-06-05','2026-06-05','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5'),
+-- ==================================================================================
+-- 4. ORDERS (12 Instances)
+-- ==================================================================================
 
-                                                                                                            ('1ca2b902-5a37-4767-9e1e-0c553958e1a7','Contract J','f0c3e0e3-2d4b-4bf8-8a6a-91da52a7adb8','DOWN','2025-05-01','2026-05-01','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5'),
-                                                                                                            ('34c9f2e1-8b7a-4d6c-9e5f-1a2b3c4d5e6f','Contract K','97267a65-3ff3-4a7c-8bba-ee4a194c4cdb','ACTIVE','2025-11-22','2025-12-22','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5'),
-                                                                                                            ('56d0a3b2-9c8d-4e7f-0a1b-2c3d4e5f6a7b','Contract L','ad1f5cee-047b-48d6-874a-577ffb68bdd1','DOWN','2025-11-23','2025-12-23','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5');
-
--- ----------------------------
--- Contract Lines
--- ----------------------------
-INSERT INTO contract_lines (id, contract_id, item_id, unit_id, quantity) VALUES
-                                                                             ('d90d4f3e-9b0a-4eaa-8410-e82a48da40e4','f12460f8-1b62-4f89-a60e-50629c872042','5d2dcfce-fa49-4f77-a4b7-4d45803f50c2','43d1b8d9-a418-42df-adaf-44e8dc3c799e',10.0),
-                                                                             ('b4d610f7-6de9-4a1c-8ca4-b52d087aac1e','ce68db62-ea51-40ec-bb02-1098d25859cf','8g9h0i1j-2k3l-4m5n-6o7p-8q9r0s1t2u3v','81005363-2bce-416e-925c-6894c24f820c',5.0),
-                                                                             ('e2ac6139-02b3-4962-aa2e-13ec39bea5f0','a247d889-53f2-423f-bce3-a9d0afc886f1','7f8e9d0b-c1d2-e3f4-a5b6-7c8d9e0f1a2b','a567ba84-091a-4fe6-991f-0a52e9c3e73e',12.0),
-                                                                             ('4fbfb335-4a5d-4a42-8b52-37199f091c50','91eb09c0-15bd-4cf9-b50c-51e060b1e26d','6e7d8c9a-b0c1-d2e3-f4a5-6b7c8d9e0f1a','a567ba84-091a-4fe6-991f-0a52e9c3e73e',3.0),
-                                                                             ('05e53d4c-9382-4bfb-9d0c-8052244912bd','f2b8e42a-17b2-4494-b162-454fb6f5cc4e','7f8e9d0b-c1d2-e3f4-a5b6-7c8d9e0f1a2b','a567ba84-091a-4fe6-991f-0a52e9c3e73e',7.0),
-                                                                             ('bff7c768-8873-47c4-9fd7-56189fad5db8','e30bd6fd-00e6-4fcb-9b1a-404d235b7f4b','8g9h0i1j-2k3l-4m5n-6o7p-8q9r0s1t2u3v','81005363-2bce-416e-925c-6894c24f820c',20.0),
-                                                                             ('60b1204f-8858-4b9a-a0b9-46c67d78ef77','c9e743e4-5106-4b8b-8acb-9b329a4b6ff3','358a5000-ea8e-42ff-b737-6f1858b05649','e7f8g9h0-1i2j-3k4l-5m6n-7o8p9q0r1s2t',4.0),
-                                                                             ('d3952b23-ea73-4fc9-bf8b-6b5ba884c8fe','1ca2b902-5a37-4767-9e1e-0c553958e1a7','0i1j2k3l-4m5n-6o7p-8q9r-0s1t2u3v4w5x','a567ba84-091a-4fe6-991f-0a52e9c3e73e',6.0),
-                                                                             ('a8c82025-5e5f-4b22-af09-9e6285d03047','f12460f8-1b62-4f89-a60e-50629c872042','358a5000-ea8e-42ff-b737-6f1858b05649','e7f8g9h0-1i2j-3k4l-5m6n-7o8p9q0r1s2t',9.0),
-                                                                             ('6b2fb3f9-98d4-46ba-a1fd-2400ef41b0a7','ce68db62-ea51-40ec-bb02-1098d25859cf','2k3l4m5n-6o7p-8q9r-0s1t-2u3v4w5x6y7z','a567ba84-091a-4fe6-991f-0a52e9c3e73e',8.0);
-
--- ----------------------------
--- Orders
--- ----------------------------
 INSERT INTO orders (id, name, customer_id, contract_id) VALUES
-                                                            ('659b743f-8bc2-4e88-a701-6994c0acb293','Order A','75067466-5776-4bac-817d-9f600f4047b6','f12460f8-1b62-4f89-a60e-50629c872042'),
-                                                            ('27ca2ae5-a110-4819-a871-ea5e77e31ee8','Order B','f1cd9d54-bc77-4c89-8af0-f151388e4d8d','ce68db62-ea51-40ec-bb02-1098d25859cf'),
-                                                            ('7b2d434e-e2af-4b7a-9a1b-d2bbd2d436f2','Order C','a8ce5a42-ee45-4ab3-b374-89b6c7316bf5','a247d889-53f2-423f-bce3-a9d0afc886f1'),
-                                                            ('fa354a86-89a6-4636-9e66-c6325e4b7c82','Order D','9b54bfa7-34ff-4f4f-b3bc-a939a3c1818b','91eb09c0-15bd-4cf9-b50c-51e060b1e26d'),
-                                                            ('9a69173d-a045-4b91-96e7-640fa2446b1f','Order E','3ac096c2-9b6c-40c2-9ded-55163e0c339a','f2b8e42a-17b2-4494-b162-454fb6f5cc4e'),
-                                                            ('b1adca3a-0ed8-4b78-b3c1-f450fe08c3d7','Order F','95cd13a1-6c3f-4e0e-bef0-470ab2246c5e','e30bd6fd-00e6-4fcb-9b1a-404d235b7f4b'),
-                                                            ('1cb4cd01-18f0-4ab6-b5cc-cacd7bf0de97','Order G','6fd2c99c-df50-4dd6-9ad4-b02acf525d7a','c9e743e4-5106-4b8b-8acb-9b329a4b6ff3'),
-                                                            ('f0e35b25-8971-490c-aa90-23fb3adfbe37','Order H','e2faac09-214d-4f36-a824-3f4b91a489b8','1ca2b902-5a37-4767-9e1e-0c553958e1a7'),
-                                                            ('6d7090f6-7f44-4c41-9b94-602c88088f2a','Order I','1223b686-264e-4d49-81ea-bfdc31c2ca1a','f12460f8-1b62-4f89-a60e-50629c872042'),
-                                                            ('eeb104cf-f044-44f4-9f9e-5b7fbb9dfc3f','Order J','7f330c99-5266-44f0-875f-b467e0ed1bb2','ce68db62-ea51-40ec-bb02-1098d25859cf');
+-- TechCorp (2 Orders)
+('o01a1b2c-3d4e-5f67-8901-23456789abcd', 'TechCorp PO #1001', '9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d', 'c01a1b2c-3d4e-5f67-8901-23456789abcd'),
+('o02b2c3d-4e5f-6789-0123-456789abcdef', 'TechCorp PO #1002', '9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d', 'c01a1b2c-3d4e-5f67-8901-23456789abcd'),
 
--- ----------------------------
--- Order Lines
--- ----------------------------
+-- GreenLeaf (1 Order)
+('o03c3d4e-5f67-8901-2345-6789abcdef01', 'GreenLeaf Initial Stock', '8b7c6d5e-4f3a-2b1c-0d9e-8f7a6b5c4d3e', 'c02b2c3d-4e5f-6789-0123-456789abcdef'),
+
+-- Rapid Logistics (1 Order)
+('o04d4e5f-6789-0123-4567-89abcdef0123', 'Rapid Fleet Upgrade', '7c6d5e4f-3a2b-1c0d-9e8f-7a6b5c4d3e2f', 'c03c3d4e-5f67-8901-2345-6789abcdef01'),
+
+-- Alpha Medical (1 Order on NEW Contract)
+('o05e5f67-8901-2345-6789-abcdef012345', 'Alpha Med Supplies', '6d5e4f3a-2b1c-0d9e-8f7a-6b5c4d3e2f1a', 'c05e5f67-8901-2345-6789-abcdef012345'),
+
+-- BlueSky (2 Orders)
+('o06f6789-0123-4567-8901-cdef01234567', 'BlueSky Q1', '5e4f3a2b-1c0d-9e8f-7a6b-5c4d3e2f1a0b', 'c06f6789-0123-4567-8901-cdef01234567'),
+('o0701234-5678-9012-3456-def012345678', 'BlueSky Q2', '5e4f3a2b-1c0d-9e8f-7a6b-5c4d3e2f1a0b', 'c06f6789-0123-4567-8901-cdef01234567'),
+
+-- Urban Const (1 Order)
+('o0812345-6789-0123-4567-ef0123456789', 'Urban Site Equip', '4f3a2b1c-0d9e-8f7a-6b5c-4d3e2f1a0b9c', 'c0701234-5678-9012-3456-def012345678'),
+
+-- Quantum (1 Order)
+('o0923456-7890-1234-5678-f0123456789a', 'Quantum Server Rack', '3a2b1c0d-9e8f-7a6b-5c4d-3e2f1a0b9c8d', 'c0812345-6789-0123-4567-ef0123456789'),
+
+-- Solaris (1 Order)
+('o1034567-8901-2345-6789-0123456789ab', 'Solaris PV Cells', '2b1c0d9e-8f7a-6b5c-4d3e-2f1a0b9c8d7e', 'c0923456-7890-1234-5678-f0123456789a'),
+
+-- Nordic (1 Order)
+('o1145678-9012-3456-7890-123456789abc', 'Nordic Office Setup', '1c0d9e8f-7a6b-5c4d-3e2f-1a0b9c8d7e6f', 'c1034567-8901-2345-6789-0123456789ab'),
+
+-- Pacific (0 Orders because contract is DOWN)
+-- Note: Logic prevents creating orders on DOWN contracts.
+
+-- Extra Order for TechCorp
+('o1256789-0123-4567-8901-23456789abcd', 'TechCorp Emergency', '9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d', 'c01a1b2c-3d4e-5f67-8901-23456789abcd');
+
+
+-- ==================================================================================
+-- 5. CONTRACT LINES (11 Instances)
+-- ==================================================================================
+INSERT INTO contract_lines (id, contract_id, item_id, unit_id, quantity) VALUES
+('cl01a1b2-c3d4-e5f6-7890-123456789abc', 'c01a1b2c-3d4e-5f67-8901-23456789abcd', '11e4d3f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f', '85678901-cdef-0123-4567-89abcdef0123', 50.0), -- TechCorp Laptops
+('cl02b2c3-d4e5-f678-9012-3456789abcde', 'c02b2c3d-4e5f-6789-0123-456789abcdef', '22f5e4a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a', '85678901-cdef-0123-4567-89abcdef0123', 100.0), -- GreenLeaf iPhones
+('cl03c3d4-e5f6-7890-1234-56789abcdef0', 'c03c3d4e-5f67-8901-2345-6789abcdef01', 'aa112233-4455-6677-8899-aabbccddeeff', 'b8901234-f012-3456-7890-bcdef0123456', 500.0), -- Rapid Cleaning Hrs
+('cl04d4e5-f678-9012-3456-789abcdef012', 'c05e5f67-8901-2345-6789-abcdef012345', 'bb223344-5566-7788-99aa-bbccddeeff00', 'd0123456-1234-5678-9012-def012345678', 12.0), -- Alpha Med IT Support Months
+('cl05e5f6-7890-1234-5678-9abcdef01234', 'c06f6789-0123-4567-8901-cdef01234567', 'ee556677-8899-aabb-ccdd-eeff00112233', 'b8901234-f012-3456-7890-bcdef0123456', 200.0), -- BlueSky Security Audit
+('cl06f678-9012-3456-7890-abcdef012345', 'c0701234-5678-9012-3456-def012345678', '66d9e0f1-a2b3-4c4d-5e6f-7a8b9c0d1e2f', '85678901-cdef-0123-4567-89abcdef0123', 20.0), -- Urban Chairs
+('cl070123-4567-8901-2345-bcdef0123456', 'c0812345-6789-0123-4567-ef0123456789', 'ff667788-99aa-bbcc-ddee-ff0011223344', 'c9012345-0123-4567-8901-cdef01234567', 30.0), -- Quantum Dev Days
+('cl081234-5678-9012-3456-cdef01234567', 'c0923456-7890-1234-5678-f0123456789a', '118899aa-bbcc-ddee-ff00-112233445566', 'b8901234-f012-3456-7890-bcdef0123456', 40.0), -- Solaris Training Hrs
+('cl092345-6789-0123-4567-def012345678', 'c1034567-8901-2345-6789-0123456789ab', '77e0f1a2-b3c4-4d5e-6f7a-8b9c0d1e2f3a', '85678901-cdef-0123-4567-89abcdef0123', 10.0), -- Nordic Desks
+('cl103456-7890-1234-5678-ef0123456789', 'c01a1b2c-3d4e-5f67-8901-23456789abcd', '33a6b7c8-d9e0-4f1a-2b3c-4d5e6f7a8b9c', '85678901-cdef-0123-4567-89abcdef0123', 100.0),-- TechCorp Mice
+('cl114567-8901-2345-6789-f0123456789a', 'c05e5f67-8901-2345-6789-abcdef012345', '44b7c8d9-e0f1-4a2b-3c4d-5e6f7a8b9c0d', '85678901-cdef-0123-4567-89abcdef0123', 5.0); -- Alpha Monitors
+
+
+-- ==================================================================================
+-- 6. ORDER LINES (13 Instances)
+-- ==================================================================================
 INSERT INTO order_lines (id, order_id, item_id, unit_id, quantity) VALUES
-                                                                       ('9c5974ba-f49c-420e-8713-86bae00d5566','659b743f-8bc2-4e88-a701-6994c0acb293','5d2dcfce-fa49-4f77-a4b7-4d45803f50c2','43d1b8d9-a418-42df-adaf-44e8dc3c799e',2.0),
-                                                                       ('01d1b6c3-a719-4127-b916-51ea9534e645','27ca2ae5-a110-4819-a871-ea5e77e31ee8','358a5000-ea8e-42ff-b737-6f1858b05649','81005363-2bce-416e-925c-6894c24f820c',5.0),
-                                                                       ('5c904965-8412-4dbc-88e0-a252ea9af473','7b2d434e-e2af-4b7a-9a1b-d2bbd2d436f2','45fb0809-c813-48a0-ab42-ebf863761dfb','a567ba84-091a-4fe6-991f-0a52e9c3e73e',10.0),
-                                                                       ('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f','fa354a86-89a6-4636-9e66-c6325e4b7c82','eedbdf4d-c539-4834-bfd5-a5319c0feb83','43d1b8d9-a418-42df-adaf-44e8dc3c799e',4.0),
-                                                                       ('2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e','9a69173d-a045-4b91-96e7-640fa2446b1f','7f8e9d0b-c1d2-e3f4-a5b6-7c8d9e0f1a2b','a567ba84-091a-4fe6-991f-0a52e9c3e73e',25.0),
-                                                                       ('3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f','b1adca3a-0ed8-4b78-b3c1-f450fe08c3d7','d6289943-e5e2-4c88-a564-b6a08064e329','2e9c3e73-a091-49b2-a42e-1c6f9b2d8e4a',12.0),
-                                                                       ('4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a','1cb4cd01-18f0-4ab6-b5cc-cacd7bf0de97','8g9h0i1j-2k3l-4m5n-6o7p-8q9r0s1t2u3v','81005363-2bce-416e-925c-6894c24f820c',100.0),
-                                                                       ('5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b','f0e35b25-8971-490c-aa90-23fb3adfbe37','2e4d3f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a','43d1b8d9-a418-42df-adaf-44e8dc3c799e',3.0),
-                                                                       ('6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c','6d7090f6-7f44-4c41-9b94-602c88088f2a','0i1j2k3l-4m5n-6o7p-8q9r-0s1t2u3v4w5x','a567ba84-091a-4fe6-991f-0a52e9c3e73e',500.0),
-                                                                       ('7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d','eeb104cf-f044-44f4-9f9e-5b7fbb9dfc3f','2k3l4m5n-6o7p-8q9r-0s1t-2u3v4w5x6y7z','a567ba84-091a-4fe6-991f-0a52e9c3e73e',15.0);
+('ol01a1b2-c3d4-e5f6-7890-123456789abc', 'o01a1b2c-3d4e-5f67-8901-23456789abcd', '11e4d3f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f', '85678901-cdef-0123-4567-89abcdef0123', 2.0), -- TechCorp Order 1 (2 Laptops)
+('ol02b2c3-d4e5-f678-9012-3456789abcde', 'o01a1b2c-3d4e-5f67-8901-23456789abcd', '33a6b7c8-d9e0-4f1a-2b3c-4d5e6f7a8b9c', '85678901-cdef-0123-4567-89abcdef0123', 5.0), -- TechCorp Order 1 (5 Mice)
+
+('ol03c3d4-e5f6-7890-1234-56789abcdef0', 'o02b2c3d-4e5f-6789-0123-456789abcdef', '11e4d3f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f', '85678901-cdef-0123-4567-89abcdef0123', 1.0), -- TechCorp Order 2 (1 Laptop)
+
+('ol04d4e5-f678-9012-3456-789abcdef012', 'o03c3d4e-5f67-8901-2345-6789abcdef01', '22f5e4a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a', '85678901-cdef-0123-4567-89abcdef0123', 10.0), -- GreenLeaf Order (10 Phones)
+
+('ol05e5f6-7890-1234-5678-9abcdef01234', 'o04d4e5f-6789-0123-4567-89abcdef0123', 'aa112233-4455-6677-8899-aabbccddeeff', 'b8901234-f012-3456-7890-bcdef0123456', 20.0), -- Rapid Order (20 Hours Cleaning)
+
+('ol06f678-9012-3456-7890-abcdef012345', 'o05e5f67-8901-2345-6789-abcdef012345', 'bb223344-5566-7788-99aa-bbccddeeff00', 'd0123456-1234-5678-9012-def012345678', 1.0), -- Alpha Order (1 Month IT)
+('ol070123-4567-8901-2345-bcdef0123456', 'o05e5f67-8901-2345-6789-abcdef012345', '44b7c8d9-e0f1-4a2b-3c4d-5e6f7a8b9c0d', '85678901-cdef-0123-4567-89abcdef0123', 2.0), -- Alpha Order (2 Monitors)
+
+('ol081234-5678-9012-3456-cdef01234567', 'o06f6789-0123-4567-8901-cdef01234567', 'ee556677-8899-aabb-ccdd-eeff00112233', 'b8901234-f012-3456-7890-bcdef0123456', 50.0), -- BlueSky Order 1 (50 Hrs Audit)
+('ol092345-6789-0123-4567-def012345678', 'o0701234-5678-9012-3456-def012345678', 'ee556677-8899-aabb-ccdd-eeff00112233', 'b8901234-f012-3456-7890-bcdef0123456', 15.0), -- BlueSky Order 2 (15 Hrs Audit)
+
+('ol103456-7890-1234-5678-ef0123456789', 'o0812345-6789-0123-4567-ef0123456789', '66d9e0f1-a2b3-4c4d-5e6f-7a8b9c0d1e2f', '85678901-cdef-0123-4567-89abcdef0123', 5.0),  -- Urban Order (5 Chairs)
+
+('ol114567-8901-2345-6789-f0123456789a', 'o0923456-7890-1234-5678-f0123456789a', 'ff667788-99aa-bbcc-ddee-ff0011223344', 'c9012345-0123-4567-8901-cdef01234567', 10.0), -- Quantum Order (10 Days Dev)
+
+('ol125678-9012-3456-7890-0123456789ab', 'o1034567-8901-2345-6789-0123456789ab', '118899aa-bbcc-ddee-ff00-112233445566', 'b8901234-f012-3456-7890-bcdef0123456', 8.0),  -- Solaris Order (8 Hours Training)
+
+('ol136789-0123-4567-8901-123456789abc', 'o1145678-9012-3456-7890-123456789abc', '77e0f1a2-b3c4-4d5e-6f7a-8b9c0d1e2f3a', '85678901-cdef-0123-4567-89abcdef0123', 2.0);  -- Nordic Order (2 Desks)
