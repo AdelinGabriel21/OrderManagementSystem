@@ -69,7 +69,7 @@ public class ContractController {
         }
         model.addAttribute("contract", contract);
         model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
-        model.addAttribute("contractTypes", contractTypeService.searchContractTypes(null, null,"name", "asc"));
+        model.addAttribute("contractTypes", contractTypeService.searchContractTypes(null, null,"name", "asc", "name", "asc"));
         return "contract/form";
     }
 
@@ -77,7 +77,7 @@ public class ContractController {
     public String newContractForm(Model model) {
         model.addAttribute("contract", new Contract());
         model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
-        model.addAttribute("contractTypes", contractTypeService.searchContractTypes(null, null, "name", "asc"));
+        model.addAttribute("contractTypes", contractTypeService.searchContractTypes(null, null, "name", "asc", "name", "asc"));
         return "contract/form";
     }
 
@@ -98,7 +98,7 @@ public class ContractController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
-            model.addAttribute("contractTypes", contractTypeService.searchContractTypes(null, null, "name", "asc"));
+            model.addAttribute("contractTypes", contractTypeService.searchContractTypes(null, null, "name", "asc", "name", "asc"));
             return "contract/form";
         }
 
@@ -122,7 +122,7 @@ public class ContractController {
             bindingResult.reject("globalError", e.getMessage());
 
             model.addAttribute("customers", customerService.searchCustomers(null, null, null, "name", "asc", "name", "asc"));
-            model.addAttribute("contractTypes", contractTypeService.searchContractTypes(null, null, "name", "asc"));
+            model.addAttribute("contractTypes", contractTypeService.searchContractTypes(null, null, "name", "asc", "name", "asc"));
             return "contract/form";
         }
 

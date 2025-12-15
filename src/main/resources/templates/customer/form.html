@@ -2,41 +2,170 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add/Edit Customer</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --light-bg: #f4f7f6;
+            --text-color: #333;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center form on page */
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #e0e0e0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            margin-top: 0;
+        }
+
+        /* --- FORM ELEMENTS --- */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box; /* Ensures padding doesn't break width */
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.2);
+        }
+
+        /* --- ERROR MESSAGES --- */
+        .error-msg {
+            color: var(--danger-color);
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .global-error-box {
+            background-color: #fdecea;
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        /* --- BUTTONS --- */
+        button[type="submit"] {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1em;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h2>Add/Edit Customer</h2>
 
-<form th:action="@{/customers}" th:object="${customer}" method="post">
+<div class="form-container">
+    <h2>Add/Edit Customer</h2>
 
-    <div th:if="${#fields.hasGlobalErrors()}">
-        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color: red; font-weight: bold;"></p>
-    </div>
+    <form th:action="@{/customers}" th:object="${customer}" method="post">
 
-    <th:block th:if="${customer.id != null}">
-        <input type="hidden" th:field="*{id}" />
-    </th:block>
+        <div th:if="${#fields.hasGlobalErrors()}" class="global-error-box">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="margin: 0; font-weight: bold;"></p>
+        </div>
 
-    <label for="name">Name:</label>
-    <input type="text" th:field="*{name}" id="name" /><br/>
-    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Error</span><br/>
+        <th:block th:if="${customer.id != null}">
+            <input type="hidden" th:field="*{id}" />
+        </th:block>
 
-    <label for="currency">Currency:</label>
-    <input type="text" th:field="*{currency}" id="currency" /><br/>
-    <span th:if="${#fields.hasErrors('currency')}" th:errors="*{currency}" style="color:red">Currency Error</span><br/>
+        <div class="input-group">
+            <label for="name">Name:</label>
+            <input type="text" th:field="*{name}" id="name" placeholder="Enter full name" />
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg">Name Error</span>
+        </div>
 
-    <label for="email">Email:</label>
-    <input type="email" th:field="*{email}" id="email" /><br/>
-    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red">Email Error</span><br/>
+        <div class="input-group">
+            <label for="currency">Currency:</label>
+            <input type="text" th:field="*{currency}" id="currency" placeholder="e.g. EUR, USD" />
+            <span th:if="${#fields.hasErrors('currency')}" th:errors="*{currency}" class="error-msg">Currency Error</span>
+        </div>
 
-    <label for="phoneNumber">Phone Number:</label>
-    <input type="text" th:field="*{phoneNumber}" id="phoneNumber" /><br/>
-    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color:red">Phone Number Error</span><br/>
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" th:field="*{email}" id="email" placeholder="example@mail.com" />
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-msg">Email Error</span>
+        </div>
 
-    <button type="submit">Save</button>
-</form>
+        <div class="input-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" th:field="*{phoneNumber}" id="phoneNumber" placeholder="+123456789" />
+            <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error-msg">Phone Number Error</span>
+        </div>
 
-<a href="/customers">Back to list</a>
+        <button type="submit">Save Customer</button>
+    </form>
+
+    <a href="/customers" class="back-link">Cancel & Back to list</a>
+</div>
 
 </body>
 </html>

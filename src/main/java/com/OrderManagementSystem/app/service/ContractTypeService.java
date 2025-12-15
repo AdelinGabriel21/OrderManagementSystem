@@ -26,13 +26,19 @@ public class ContractTypeService {
         repo.save(contractType);
     }
 
-    public List<ContractType> searchContractTypes(String name, Type type, String sortField, String sortDir) {
+    public List<ContractType> searchContractTypes(String name, Type type,
+                                                  String sortField1, String sortDir1,
+                                                  String sortField2, String sortDir2) {
 
-        Sort sort = sortDir.equalsIgnoreCase("asc") ?
-                Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
+        Sort sort1 = sortDir1.equalsIgnoreCase("asc") ?
+                Sort.by(sortField1).ascending() :
+                Sort.by(sortField1).descending();
 
-        return repo.searchContractTypes(name, type, sort);
+        Sort sort2 = sortDir2.equalsIgnoreCase("asc") ?
+                Sort.by(sortField2).ascending() :
+                Sort.by(sortField2).descending();
+
+        return repo.searchContractTypes(name, type, sort1.and(sort2));
     }
 
     public ContractType getContractTypesById(String id) {
