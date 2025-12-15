@@ -23,10 +23,15 @@ public class UnitOfMeasureController {
 
     @GetMapping
     public String showUnitsOfMeasure(Model model,
+                                     @RequestParam(required = false) String name,
+                                     @RequestParam(required = false) String symbol,
                                      @RequestParam(defaultValue = "name") String sortField,
                                      @RequestParam(defaultValue = "asc") String sortDir) {
 
-        model.addAttribute("unitsOfMeasure", service.getAllUnitsOfMeasure(sortField, sortDir));
+        model.addAttribute("unitsOfMeasure", service.searchUnits(name, symbol, sortField, sortDir));
+
+        model.addAttribute("filterName", name);
+        model.addAttribute("filterSymbol", symbol);
 
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);

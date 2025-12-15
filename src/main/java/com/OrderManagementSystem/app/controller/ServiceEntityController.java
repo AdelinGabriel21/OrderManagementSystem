@@ -1,6 +1,7 @@
 package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.ServiceEntity;
+import com.OrderManagementSystem.app.model.Status;
 import com.OrderManagementSystem.app.service.ServiceEntityService;
 import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,12 +23,23 @@ public class ServiceEntityController {
     }
 
     @GetMapping
-    public String showServices(Model model,
+    public String listServices(Model model,
+                               @RequestParam(required = false) String name,
+                               @RequestParam(required = false) Status status,
                                @RequestParam(defaultValue = "name") String sortField,
                                @RequestParam(defaultValue = "asc") String sortDir) {
 
-        model.addAttribute("services", service.getAllServices(sortField, sortDir));
+        // Call service with all params
+        model.addAttribute("services", service.searchServices(name, status, sortField, sortDir));
 
+        // Pass Filter params back to View
+        model.addAttribute("filterName", name);
+        model.addAttribute("filterStatus", status);
+
+        // Pass Enum values for Dropdown
+        model.addAttribute("statusOptions", Status.values());
+
+        // Pass Sort params back to View
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
 

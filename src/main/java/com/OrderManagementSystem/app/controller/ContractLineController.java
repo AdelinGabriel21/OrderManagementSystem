@@ -108,7 +108,7 @@ public class ContractLineController {
 
     private void populateDependencies(Model model) {
         model.addAttribute("products", productService.searchProducts(null, null, null, "name", "asc"));
-        model.addAttribute("units", unitOfMeasureService.getAllUnitsOfMeasure("name","asc"));
+        model.addAttribute("units", unitOfMeasureService.searchUnits(null, null, "name","asc"));
         model.addAttribute("contracts", contractService.getAllContracts());
     }
 

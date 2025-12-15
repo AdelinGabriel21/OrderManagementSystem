@@ -123,7 +123,7 @@ public class OrderLineController {
 
     private void populateDependencies(Model model) {
         model.addAttribute("products", productService.searchProducts(null, null, null, "name", "asc"));
-        model.addAttribute("units", unitService.getAllUnitsOfMeasure("name","asc"));
+        model.addAttribute("units", unitService.searchUnits(null, null, "name","asc"));
         model.addAttribute("orders", orderService.searchOrders(null, null, null, "name","asc", "name", "asc"));
     }
 

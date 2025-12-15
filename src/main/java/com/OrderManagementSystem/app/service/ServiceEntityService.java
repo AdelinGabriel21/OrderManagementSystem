@@ -1,6 +1,7 @@
 package com.OrderManagementSystem.app.service;
 
 import com.OrderManagementSystem.app.model.ServiceEntity;
+import com.OrderManagementSystem.app.model.Status;
 import com.OrderManagementSystem.app.repository.ServiceEntityRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
@@ -23,13 +24,15 @@ public class ServiceEntityService {
         repo.save(service);
     }
 
-    public List<ServiceEntity> getAllServices(String sortField, String sortDir) {
+    public List<ServiceEntity> searchServices(String name, Status status, String sortField, String sortDir) {
+
         Sort sort = sortDir.equalsIgnoreCase("asc") ?
                 Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
-        return repo.findAll(sort);
+        return repo.searchServices(name, status, sort);
     }
+
     public ServiceEntity getServiceById(String id){
         return repo.findById(id).orElse(null);
     }
