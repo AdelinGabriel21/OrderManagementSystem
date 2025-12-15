@@ -1,14 +1,51 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract Type Details</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #f4f7f6;
+            --border-color: #e0e0e0;
+            --text-color: #333;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-bg); color: var(--text-color); margin: 0; padding: 20px; }
+
+        .details-card {
+            background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 600px; margin: 40px auto; border: 1px solid var(--border-color);
+        }
+        h2 { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 0; margin-bottom: 20px; }
+        .data-row { padding: 12px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; }
+        .data-row:last-of-type { border-bottom: none; }
+        .data-label { font-weight: 600; width: 140px; color: var(--secondary-color); }
+        .btn-back {
+            display: inline-block; margin-top: 25px; padding: 10px 20px; background-color: #95a5a6;
+            color: white; border-radius: 4px; font-weight: bold; text-decoration: none;
+        }
+        .btn-back:hover { background-color: #7f8c8d; }
+    </style>
 </head>
 <body>
-<h2>Contract Type Details</h2>
-<p><strong>ID:</strong> <span th:text="${contractType.id}"></span></p>
-<p><strong>Name:</strong> <span th:text="${contractType.name}"></span></p>
-<p><strong>Type:</strong> <span th:text="${contractType.type}"></span></p>
-
-<a href="/contract-types">Back to List</a>
+<div class="details-card">
+    <h2>Contract Type Details</h2>
+    <div class="data-row">
+        <span class="data-label">ID:</span>
+        <span class="data-value" th:text="${contractType.id}"></span>
+    </div>
+    <div class="data-row">
+        <span class="data-label">Name:</span>
+        <span class="data-value" th:text="${contractType.name}"></span>
+    </div>
+    <div class="data-row">
+        <span class="data-label">Type:</span>
+        <span class="data-value" th:text="${contractType.type.value}"></span>
+    </div>
+    <a href="/contractTypes" class="btn-back">&larr; Back to List</a>
+</div>
 </body>
 </html>

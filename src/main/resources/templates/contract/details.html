@@ -1,38 +1,140 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract Details</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-bg: #f4f7f6;
+            --border-color: #e0e0e0;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h2, h3 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.2em;
+            margin-top: 30px;
+            border-color: #ccc;
+        }
+
+        /* --- DETAILS CARD --- */
+        .details-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 40px auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .data-row {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-weight: 600;
+            width: 140px;
+            color: var(--secondary-color);
+        }
+
+        /* --- LISTS --- */
+        ul { list-style-type: none; padding: 0; }
+        li {
+            background-color: #f8f9fa; border: 1px solid #e9ecef; margin-bottom: 5px; padding: 10px 15px; border-radius: 4px;
+        }
+
+        .empty-msg {
+            color: #7f8c8d; font-style: italic; background: #fdfdfd; padding: 10px; border: 1px dashed #ccc; border-radius: 4px;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-back {
+            display: inline-block; margin-top: 25px; padding: 10px 20px; background-color: #95a5a6;
+            color: white; border-radius: 4px; font-weight: bold; text-decoration: none;
+        }
+        .btn-back:hover { background-color: #7f8c8d; }
+    </style>
 </head>
 <body>
-<h2>Contract Details</h2>
-<p><strong>ID:</strong> <span th:text="${contract.id}"></span></p>
-<p><strong>Name:</strong> <span th:text="${contract.name}"></span></p>
-<p><strong>Status:</strong> <span th:text="${contract.status}"></span></p>
-<p><strong>Created:</strong> <span th:text="${contract.creationDate}"></span></p>
-<p><strong>Expires:</strong> <span th:text="${contract.expirationDate}"></span></p>
-<p><strong>Customer:</strong> <span th:text="${contract.customer != null ? contract.customer.name : 'None'}"></span></p>
 
-<h3>Contract Lines</h3>
+<div class="details-card">
+    <h2>Contract Details</h2>
 
-<ul th:if="${contract.contractLines != null && !contract.contractLines.isEmpty()}">
-    <li th:each="line : ${contract.contractLines}">
-        <span th:text="${line.item.name}">Item</span>:
-        <span th:text="${line.quantity}">0</span>
-        <span th:text="${line.unit.symbol}">Unit</span>
-    </li>
-</ul>
-<p th:unless="${contract.contractLines != null && !contract.contractLines.isEmpty()}" style="color: grey;">
-    No contract lines are defined for this contract.
-</p>
+    <div class="data-row">
+        <span class="data-label">ID:</span>
+        <span th:text="${contract.id}"></span>
+    </div>
+    <div class="data-row">
+        <span class="data-label">Name:</span>
+        <span th:text="${contract.name}"></span>
+    </div>
+    <div class="data-row">
+        <span class="data-label">Status:</span>
+        <span th:text="${contract.status}" style="font-weight: bold; color: #34495e;"></span>
+    </div>
+    <div class="data-row">
+        <span class="data-label">Created:</span>
+        <span th:text="${contract.creationDate}"></span>
+    </div>
+    <div class="data-row">
+        <span class="data-label">Expires:</span>
+        <span th:text="${contract.expirationDate}"></span>
+    </div>
+    <div class="data-row">
+        <span class="data-label">Customer:</span>
+        <span th:text="${contract.customer != null ? contract.customer.name : 'None'}"></span>
+    </div>
 
-<h3>Associated Orders</h3>
+    <h3>Contract Lines</h3>
+    <ul th:if="${contract.contractLines != null && !contract.contractLines.isEmpty()}">
+        <li th:each="line : ${contract.contractLines}">
+            <strong th:text="${line.item.name}">Item</strong>:
+            <span th:text="${line.quantity}">0</span>
+            <span th:text="${line.unit.symbol}">Unit</span>
+        </li>
+    </ul>
+    <p th:unless="${contract.contractLines != null && !contract.contractLines.isEmpty()}" class="empty-msg">
+        No contract lines are defined for this contract.
+    </p>
 
-<ul th:if="${contract.orders != null && !contract.orders.isEmpty()}">
-    <li th:each="ord : ${contract.orders}" th:text="${ord.name}">Order Name</li>
-</ul>
-<p th:unless="${contract.orders != null && !contract.orders.isEmpty()}" style="color: grey;">
-    No associated orders found.
-</p>
-<a href="/contracts">Back to List</a>
+    <h3>Associated Orders</h3>
+    <ul th:if="${contract.orders != null && !contract.orders.isEmpty()}">
+        <li th:each="ord : ${contract.orders}" th:text="${ord.name}">Order Name</li>
+    </ul>
+    <p th:unless="${contract.orders != null && !contract.orders.isEmpty()}" class="empty-msg">
+        No associated orders found.
+    </p>
+
+    <a href="/contracts" class="btn-back">&larr; Back to List</a>
+</div>
+
 </body>
 </html>

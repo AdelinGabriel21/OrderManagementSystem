@@ -16,7 +16,7 @@ import org.springframework.validation.BindingResult;
 import java.beans.PropertyEditorSupport;
 
 @Controller
-@RequestMapping("/contract-lines")
+@RequestMapping("/contractLines")
 public class ContractLineController {
 
     private final ContractLineService service;
@@ -36,17 +36,21 @@ public class ContractLineController {
                                     @RequestParam(required = false) String contractName,
                                     @RequestParam(required = false) String itemName,
                                     @RequestParam(required = false) String unitName,
-                                    @RequestParam(defaultValue = "quantity") String sortField,
-                                    @RequestParam(defaultValue = "asc") String sortDir) {
+                                    @RequestParam(defaultValue = "quantity") String sortField1,
+                                    @RequestParam(defaultValue = "asc") String sortDir1,
+                                    @RequestParam(defaultValue = "item.name") String sortField2, // Default Secondary
+                                    @RequestParam(defaultValue = "asc") String sortDir2) {
 
-        model.addAttribute("contractLines", service.searchContractLines(contractName, itemName, unitName, sortField, sortDir));
+        model.addAttribute("contractLines", service.searchContractLines(contractName, itemName, unitName, sortField1, sortDir1, sortField2, sortDir2));
 
         model.addAttribute("filterContractName", contractName);
         model.addAttribute("filterItemName", itemName);
         model.addAttribute("filterUnitName", unitName);
 
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("sortField1", sortField1);
+        model.addAttribute("sortDir1", sortDir1);
+        model.addAttribute("sortField2", sortField2);
+        model.addAttribute("sortDir2", sortDir2);
 
         return "contractLine/index";
     }
@@ -55,7 +59,7 @@ public class ContractLineController {
     public String showEditForm(@PathVariable String id, Model model) {
         ContractLine contractLine = service.getContractLineById(id);
         if (contractLine == null) {
-            return "redirect:/contract-lines";
+            return "redirect:/contractLines";
         }
         model.addAttribute("contractLine", contractLine);
         populateDependencies(model);
@@ -73,7 +77,7 @@ public class ContractLineController {
     public String showDetails(@PathVariable String id, Model model) {
         ContractLine contractLine = service.getContractLineById(id);
         if (contractLine == null) {
-            return "redirect:/contract-lines";
+            return "redirect:/contractLines";
         }
         model.addAttribute("contractLine", contractLine);
         return "contractLine/details";
@@ -97,13 +101,13 @@ public class ContractLineController {
             return "contractLine/form";
         }
 
-        return "redirect:/contract-lines";
+        return "redirect:/contractLines";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteContractLine(@PathVariable String id) {
         service.deleteContractLine(id);
-        return "redirect:/contract-lines";
+        return "redirect:/contractLines";
     }
 
     private void populateDependencies(Model model) {

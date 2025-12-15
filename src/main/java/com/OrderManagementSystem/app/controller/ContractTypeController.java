@@ -4,16 +4,18 @@ import com.OrderManagementSystem.app.model.ContractType;
 import com.OrderManagementSystem.app.model.Type;
 import com.OrderManagementSystem.app.service.ContractTypeService;
 import jakarta.validation.ValidationException;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/contract-types")
+@RequestMapping("/contractTypes")
 public class ContractTypeController {
 
     private final ContractTypeService service;
@@ -23,21 +25,25 @@ public class ContractTypeController {
     }
 
     @GetMapping
-    public String getAllContractTypes(Model model,
-                                      @RequestParam(required = false) String name,
-                                      @RequestParam(required = false) Type type,
-                                      @RequestParam(defaultValue = "name") String sortField,
-                                      @RequestParam(defaultValue = "asc") String sortDir) {
+    public String showContractTypes(Model model,
+                                    @RequestParam(required = false) String name,
+                                    @RequestParam(required = false) Type type,
+                                    // Sorting Defaults
+                                    @RequestParam(defaultValue = "name") String sortField1,
+                                    @RequestParam(defaultValue = "asc") String sortDir1,
+                                    @RequestParam(defaultValue = "name") String sortField2,
+                                    @RequestParam(defaultValue = "asc") String sortDir2) {
 
-        model.addAttribute("contractTypes", service.searchContractTypes(name, type, sortField, sortDir));
+        model.addAttribute("contractTypes", service.searchContractTypes(name, type, sortField1, sortDir1, sortField2, sortDir2));
 
         model.addAttribute("filterName", name);
         model.addAttribute("filterType", type);
-
         model.addAttribute("typeOptions", Type.values());
 
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("sortField1", sortField1);
+        model.addAttribute("sortDir1", sortDir1);
+        model.addAttribute("sortField2", sortField2);
+        model.addAttribute("sortDir2", sortDir2);
 
         return "contractType/index";
     }
@@ -46,7 +52,7 @@ public class ContractTypeController {
     public String showEditForm(@PathVariable String id, Model model) {
         ContractType contractType = service.getContractTypesById(id);
         if (contractType == null) {
-            return "redirect:/contract-types";
+            return "redirect:/contractTypes";
         }
         model.addAttribute("contractType", contractType);
         model.addAttribute("types", Type.values());
@@ -64,7 +70,7 @@ public class ContractTypeController {
     public String showDetails(@PathVariable String id, Model model) {
         ContractType contractType = service.getContractTypesById(id);
         if (contractType == null) {
-            return "redirect:/contract-types";
+            return "redirect:/contractTypes";
         }
         model.addAttribute("contractType", contractType);
         return "contractType/details";
@@ -86,7 +92,7 @@ public class ContractTypeController {
             return "contractType/form";
         }
 
-        return "redirect:/contract-types";
+        return "redirect:/contractTypes";
     }
 
     @PostMapping("/{id}/delete")
@@ -95,8 +101,13 @@ public class ContractTypeController {
             service.deleteContractType(id);
         } catch (DataIntegrityViolationException e) {
             redirectAttributes.addAttribute("error", "in_use");
-            return "redirect:/contract-types";
+            return "redirect:/contractTypes";
         }
-        return "redirect:/contract-types";
+        return "redirect:/contractTypes";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 }
