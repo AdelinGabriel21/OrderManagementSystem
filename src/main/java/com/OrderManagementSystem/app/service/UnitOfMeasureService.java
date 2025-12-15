@@ -1,9 +1,7 @@
 package com.OrderManagementSystem.app.service;
 
-import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.model.UnitOfMeasure;
 import com.OrderManagementSystem.app.repository.UnitOfMeasureRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.data.domain.Sort;
@@ -26,12 +24,13 @@ public class UnitOfMeasureService {
     }
 
 
-    public List<UnitOfMeasure> getAllUnitsOfMeasure(String sortField, String sortDir) {
+    public List<UnitOfMeasure> searchUnits(String name, String symbol, String sortField, String sortDir) {
+
         Sort sort = sortDir.equalsIgnoreCase("asc") ?
                 Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
-        return repo.findAll(sort);
+        return repo.searchUnits(name, symbol, sort);
     }
 
     public UnitOfMeasure getUnitOfMeasureById(String id){

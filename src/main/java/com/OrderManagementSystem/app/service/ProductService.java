@@ -2,7 +2,6 @@ package com.OrderManagementSystem.app.service;
 
 import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.repository.ProductRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -27,13 +25,15 @@ public class ProductService {
         repo.save(product);
     }
 
-    public List<Product> getAllProducts(String sortField, String sortDir){
+    public List<Product> searchProducts(String name, Double minValue, Double maxValue, String sortField, String sortDir) {
+
         Sort sort = sortDir.equalsIgnoreCase("asc") ?
                 Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
-        return repo.findAll(sort);
+        return repo.searchProducts(name, minValue, maxValue, sort);
     }
+
     public Product getProductById(String id){
         return repo.findById(id).orElse(null);
     }

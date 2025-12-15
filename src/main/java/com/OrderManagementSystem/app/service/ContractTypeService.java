@@ -1,6 +1,7 @@
 package com.OrderManagementSystem.app.service;
 
 import com.OrderManagementSystem.app.model.ContractType;
+import com.OrderManagementSystem.app.model.Type;
 import com.OrderManagementSystem.app.repository.ContractTypeRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ValidationException;
@@ -25,12 +26,13 @@ public class ContractTypeService {
         repo.save(contractType);
     }
 
-    public List<ContractType> searchContractTypes(String sortField, String sortDir) {
+    public List<ContractType> searchContractTypes(String name, Type type, String sortField, String sortDir) {
+
         Sort sort = sortDir.equalsIgnoreCase("asc") ?
                 Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
-        return repo.findAll(sort);
+        return repo.searchContractTypes(name, type, sort);
     }
 
     public ContractType getContractTypesById(String id) {

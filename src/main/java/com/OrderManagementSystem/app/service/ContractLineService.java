@@ -27,13 +27,16 @@ public class ContractLineService {
         repo.save(contractLine);
     }
 
-    public List<ContractLine> searchContractLines(String sortField, String sortDir) {
+    public List<ContractLine> searchContractLines(String contractName, String itemName, String unitName,
+                                                  String sortField, String sortDir) {
+
         Sort sort = sortDir.equalsIgnoreCase("asc") ?
                 Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
-        return repo.findAll(sort);
+        return repo.searchContractLines(contractName, itemName, unitName, sort);
     }
+
     public ContractLine getContractLineById(String id) {
         return repo.findById(id).orElse(null);
     }

@@ -33,13 +33,18 @@ public class ContractLineController {
 
     @GetMapping
     public String showContractLines(Model model,
+                                    @RequestParam(required = false) String contractName,
+                                    @RequestParam(required = false) String itemName,
+                                    @RequestParam(required = false) String unitName,
                                     @RequestParam(defaultValue = "quantity") String sortField,
                                     @RequestParam(defaultValue = "asc") String sortDir) {
 
-        // Pass params to service
-        model.addAttribute("contractLines", service.searchContractLines(sortField, sortDir));
+        model.addAttribute("contractLines", service.searchContractLines(contractName, itemName, unitName, sortField, sortDir));
 
-        // Pass params back to UI
+        model.addAttribute("filterContractName", contractName);
+        model.addAttribute("filterItemName", itemName);
+        model.addAttribute("filterUnitName", unitName);
+
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
 
@@ -102,8 +107,8 @@ public class ContractLineController {
     }
 
     private void populateDependencies(Model model) {
-        model.addAttribute("products", productService.getAllProducts("name", "asc"));
-        model.addAttribute("units", unitOfMeasureService.getAllUnitsOfMeasure("name","asc"));
+        model.addAttribute("products", productService.searchProducts(null, null, null, "name", "asc"));
+        model.addAttribute("units", unitOfMeasureService.searchUnits(null, null, "name","asc"));
         model.addAttribute("contracts", contractService.getAllContracts());
     }
 
