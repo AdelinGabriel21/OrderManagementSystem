@@ -23,11 +23,18 @@ public class ContractTypeController {
     }
 
     @GetMapping
-    public String showContractTypes(Model model,
+    public String getAllContractTypes(Model model,
+                                      @RequestParam(required = false) String name,
+                                      @RequestParam(required = false) Type type,
                                       @RequestParam(defaultValue = "name") String sortField,
                                       @RequestParam(defaultValue = "asc") String sortDir) {
 
-        model.addAttribute("contractTypes", service.searchContractTypes(sortField, sortDir));
+        model.addAttribute("contractTypes", service.searchContractTypes(name, type, sortField, sortDir));
+
+        model.addAttribute("filterName", name);
+        model.addAttribute("filterType", type);
+
+        model.addAttribute("typeOptions", Type.values());
 
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);

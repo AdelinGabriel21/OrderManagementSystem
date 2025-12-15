@@ -29,12 +29,21 @@ public class OrderController {
 
     @GetMapping
     public String showOrders(Model model,
+                             // Filter Params
+                             @RequestParam(required = false) String name,
+                             @RequestParam(required = false) String customerName,
+                             @RequestParam(required = false) String contractName,
+                             // Sort Params
                              @RequestParam(defaultValue = "name") String sortField1,
                              @RequestParam(defaultValue = "asc") String sortDir1,
                              @RequestParam(defaultValue = "name") String sortField2,
                              @RequestParam(defaultValue = "asc") String sortDir2) {
 
-        model.addAttribute("orders", orderService.findAllOrders(sortField1, sortDir1, sortField2, sortDir2));
+        model.addAttribute("orders", orderService.searchOrders(name, customerName, contractName, sortField1, sortDir1, sortField2, sortDir2));
+
+        model.addAttribute("filterName", name);
+        model.addAttribute("filterCustomerName", customerName);
+        model.addAttribute("filterContractName", contractName);
 
         model.addAttribute("sortField1", sortField1);
         model.addAttribute("sortDir1", sortDir1);

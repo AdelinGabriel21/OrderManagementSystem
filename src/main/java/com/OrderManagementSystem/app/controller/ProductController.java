@@ -23,10 +23,17 @@ public class ProductController {
 
     @GetMapping
     public String showProducts(Model model,
+                               @RequestParam(required = false) String name,
+                               @RequestParam(required = false) Double minValue,
+                               @RequestParam(required = false) Double maxValue,
                                @RequestParam(defaultValue = "name") String sortField,
-                               @RequestParam(defaultValue = "asc") String sortDir){
+                               @RequestParam(defaultValue = "asc") String sortDir) {
 
-        model.addAttribute("products", service.getAllProducts(sortField, sortDir));
+        model.addAttribute("products", service.searchProducts(name, minValue, maxValue, sortField, sortDir));
+
+        model.addAttribute("filterName", name);
+        model.addAttribute("filterMinValue", minValue);
+        model.addAttribute("filterMaxValue", maxValue);
 
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);

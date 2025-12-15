@@ -23,12 +23,14 @@ public class OrderLineService {
         repo.save(orderLine);
     }
 
-    public List<OrderLine> searchOrderLines(String sortField, String sortDir){
+    public List<OrderLine> searchOrderLines(String itemName, String unitName, String orderName,
+                                            String sortField, String sortDir) {
+
         Sort sort = sortDir.equalsIgnoreCase("asc") ?
                 Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
-        return repo.findAll(sort);
+        return repo.searchOrderLines(itemName, unitName, orderName, sort);
     }
 
     public OrderLine getOrderLineById(String id){

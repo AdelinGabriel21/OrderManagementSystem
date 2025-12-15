@@ -33,10 +33,17 @@ public class OrderLineController {
 
     @GetMapping
     public String showOrderLines(Model model,
+                                 @RequestParam(required = false) String itemName,
+                                 @RequestParam(required = false) String unitName,
+                                 @RequestParam(required = false) String orderName,
                                  @RequestParam(defaultValue = "quantity") String sortField,
                                  @RequestParam(defaultValue = "asc") String sortDir) {
 
-        model.addAttribute("orderLines", service.searchOrderLines(sortField, sortDir));
+        model.addAttribute("orderLines", service.searchOrderLines(itemName, unitName, orderName, sortField, sortDir));
+
+        model.addAttribute("filterItemName", itemName);
+        model.addAttribute("filterUnitName", unitName);
+        model.addAttribute("filterOrderName", orderName);
 
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
@@ -115,9 +122,9 @@ public class OrderLineController {
     }
 
     private void populateDependencies(Model model) {
-        model.addAttribute("products", productService.getAllProducts("name", "asc"));
+        model.addAttribute("products", productService.searchProducts(null, null, null, "name", "asc"));
         model.addAttribute("units", unitService.getAllUnitsOfMeasure("name","asc"));
-        model.addAttribute("orders", orderService.findAllOrders("name","asc", "name", "asc"));
+        model.addAttribute("orders", orderService.searchOrders(null, null, null, "name","asc", "name", "asc"));
     }
 
     @InitBinder

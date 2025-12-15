@@ -3,6 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
+    <style>
+        .control-panel {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+        .form-box {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            display: block;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 90px;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
 <h2>Product List</h2>
@@ -11,25 +40,69 @@
     Error: Cannot delete this Product because it is currently used by an Order or Contract!
 </div>
 
+<div class="control-panel">
+
+    <div class="form-box">
+        <span class="form-title">Filter Products</span>
+        <form th:action="@{/products}" method="get">
+
+            <div class="input-group">
+                <label>Name:</label>
+                <input type="text" name="name" th:value="${filterName}" placeholder="Search name..."/>
+            </div>
+
+            <div class="input-group">
+                <label>Min Value:</label>
+                <input type="number" step="0.01" name="minValue" th:value="${filterMinValue}" placeholder="0.00"/>
+            </div>
+
+            <div class="input-group">
+                <label>Max Value:</label>
+                <input type="number" step="0.01" name="maxValue" th:value="${filterMaxValue}" placeholder="1000.00"/>
+            </div>
+
+            <input type="hidden" name="sortField" th:value="${sortField}" />
+            <input type="hidden" name="sortDir" th:value="${sortDir}" />
+
+            <button type="submit">Apply Filters</button>
+            <a href="/products" style="font-size: 0.9em; margin-left: 10px;">Clear All</a>
+        </form>
+    </div>
+
+    <div class="form-box">
+        <span class="form-title">Sort Order</span>
+        <form th:action="@{/products}" method="get">
+
+            <div class="input-group">
+                <label>Sort by:</label>
+                <select name="sortField">
+                    <option value="name" th:selected="${sortField == 'name'}">Name</option>
+                    <option value="value" th:selected="${sortField == 'value'}">Value</option>
+                    <option value="stockQuantity" th:selected="${sortField == 'stockQuantity'}">Stock Quantity</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Direction:</label>
+                <select name="sortDir">
+                    <option value="asc" th:selected="${sortDir == 'asc'}">Ascending</option>
+                    <option value="desc" th:selected="${sortDir == 'desc'}">Descending</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="name" th:value="${filterName}" />
+            <input type="hidden" name="minValue" th:value="${filterMinValue}" />
+            <input type="hidden" name="maxValue" th:value="${filterMaxValue}" />
+
+            <button type="submit">Apply Sorting</button>
+        </form>
+    </div>
+
+</div>
+
 <a href="/products/new">Add Product</a>
 
-<form action="/products" method="get" style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9; border-radius: 5px;">
-    <label for="sortField" style="font-weight: bold;">Sort by:</label>
-    <select name="sortField" id="sortField" style="margin-right: 15px;">
-        <option value="name" th:selected="${sortField == 'name'}">Name</option>
-        <option value="value" th:selected="${sortField == 'value'}">Value</option>
-        <option value="stockQuantity" th:selected="${sortField == 'stockQuantity'}">Stock Quantity</option>
-    </select>
-
-    <label for="sortDir" style="font-weight: bold;">Direction:</label>
-    <select name="sortDir" id="sortDir" style="margin-right: 15px;">
-        <option value="asc" th:selected="${sortDir == 'asc'}">Ascending (A-Z / 0-9)</option>
-        <option value="desc" th:selected="${sortDir == 'desc'}">Descending (Z-A / 9-0)</option>
-    </select>
-
-    <button type="submit">Apply Sort</button>
-</form>
-<table border="1">
+<table border="1" style="margin-top: 20px; width: 100%;">
     <tr>
         <th>ID</th>
         <th>Name</th>
