@@ -18,7 +18,7 @@
         label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-color); }
         input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
 
-        .error-msg { color: var(--danger-color); font-size: 0.85em; display: block; margin-top: 5px; }
+        .error-msg { color: var(--danger-color); font-size: 0.85em; display: block; margin-top: 5px; font-weight: bold; }
         .global-error-box { background: #fdecea; border: 1px solid var(--danger-color); color: var(--danger-color); padding: 10px; border-radius: 4px; margin-bottom: 20px; font-weight: bold; }
 
         button { background: var(--success-color); color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 4px; cursor: pointer; }
@@ -40,7 +40,7 @@
 
             <div class="input-group">
                 <label for="order">Order:</label>
-                <select id="order" th:field="*{order}">
+                <select id="order" th:field="*{order}" onchange="updateItems()">
                     <option value="">-- Select Order --</option>
                     <option th:each="o : ${orders}" th:value="${o.id}" th:text="${o.name}"></option>
                 </select>
@@ -49,7 +49,7 @@
 
             <div class="input-group">
                 <label for="item">Item:</label>
-                <select id="item" th:field="*{item}">
+                <select id="item" th:field="*{item}" onchange="updateUnits()">
                     <option value="">-- Select Item --</option>
                     <option th:each="it : ${products}" th:value="${it.id}" th:text="${it.name}"></option>
                 </select>
@@ -76,5 +76,92 @@
         <a href="/orderLines" class="back-link">Cancel & Back to list</a>
     </div>
 </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 1. Build a Data Map of Order -> Items -> Unit
+    var contractMap = {};
+
+    /*[# th:each="o : ${orders}"]*/
+    var orderId = /*[[${o.id}]]*/ 'order_id';
+    var allowedItems = [];
+
+    /*[# th:if="${o.contract != null && o.contract.contractLines != null}"]*/
+    /*[# th:each="cl : ${o.contract.contractLines}"]*/
+    allowedItems.push({
+        itemId: /*[[${cl.item.id}]]*/ 'item_id',
+        itemName: /*[[${cl.item.name}]]*/ 'item_name',
+        unitId: /*[[${cl.unit.id}]]*/ 'unit_id',
+        unitName: /*[[${cl.unit.name}]]*/ 'unit_name',
+        unitSymbol: /*[[${cl.unit.symbol}]]*/ 'unit_symbol'
+    });
+    /*[/]*/
+    /*[/]*/
+    contractMap[orderId] = allowedItems;
+    /*[/]*/
+
+    const orderSelect = document.getElementById("order");
+    const itemSelect = document.getElementById("item");
+    const unitSelect = document.getElementById("unit");
+
+    const initialItemId = /*[[${orderLine.item?.id}]]*/ '';
+    const initialUnitId = /*[[${orderLine.unit?.id}]]*/ '';
+
+    function updateItems() {
+        const selectedOrderId = orderSelect.value;
+        const currentItemValue = itemSelect.value || initialItemId;
+
+        // Clear current options
+        itemSelect.innerHTML = '<option value="">-- Select Item --</option>';
+
+        if (selectedOrderId && contractMap[selectedOrderId]) {
+            const items = contractMap[selectedOrderId];
+
+            items.forEach(function(item) {
+                let option = document.createElement("option");
+                option.value = item.itemId;
+                option.text = item.itemName;
+
+                if (item.itemId === currentItemValue) {
+                    option.selected = true;
+                }
+                itemSelect.appendChild(option);
+            });
+        }
+        updateUnits();
+    }
+
+    function updateUnits() {
+        const selectedOrderId = orderSelect.value;
+        const selectedItemId = itemSelect.value;
+        const currentUnitValue = unitSelect.value || initialUnitId;
+
+        unitSelect.innerHTML = '<option value="">-- Select Unit --</option>';
+
+        if (selectedOrderId && selectedItemId && contractMap[selectedOrderId]) {
+            const itemConfig = contractMap[selectedOrderId].find(i => i.itemId === selectedItemId);
+
+            if (itemConfig) {
+                let option = document.createElement("option");
+                option.value = itemConfig.unitId;
+                option.text = itemConfig.unitName + ' (' + itemConfig.unitSymbol + ')';
+                option.selected = true;
+                unitSelect.appendChild(option);
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        if (orderSelect.value) {
+            updateItems();
+            if (initialUnitId) {
+                unitSelect.value = initialUnitId;
+            }
+        }
+    });
+
+    /*]]>*/
+</script>
+
 </body>
 </html>
