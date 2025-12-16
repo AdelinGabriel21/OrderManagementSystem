@@ -26,17 +26,21 @@ public class ProductController {
                                @RequestParam(required = false) String name,
                                @RequestParam(required = false) Double minValue,
                                @RequestParam(required = false) Double maxValue,
-                               @RequestParam(defaultValue = "name") String sortField,
-                               @RequestParam(defaultValue = "asc") String sortDir) {
+                               @RequestParam(defaultValue = "name") String sortField1,
+                               @RequestParam(defaultValue = "asc") String sortDir1,
+                               @RequestParam(defaultValue = "value") String sortField2,
+                               @RequestParam(defaultValue = "asc") String sortDir2) {
 
-        model.addAttribute("products", service.searchProducts(name, minValue, maxValue, sortField, sortDir));
+        model.addAttribute("products", service.searchProducts(name, minValue, maxValue, sortField1, sortDir1, sortField2, sortDir2));
 
         model.addAttribute("filterName", name);
         model.addAttribute("filterMinValue", minValue);
         model.addAttribute("filterMaxValue", maxValue);
 
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("sortField1", sortField1);
+        model.addAttribute("sortDir1", sortDir1);
+        model.addAttribute("sortField2", sortField2);
+        model.addAttribute("sortDir2", sortDir2);
 
         return "product/index";
     }

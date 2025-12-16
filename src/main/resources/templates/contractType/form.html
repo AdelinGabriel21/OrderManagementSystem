@@ -2,66 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add/Edit Contract Type</title>
     <style>
-        :root {
-            --primary-color: #2c3e50; --accent-color: #3498db; --light-bg: #f4f7f6;
-            --text-color: #333; --danger-color: #e74c3c; --success-color: #2ecc71;
-        }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light-bg); color: var(--text-color); margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .form-container {
-            background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 100%; max-width: 500px; border: 1px solid #e0e0e0;
-        }
-        h2 { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 0; margin-bottom: 25px; }
+        :root { --primary-color: #2c3e50; --accent-color: #3498db; --light-bg: #f4f7f6; --text-color: #333; --danger-color: #e74c3c; --success-color: #2ecc71; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light-bg); color: var(--text-color); margin: 0; }
+        .navbar { background: white; padding: 15px 20px; border-bottom: 1px solid #e0e0e0; }
+        .nav-home { font-weight: bold; color: var(--primary-color); text-decoration: none; font-size: 1.1em; }
+        .container { display: flex; justify-content: center; padding: 40px; }
+        .form-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; border: 1px solid #e0e0e0; }
+        h2 { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 0; }
         .input-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-color); }
-        input[type="text"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; box-sizing: border-box; }
-        input:focus, select:focus { border-color: var(--accent-color); outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.2); }
-        .error-msg { color: var(--danger-color); font-size: 0.85em; margin-top: 5px; display: block; }
-        button[type="submit"] {
-            background-color: var(--success-color); color: white; border: none; padding: 12px 20px;
-            font-size: 1em; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold; transition: background 0.3s;
-        }
-        button[type="submit"]:hover { background-color: #27ae60; }
-        .back-link { display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; font-size: 0.9em; }
-        .back-link:hover { color: var(--primary-color); text-decoration: underline; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: var(--success-color); color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        .error-msg { color: var(--danger-color); font-size: 0.85em; display: block; margin-top: 5px; }
+        .back-link { display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; }
     </style>
 </head>
 <body>
-<div class="form-container">
-    <h2>Add/Edit Contract Type</h2>
-    <form th:action="@{/contractTypes}" th:object="${contractType}" method="post">
-
-        <div th:if="${#fields.hasGlobalErrors()}" style="background-color: #fdecea; border: 1px solid var(--danger-color); color: var(--danger-color); padding: 10px; border-radius: 4px; margin-bottom: 20px;">
-            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="margin: 0; font-weight: bold;"></p>
-        </div>
-
-        <input type="hidden" th:field="*{id}" />
-
-        <div class="input-group">
-            <label for="name">Name:</label>
-            <input type="text" th:field="*{name}" id="name" placeholder="Contract type name..." />
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg">Name Error</span>
-        </div>
-
-        <div class="input-group">
-            <label for="type">Type:</label>
-            <select id="type" th:field="*{type}">
-                <option value="">-- Select Type --</option>
-
-                <option th:each="t : ${types}"
-                        th:value="${t.name()}"
-                        th:text="${t.value}">
-                </option>
-            </select>
-            <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="error-msg">Type Error</span>
-        </div>
-
-        <button type="submit">Save Contract Type</button>
-    </form>
-    <a href="/contractTypes" class="back-link">Cancel & Back to list</a>
+<nav class="navbar"><a href="/" class="nav-home">🏠 Home</a></nav>
+<div class="container">
+    <div class="form-container">
+        <h2>Add/Edit Contract Type</h2>
+        <form th:action="@{/contractTypes}" th:object="${contractType}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <div class="input-group">
+                <label>Name:</label>
+                <input type="text" th:field="*{name}" />
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg">Error</span>
+            </div>
+            <div class="input-group">
+                <label>Type:</label>
+                <select th:field="*{type}">
+                    <option value="">-- Select --</option>
+                    <option th:each="t : ${types}" th:value="${t.name()}" th:text="${t.value}"></option>
+                </select>
+                <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="error-msg">Error</span>
+            </div>
+            <button type="submit">Save Contract Type</button>
+        </form>
+        <a href="/contractTypes" class="back-link">Cancel</a>
+    </div>
 </div>
 </body>
 </html>

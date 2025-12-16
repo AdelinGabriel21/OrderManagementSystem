@@ -38,17 +38,15 @@ public class ContractService {
                                           String sortField1, String sortDir1,
                                           String sortField2, String sortDir2) {
 
-        // 1. Primary Sort
+
         Sort sort1 = sortDir1.equalsIgnoreCase("asc") ?
                 Sort.by(sortField1).ascending() :
                 Sort.by(sortField1).descending();
 
-        // 2. Secondary Sort
         Sort sort2 = sortDir2.equalsIgnoreCase("asc") ?
                 Sort.by(sortField2).ascending() :
                 Sort.by(sortField2).descending();
 
-        // 3. Pass filters AND combined sort to Repository
         return repo.searchContracts(name, status, fromDate, toDate, sort1.and(sort2));
     }
 

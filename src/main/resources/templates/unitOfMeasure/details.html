@@ -1,14 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Unit of Measure Details</title>
+    <style>
+        :root { --primary-color: #2c3e50; --secondary-color: #34495e; --accent-color: #3498db; --light-bg: #f4f7f6; --text-color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--light-bg); color: var(--text-color); margin: 0; }
+
+        .navbar { background: white; padding: 15px 20px; border-bottom: 1px solid #e0e0e0; margin-bottom: 20px; }
+        .nav-home { font-weight: bold; color: var(--primary-color); text-decoration: none; font-size: 1.1em; }
+
+        .container { padding: 20px; display: flex; justify-content: center; }
+        .details-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 600px; width: 100%; border: 1px solid #e0e0e0; }
+        h2 { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin: 0 0 20px 0; }
+
+        .data-row { padding: 12px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; }
+        .data-row:last-of-type { border-bottom: none; }
+        .data-label { font-weight: 600; width: 140px; color: var(--secondary-color); }
+
+        .btn-back { display: inline-block; margin-top: 25px; padding: 10px 20px; background-color: #95a5a6; color: white; border-radius: 4px; font-weight: bold; text-decoration: none; }
+        .btn-back:hover { background-color: #7f8c8d; }
+    </style>
 </head>
 <body>
-<h2>Unit of Measure Details</h2>
-<p><strong>ID:</strong> <span th:text="${unitOfMeasure.id}"></span></p>
-<p><strong>Name:</strong> <span th:text="${unitOfMeasure.name}"></span></p>
-<p><strong>Symbol:</strong> <span th:text="${unitOfMeasure.symbol}"></span></p>
 
-<a href="/unitsOfMeasure">Back to List</a>
+<nav class="navbar"><a href="/" class="nav-home">🏠 Home</a></nav>
+
+<div class="container">
+    <div class="details-card">
+        <h2>Unit of Measure Details</h2>
+        <div class="data-row"><span class="data-label">ID:</span><span th:text="${unitOfMeasure.id}"></span></div>
+        <div class="data-row"><span class="data-label">Name:</span><span th:text="${unitOfMeasure.name}"></span></div>
+        <div class="data-row"><span class="data-label">Symbol:</span><span th:text="${unitOfMeasure.symbol}"></span></div>
+        <a href="/unitsOfMeasure" class="btn-back">&larr; Back to List</a>
+    </div>
+</div>
 </body>
 </html>

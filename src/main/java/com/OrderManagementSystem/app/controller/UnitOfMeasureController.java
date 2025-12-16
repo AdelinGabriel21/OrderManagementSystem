@@ -25,16 +25,20 @@ public class UnitOfMeasureController {
     public String showUnitsOfMeasure(Model model,
                                      @RequestParam(required = false) String name,
                                      @RequestParam(required = false) String symbol,
-                                     @RequestParam(defaultValue = "name") String sortField,
-                                     @RequestParam(defaultValue = "asc") String sortDir) {
+                                     @RequestParam(defaultValue = "name") String sortField1,
+                                     @RequestParam(defaultValue = "asc") String sortDir1,
+                                     @RequestParam(defaultValue = "symbol") String sortField2,
+                                     @RequestParam(defaultValue = "asc") String sortDir2) {
 
-        model.addAttribute("unitsOfMeasure", service.searchUnits(name, symbol, sortField, sortDir));
+        model.addAttribute("unitsOfMeasure", service.searchUnits(name, symbol, sortField1, sortDir1, sortField2, sortDir2));
 
         model.addAttribute("filterName", name);
         model.addAttribute("filterSymbol", symbol);
 
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("sortField1", sortField1);
+        model.addAttribute("sortDir1", sortDir1);
+        model.addAttribute("sortField2", sortField2);
+        model.addAttribute("sortDir2", sortDir2);
 
         return "unitOfMeasure/index";
     }
@@ -66,7 +70,7 @@ public class UnitOfMeasureController {
     }
 
     @PostMapping
-    public String addUnitOfMeasure(@Valid @ModelAttribute UnitOfMeasure unitOfMeasure, BindingResult bindingResult, Model model) { // Added Model
+    public String addUnitOfMeasure(@Valid @ModelAttribute UnitOfMeasure unitOfMeasure, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return "unitOfMeasure/form";
@@ -79,11 +83,6 @@ public class UnitOfMeasureController {
             return "unitOfMeasure/form";
         }
 
-        if (bindingResult.hasErrors()) {
-            return "unitOfMeasure/form";
-        }
-
-        service.saveUnitOfMeasure(unitOfMeasure);
         return "redirect:/unitsOfMeasure";
     }
 
