@@ -18,7 +18,9 @@
         label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-color); }
         input[type="text"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
 
-        .error-msg { color: var(--danger-color); font-size: 0.85em; display: block; margin-top: 5px; }
+        /* Updated: Added font-weight: bold; */
+        .error-msg { color: var(--danger-color); font-size: 0.85em; display: block; margin-top: 5px; font-weight: bold; }
+
         .global-error-box { background: #fdecea; border: 1px solid var(--danger-color); color: var(--danger-color); padding: 10px; border-radius: 4px; margin-bottom: 20px; font-weight: bold; }
 
         button { background-color: var(--success-color); color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 4px; cursor: pointer; }
@@ -46,7 +48,7 @@
 
             <div class="input-group">
                 <label>Customer:</label>
-                <select id="customer" th:field="*{customer}">
+                <select id="customer" th:field="*{customer}" onchange="updateContracts()">
                     <option value="">-- Select Customer --</option>
                     <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
                 </select>
@@ -67,5 +69,60 @@
         <a href="/orders" class="back-link">Cancel & Back to list</a>
     </div>
 </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 1. Build Map: Customer ID -> List of Contracts
+    var customerContractsMap = {};
+
+    /*[# th:each="c : ${contracts}"]*/
+    var custId = /*[[${c.customer.id}]]*/ 'cust_id';
+    var contractData = {
+        id: /*[[${c.id}]]*/ 'contract_id',
+        name: /*[[${c.name}]]*/ 'contract_name'
+    };
+
+    if (!customerContractsMap[custId]) {
+        customerContractsMap[custId] = [];
+    }
+    customerContractsMap[custId].push(contractData);
+    /*[/]*/
+
+    // 2. Logic to update dropdown
+    const customerSelect = document.getElementById("customer");
+    const contractSelect = document.getElementById("contract");
+    // Capture the initially selected contract (useful for Edit mode)
+    const initialContractId = /*[[${order.contract?.id}]]*/ '';
+
+    function updateContracts() {
+        const selectedCustId = customerSelect.value;
+        const currentContractId = contractSelect.value || initialContractId;
+
+        contractSelect.innerHTML = '<option value="">-- Select Contract --</option>';
+
+        if (selectedCustId && customerContractsMap[selectedCustId]) {
+            const allowedContracts = customerContractsMap[selectedCustId];
+
+            allowedContracts.forEach(function(c) {
+                let option = document.createElement("option");
+                option.value = c.id;
+                option.text = c.name;
+
+                if (c.id === currentContractId) {
+                    option.selected = true;
+                }
+                contractSelect.appendChild(option);
+            });
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        if (customerSelect.value) {
+            updateContracts();
+        }
+    });
+    /*]]>*/
+</script>
+
 </body>
 </html>

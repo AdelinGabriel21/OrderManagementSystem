@@ -13,7 +13,7 @@ public class Product extends SellableItem {
     @Column(columnDefinition = "DOUBLE")
     private double value;
 
-    @PositiveOrZero(message = "Stock cannot be negative.")
+    @Positive(message = "Stock cannot be negative.")
     @Column(name = "stock_quantity", columnDefinition = "INT")
     private int stockQuantity;
 
