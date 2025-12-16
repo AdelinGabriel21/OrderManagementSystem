@@ -45,7 +45,11 @@
                 <div class="input-group"><label>Type:</label>
                     <select name="type">
                         <option value="">-- All --</option>
-                        <option th:each="t : ${typeOptions}" th:value="${t}" th:text="${t}" th:selected="${t == filterType}"></option>
+                        <option th:each="t : ${typeOptions}"
+                                th:value="${t.name()}"
+                                th:text="${t.value}"
+                                th:selected="${t == filterType}">
+                        </option>
                     </select>
                 </div>
                 <input type="hidden" name="sortField1" th:value="${sortField1}" /><input type="hidden" name="sortDir1" th:value="${sortDir1}" />

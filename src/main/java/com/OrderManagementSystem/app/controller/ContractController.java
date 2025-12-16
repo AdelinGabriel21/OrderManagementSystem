@@ -7,6 +7,7 @@ import com.OrderManagementSystem.app.service.ContractService;
 import com.OrderManagementSystem.app.service.ContractTypeService;
 import com.OrderManagementSystem.app.service.CustomerService;
 import jakarta.validation.ValidationException;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -148,5 +149,6 @@ public class ContractController {
                 }
             }
         });
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 }
