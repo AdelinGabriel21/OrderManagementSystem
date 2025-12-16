@@ -5,7 +5,7 @@ import com.OrderManagementSystem.app.service.OrderLineService;
 import com.OrderManagementSystem.app.service.OrderService;
 import com.OrderManagementSystem.app.service.ProductService;
 import com.OrderManagementSystem.app.service.UnitOfMeasureService;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor; // Import this!
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -36,17 +36,21 @@ public class OrderLineController {
                                  @RequestParam(required = false) String itemName,
                                  @RequestParam(required = false) String unitName,
                                  @RequestParam(required = false) String orderName,
-                                 @RequestParam(defaultValue = "quantity") String sortField,
-                                 @RequestParam(defaultValue = "asc") String sortDir) {
+                                 @RequestParam(defaultValue = "quantity") String sortField1,
+                                 @RequestParam(defaultValue = "asc") String sortDir1,
+                                 @RequestParam(defaultValue = "item.name") String sortField2,
+                                 @RequestParam(defaultValue = "asc") String sortDir2) {
 
-        model.addAttribute("orderLines", service.searchOrderLines(itemName, unitName, orderName, sortField, sortDir));
+        model.addAttribute("orderLines", service.searchOrderLines(itemName, unitName, orderName, sortField1, sortDir1, sortField2, sortDir2));
 
         model.addAttribute("filterItemName", itemName);
         model.addAttribute("filterUnitName", unitName);
         model.addAttribute("filterOrderName", orderName);
 
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("sortField1", sortField1);
+        model.addAttribute("sortDir1", sortDir1);
+        model.addAttribute("sortField2", sortField2);
+        model.addAttribute("sortDir2", sortDir2);
 
         return "orderLine/index";
     }
@@ -122,8 +126,8 @@ public class OrderLineController {
     }
 
     private void populateDependencies(Model model) {
-        model.addAttribute("products", productService.searchProducts(null, null, null, "name", "asc"));
-        model.addAttribute("units", unitService.searchUnits(null, null, "name","asc"));
+        model.addAttribute("products", productService.searchProducts(null, null, null, "name", "asc", "name", "asc"));
+        model.addAttribute("units", unitService.searchUnits(null, null, "name","asc", "name","asc"));
         model.addAttribute("orders", orderService.searchOrders(null, null, null, "name","asc", "name", "asc"));
     }
 

@@ -2,198 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add/Edit Contract</title>
     <style>
-        /* --- GLOBAL STYLES --- */
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --light-bg: #f4f7f6;
-            --text-color: #333;
-            --danger-color: #e74c3c;
-            --success-color: #2ecc71;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .form-container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-            border: 1px solid #e0e0e0;
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-            margin-top: 0;
-        }
-
-        /* --- FORM ELEMENTS --- */
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        input[type="text"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1em;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--accent-color);
-            outline: none;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.2);
-        }
-
-        /* --- ERRORS --- */
-        .error-msg {
-            color: var(--danger-color);
-            font-size: 0.85em;
-            margin-top: 5px;
-            display: block;
-        }
-
-        .global-error-box {
-            background-color: #fdecea;
-            border: 1px solid var(--danger-color);
-            color: var(--danger-color);
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        /* --- BUTTONS --- */
-        button[type="submit"] {
-            background-color: var(--success-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 1em;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        button[type="submit"]:hover { background-color: #27ae60; }
-
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            color: #7f8c8d;
-            text-decoration: none;
-            font-size: 0.9em;
-        }
-        .back-link:hover { color: var(--primary-color); text-decoration: underline; }
+        :root { --primary-color: #2c3e50; --accent-color: #3498db; --light-bg: #f4f7f6; --text-color: #333; --danger-color: #e74c3c; --success-color: #2ecc71; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light-bg); color: var(--text-color); margin: 0; }
+        .navbar { background: white; padding: 15px 20px; border-bottom: 1px solid #e0e0e0; }
+        .nav-home { font-weight: bold; color: var(--primary-color); text-decoration: none; font-size: 1.1em; }
+        .container { display: flex; justify-content: center; padding: 40px; }
+        .form-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; border: 1px solid #e0e0e0; }
+        h2 { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 0; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-color); }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: var(--success-color); color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        .error-msg { color: var(--danger-color); font-size: 0.85em; display: block; margin-top: 5px; }
+        .back-link { display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; }
     </style>
 </head>
 <body>
-
-<div class="form-container">
-    <h2>Add/Edit Contract</h2>
-
-    <form th:action="@{/contracts}" th:object="${contract}" method="post">
-
-        <div th:if="${#fields.hasGlobalErrors()}" class="global-error-box">
-            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="margin: 0;"></p>
-        </div>
-
-        <th:block th:if="${contract.id != null}">
+<nav class="navbar"><a href="/" class="nav-home">🏠 Home</a></nav>
+<div class="container">
+    <div class="form-container">
+        <h2>Add/Edit Contract</h2>
+        <form th:action="@{/contracts}" th:object="${contract}" method="post">
             <input type="hidden" th:field="*{id}" />
-        </th:block>
-
-        <div class="input-group">
-            <label for="name">Name:</label>
-            <input type="text" th:field="*{name}" id="name" />
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg">Name Error</span>
-        </div>
-
-        <div class="input-group">
-            <label for="contractTypeId">Contract Type:</label>
-            <select id="contractTypeId" th:field="*{contractTypeId}">
-                <option value="">-- Select Contract Type --</option>
-                <option th:each="type : ${contractTypes}"
-                        th:value="${type.id}"
-                        th:text="${type.name}">
-                    Type Name Placeholder
-                </option>
-            </select>
-            <span th:if="${#fields.hasErrors('contractTypeId')}" th:errors="*{contractTypeId}" class="error-msg">Type ID Error</span>
-        </div>
-
-        <div class="input-group">
-            <label for="customer">Customer:</label>
-            <select id="customer" name="customer">
-                <option value="">-- Select Customer --</option>
-                <option th:each="cust : ${customers}"
-                        th:value="${cust.id}"
-                        th:text="${cust.name}"
-                        th:selected="${contract.customer != null AND cust.id == contract.customer.id}">
-                    Customer Name Placeholder
-                </option>
-            </select>
-            <span th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}" class="error-msg">Customer Error</span>
-        </div>
-
-        <div class="input-group">
-            <label for="status">Status:</label>
-            <select th:field="*{status}" id="status">
-                <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}"
-                        th:value="${st.name()}"
-                        th:text="${st.value}">
-                </option>
-            </select>
-            <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="error-msg">Status Error</span>
-        </div>
-
-        <div class="input-group">
-            <label for="creationDate">Creation Date:</label>
-            <input type="date" th:field="*{creationDate}" id="creationDate" />
-            <span th:if="${#fields.hasErrors('creationDate')}" th:errors="*{creationDate}" class="error-msg">Creation Date Error</span>
-        </div>
-
-        <div class="input-group">
-            <label for="expirationDate">Expiration Date:</label>
-            <input type="date" th:field="*{expirationDate}" id="expirationDate" />
-            <span th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}" class="error-msg">Expiration Date Error</span>
-        </div>
-
-        <button type="submit">Save Contract</button>
-    </form>
-
-    <a href="/contracts" class="back-link">Cancel & Back to list</a>
+            <div class="input-group">
+                <label>Name:</label>
+                <input type="text" th:field="*{name}" />
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg">Error</span>
+            </div>
+            <div class="input-group">
+                <label>Type:</label>
+                <select th:field="*{contractTypeId}">
+                    <option value="">-- Select --</option>
+                    <option th:each="type : ${contractTypes}" th:value="${type.id}" th:text="${type.name}"></option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Customer:</label>
+                <select name="customer">
+                    <option value="">-- Select --</option>
+                    <option th:each="cust : ${customers}" th:value="${cust.id}" th:text="${cust.name}" th:selected="${contract.customer != null && cust.id == contract.customer.id}"></option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Status:</label>
+                <select th:field="*{status}">
+                    <option th:each="st : ${T(com.OrderManagementSystem.app.model.Status).values()}" th:value="${st.name()}" th:text="${st.value}"></option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Creation Date:</label>
+                <input type="date" th:field="*{creationDate}" />
+            </div>
+            <div class="input-group">
+                <label>Expiration Date:</label>
+                <input type="date" th:field="*{expirationDate}" />
+            </div>
+            <button type="submit">Save Contract</button>
+        </form>
+        <a href="/contracts" class="back-link">Cancel</a>
+    </div>
 </div>
-
 </body>
 </html>
