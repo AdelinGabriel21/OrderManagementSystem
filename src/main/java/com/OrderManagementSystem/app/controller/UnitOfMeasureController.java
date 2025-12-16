@@ -27,9 +27,9 @@ public class UnitOfMeasureController {
     public String showUnitsOfMeasure(Model model,
                                      @RequestParam(required = false) String name,
                                      @RequestParam(required = false) String symbol,
-                                     @RequestParam(defaultValue = "name") String sortField1,
+                                     @RequestParam(defaultValue = "none") String sortField1,
                                      @RequestParam(defaultValue = "asc") String sortDir1,
-                                     @RequestParam(defaultValue = "symbol") String sortField2,
+                                     @RequestParam(defaultValue = "none") String sortField2,
                                      @RequestParam(defaultValue = "asc") String sortDir2) {
 
         model.addAttribute("unitsOfMeasure", service.searchUnits(name, symbol, sortField1, sortDir1, sortField2, sortDir2));

@@ -26,9 +26,9 @@ public class ServiceEntityController {
     public String listServices(Model model,
                                @RequestParam(required = false) String name,
                                @RequestParam(required = false) Status status,
-                               @RequestParam(defaultValue = "name") String sortField1,
+                               @RequestParam(defaultValue = "none") String sortField1,
                                @RequestParam(defaultValue = "asc") String sortDir1,
-                               @RequestParam(defaultValue = "status") String sortField2,
+                               @RequestParam(defaultValue = "none") String sortField2,
                                @RequestParam(defaultValue = "asc") String sortDir2) {
 
         model.addAttribute("services", service.searchServices(name, status, sortField1, sortDir1, sortField2, sortDir2));

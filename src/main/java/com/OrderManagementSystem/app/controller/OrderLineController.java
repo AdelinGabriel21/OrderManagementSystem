@@ -36,9 +36,9 @@ public class OrderLineController {
                                  @RequestParam(required = false) String itemName,
                                  @RequestParam(required = false) String unitName,
                                  @RequestParam(required = false) String orderName,
-                                 @RequestParam(defaultValue = "quantity") String sortField1,
+                                 @RequestParam(defaultValue = "none") String sortField1,
                                  @RequestParam(defaultValue = "asc") String sortDir1,
-                                 @RequestParam(defaultValue = "item.name") String sortField2,
+                                 @RequestParam(defaultValue = "none") String sortField2,
                                  @RequestParam(defaultValue = "asc") String sortDir2) {
 
         model.addAttribute("orderLines", service.searchOrderLines(itemName, unitName, orderName, sortField1, sortDir1, sortField2, sortDir2));
@@ -114,14 +114,8 @@ public class OrderLineController {
 
     @PostMapping("/{id}/delete")
     public String deleteOrderLine(@PathVariable String id) {
-        OrderLine line = service.getOrderLineById(id);
-        String orderId = (line != null && line.getOrder() != null) ? line.getOrder().getId() : null;
-
         service.deleteOrderLine(id);
 
-        if (orderId != null) {
-            return "redirect:/orders/details/" + orderId;
-        }
         return "redirect:/orderLines";
     }
 

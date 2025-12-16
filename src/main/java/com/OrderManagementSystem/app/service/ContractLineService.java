@@ -31,15 +31,28 @@ public class ContractLineService {
                                                   String sortField1, String sortDir1,
                                                   String sortField2, String sortDir2) {
 
-        Sort sort1 = sortDir1.equalsIgnoreCase("asc") ?
-                Sort.by(sortField1).ascending() :
-                Sort.by(sortField1).descending();
+        Sort sort = Sort.unsorted();
 
-        Sort sort2 = sortDir2.equalsIgnoreCase("asc") ?
-                Sort.by(sortField2).ascending() :
-                Sort.by(sortField2).descending();
+        if (sortField1 != null && !sortField1.equals("none")) {
+            Sort s1 = sortDir1.equalsIgnoreCase("asc") ?
+                    Sort.by(sortField1).ascending() :
+                    Sort.by(sortField1).descending();
+            sort = s1;
+        }
 
-        return repo.searchContractLines(contractName, itemName, unitName, sort1.and(sort2));
+        if (sortField2 != null && !sortField2.equals("none")) {
+            Sort s2 = sortDir2.equalsIgnoreCase("asc") ?
+                    Sort.by(sortField2).ascending() :
+                    Sort.by(sortField2).descending();
+
+            if (sort.isSorted()) {
+                sort = sort.and(s2);
+            } else {
+                sort = s2;
+            }
+        }
+
+        return repo.searchContractLines(contractName, itemName, unitName, sort);
     }
 
     public ContractLine getContractLineById(String id) {
