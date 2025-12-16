@@ -1,10 +1,7 @@
 package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.*;
-import com.OrderManagementSystem.app.service.OrderLineService;
-import com.OrderManagementSystem.app.service.OrderService;
-import com.OrderManagementSystem.app.service.ProductService;
-import com.OrderManagementSystem.app.service.UnitOfMeasureService;
+import com.OrderManagementSystem.app.service.*;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +20,14 @@ public class OrderLineController {
     private final UnitOfMeasureService unitService;
     private final OrderLineService service;
     private final OrderService orderService;
+    private final ServiceEntityService serviceEntityService;
 
-    public OrderLineController(ProductService serviceProduct, UnitOfMeasureService serviceUnit, OrderLineService service, OrderService orderService) {
+    public OrderLineController(ProductService serviceProduct, UnitOfMeasureService serviceUnit, OrderLineService service, OrderService orderService, ServiceEntityService serviceEntityService) {
         this.productService = serviceProduct;
         this.unitService = serviceUnit;
         this.service = service;
         this.orderService = orderService;
+        this.serviceEntityService = serviceEntityService;
     }
 
     @GetMapping
@@ -132,7 +131,18 @@ public class OrderLineController {
         binder.registerCustomEditor(SellableItem.class, "item", new PropertyEditorSupport() {
             @Override
             public void setAsText(String itemId) {
-                setValue((itemId != null && !itemId.isEmpty()) ? productService.getProductById(itemId) : null);
+                if (itemId == null || itemId.isEmpty()) {
+                    setValue(null);
+                    return;
+                }
+
+                SellableItem item = productService.getProductById(itemId);
+
+                if (item == null) {
+                    item = serviceEntityService.getServiceById(itemId);
+                }
+
+                setValue(item);
             }
         });
 
