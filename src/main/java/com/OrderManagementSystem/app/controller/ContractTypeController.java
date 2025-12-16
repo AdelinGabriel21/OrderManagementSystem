@@ -28,10 +28,9 @@ public class ContractTypeController {
     public String showContractTypes(Model model,
                                     @RequestParam(required = false) String name,
                                     @RequestParam(required = false) Type type,
-                                    // Sorting Defaults
-                                    @RequestParam(defaultValue = "name") String sortField1,
+                                    @RequestParam(defaultValue = "none") String sortField1,
                                     @RequestParam(defaultValue = "asc") String sortDir1,
-                                    @RequestParam(defaultValue = "name") String sortField2,
+                                    @RequestParam(defaultValue = "none") String sortField2,
                                     @RequestParam(defaultValue = "asc") String sortDir2) {
 
         model.addAttribute("contractTypes", service.searchContractTypes(name, type, sortField1, sortDir1, sortField2, sortDir2));

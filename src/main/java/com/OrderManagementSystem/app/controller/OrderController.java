@@ -3,6 +3,7 @@ package com.OrderManagementSystem.app.controller;
 import com.OrderManagementSystem.app.model.*;
 import com.OrderManagementSystem.app.service.*;
 import jakarta.validation.ValidationException;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -128,5 +129,6 @@ public class OrderController {
                 setValue((contractId != null && !contractId.isEmpty()) ? contractService.getContractsById(contractId) : null);
             }
         });
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 }

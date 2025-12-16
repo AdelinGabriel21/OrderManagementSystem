@@ -3,8 +3,10 @@ package com.OrderManagementSystem.app.controller;
 import com.OrderManagementSystem.app.model.UnitOfMeasure;
 import com.OrderManagementSystem.app.service.UnitOfMeasureService;
 import jakarta.validation.ValidationException;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
@@ -95,5 +97,10 @@ public class UnitOfMeasureController {
             return "redirect:/unitsOfMeasure";
         }
         return "redirect:/unitsOfMeasure";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 }

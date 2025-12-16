@@ -14,9 +14,15 @@
         .input-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary-color); }
         input[type="text"], input[type="email"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .error-msg { color: var(--danger-color); font-size: 0.85em; margin-top: 5px; display: block; }
+
+        /* This ensures the error message always looks the same */
+        .error-msg { color: var(--danger-color); font-size: 0.85em; margin-top: 5px; display: block; font-weight: bold; }
+
         button { background-color: var(--success-color); color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 4px; cursor: pointer; }
         .back-link { display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; }
+
+        /* Global error box style */
+        .global-error-box { background-color: #fdecea; border: 1px solid var(--danger-color); color: var(--danger-color); padding: 10px; border-radius: 4px; margin-bottom: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -24,28 +30,39 @@
 <div class="container">
     <div class="form-container">
         <h2>Add/Edit Customer</h2>
-        <form th:action="@{/customers}" th:object="${customer}" method="post">
+
+        <form th:action="@{/customers}" th:object="${customer}" method="post" novalidate>
+
+            <div th:if="${#fields.hasGlobalErrors()}" class="global-error-box">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="margin: 0;"></p>
+            </div>
+
             <input type="hidden" th:field="*{id}" />
+
             <div class="input-group">
                 <label>Name:</label>
                 <input type="text" th:field="*{name}" placeholder="Full Name" />
                 <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-msg">Error</span>
             </div>
+
             <div class="input-group">
                 <label>Currency:</label>
                 <input type="text" th:field="*{currency}" placeholder="e.g. USD" />
                 <span th:if="${#fields.hasErrors('currency')}" th:errors="*{currency}" class="error-msg">Error</span>
             </div>
+
             <div class="input-group">
                 <label>Email:</label>
                 <input type="email" th:field="*{email}" placeholder="Email Address" />
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-msg">Error</span>
             </div>
+
             <div class="input-group">
                 <label>Phone Number:</label>
                 <input type="text" th:field="*{phoneNumber}" placeholder="+123456789" />
                 <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error-msg">Error</span>
             </div>
+
             <button type="submit">Save Customer</button>
         </form>
         <a href="/customers" class="back-link">Cancel & Back to list</a>

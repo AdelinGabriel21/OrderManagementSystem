@@ -32,12 +32,14 @@ public class  Contract implements ModelInterface{
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContractLine> contractLines;
 
+    @NotNull(message = "Creation date is required.")
     @PastOrPresent(message = "Creation date cannot be in the future.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     @Column(name = "creation_date", columnDefinition = "DATE")
     private Date creationDate;
 
+    @NotNull(message = "Expiration date is required.")
     @Future(message = "Expiration date must be in the future.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
