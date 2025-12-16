@@ -36,9 +36,9 @@ public class ContractLineController {
                                     @RequestParam(required = false) String contractName,
                                     @RequestParam(required = false) String itemName,
                                     @RequestParam(required = false) String unitName,
-                                    @RequestParam(defaultValue = "quantity") String sortField1,
+                                    @RequestParam(defaultValue = "none") String sortField1,
                                     @RequestParam(defaultValue = "asc") String sortDir1,
-                                    @RequestParam(defaultValue = "item.name") String sortField2, // Default Secondary
+                                    @RequestParam(defaultValue = "none") String sortField2,
                                     @RequestParam(defaultValue = "asc") String sortDir2) {
 
         model.addAttribute("contractLines", service.searchContractLines(contractName, itemName, unitName, sortField1, sortDir1, sortField2, sortDir2));
