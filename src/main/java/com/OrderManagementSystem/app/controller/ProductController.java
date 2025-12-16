@@ -28,9 +28,9 @@ public class ProductController {
                                @RequestParam(required = false) String name,
                                @RequestParam(required = false) Double minValue,
                                @RequestParam(required = false) Double maxValue,
-                               @RequestParam(defaultValue = "name") String sortField1,
+                               @RequestParam(defaultValue = "none") String sortField1,
                                @RequestParam(defaultValue = "asc") String sortDir1,
-                               @RequestParam(defaultValue = "value") String sortField2,
+                               @RequestParam(defaultValue = "none") String sortField2,
                                @RequestParam(defaultValue = "asc") String sortDir2) {
 
         model.addAttribute("products", service.searchProducts(name, minValue, maxValue, sortField1, sortDir1, sortField2, sortDir2));
