@@ -3,9 +3,11 @@ package com.OrderManagementSystem.app.controller;
 import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.service.ProductService;
 import jakarta.validation.ValidationException;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
@@ -101,5 +103,10 @@ public class ProductController {
             return "redirect:/products";
         }
         return "redirect:/products";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 }
