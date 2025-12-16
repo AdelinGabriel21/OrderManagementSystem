@@ -19,4 +19,12 @@ public interface OrderLineRepository extends JpaRepository<OrderLine, String> {
                                      @Param("unitName") String unitName,
                                      @Param("orderName") String orderName,
                                      Sort sort);
+
+    @Query("SELECT COALESCE(SUM(ol.quantity), 0) FROM OrderLine ol " +
+            "WHERE ol.order.contract.id = :contractId " +
+            "AND ol.item.id = :itemId " +
+            "AND (:excludeId IS NULL OR ol.id != :excludeId)")
+    Double getConsumedQuantity(@Param("contractId") String contractId,
+                               @Param("itemId") String itemId,
+                               @Param("excludeId") String excludeId);
 }

@@ -1,6 +1,7 @@
 package com.OrderManagementSystem.app.service;
 
 import com.OrderManagementSystem.app.model.ContractLine;
+import com.OrderManagementSystem.app.model.Product;
 import com.OrderManagementSystem.app.model.SellableItem;
 import com.OrderManagementSystem.app.model.UnitOfMeasure;
 import com.OrderManagementSystem.app.repository.ContractLineRepository;
@@ -60,6 +61,24 @@ public class ContractLineService {
         if (item.getType().equalsIgnoreCase("product")) {
             if (unit.getSymbol().equalsIgnoreCase("s") || unit.getSymbol().equalsIgnoreCase("h")) {
                 throw new ValidationException("Physical products cannot be measured in time (seconds/hours).");
+            }
+            if (item instanceof Product product) {
+                int currentStock = product.getStockQuantity();
+
+                Double alreadyCommitted = repo.getTotalCommittedQuantity(
+                        product.getId(),
+                        contractLine.getId()
+                );
+
+                double totalFutureCommitment = alreadyCommitted + contractLine.getQuantity();
+
+                if (totalFutureCommitment > currentStock) {
+                    throw new ValidationException(
+                            "Insufficient global stock for '" + product.getName() + "'. " +
+                                    "Stock: " + currentStock + ", " +
+                                    "Already Committed: " + alreadyCommitted + ", " +
+                                    "Requested: " + contractLine.getQuantity());
+                }
             }
         }
         else if (item.getType().equalsIgnoreCase("service")) {

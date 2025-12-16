@@ -19,4 +19,10 @@ public interface ContractLineRepository extends JpaRepository<ContractLine, Stri
                                            @Param("itemName") String itemName,
                                            @Param("unitName") String unitName,
                                            Sort sort);
+
+    @Query("SELECT COALESCE(SUM(cl.quantity), 0) FROM ContractLine cl " +
+            "WHERE cl.item.id = :itemId " +
+            "AND (:excludeId IS NULL OR cl.id != :excludeId)")
+    Double getTotalCommittedQuantity(@Param("itemId") String itemId,
+                                     @Param("excludeId") String excludeId);
 }
