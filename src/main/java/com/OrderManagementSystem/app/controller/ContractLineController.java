@@ -1,10 +1,7 @@
 package com.OrderManagementSystem.app.controller;
 
 import com.OrderManagementSystem.app.model.*;
-import com.OrderManagementSystem.app.service.ContractLineService;
-import com.OrderManagementSystem.app.service.ContractService;
-import com.OrderManagementSystem.app.service.ProductService;
-import com.OrderManagementSystem.app.service.UnitOfMeasureService;
+import com.OrderManagementSystem.app.service.*;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor; // Don't forget this!
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +11,9 @@ import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
 import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 @RequestMapping("/contractLines")
@@ -23,10 +23,12 @@ public class ContractLineController {
     private final ProductService productService;
     private final UnitOfMeasureService unitOfMeasureService;
     private final ContractService contractService;
+    private final ServiceEntityService serviceEntityService;
 
-    public ContractLineController(ContractLineService service, ProductService productService, UnitOfMeasureService unitOfMeasureService, ContractService contractService) {
+    public ContractLineController(ContractLineService service, ProductService productService, ServiceEntityService serviceEntityService, UnitOfMeasureService unitOfMeasureService, ContractService contractService) {
         this.service = service;
         this.productService = productService;
+        this.serviceEntityService = serviceEntityService;
         this.unitOfMeasureService = unitOfMeasureService;
         this.contractService = contractService;
     }
@@ -111,7 +113,17 @@ public class ContractLineController {
     }
 
     private void populateDependencies(Model model) {
-        model.addAttribute("products", productService.searchProducts(null, null, null, "name", "asc", "name", "asc"));
+        // Fetch products and services
+        List<Product> products = productService.searchProducts(null, null, null, "name", "asc", "name", "asc"); //
+        List<ServiceEntity> services = serviceEntityService.searchServices(null, null, "name", "asc", "name", "asc"); //
+
+        List<SellableItem> items = new ArrayList<>();
+        items.addAll(products);
+        items.addAll(services);
+
+        items.sort(Comparator.comparing(SellableItem::getName, String.CASE_INSENSITIVE_ORDER));
+
+        model.addAttribute("items", items);
         model.addAttribute("units", unitOfMeasureService.searchUnits(null, null, "name","asc", "name","asc"));
         model.addAttribute("contracts", contractService.getAllContracts());
     }
@@ -123,7 +135,16 @@ public class ContractLineController {
         binder.registerCustomEditor(SellableItem.class, "item", new PropertyEditorSupport() {
             @Override
             public void setAsText(String itemId) {
-                setValue((itemId != null && !itemId.isEmpty()) ? productService.getProductById(itemId) : null);
+                if (itemId == null || itemId.isEmpty()) {
+                    setValue(null);
+                    return;
+                }
+                SellableItem item = productService.getProductById(itemId);
+
+                if (item == null) {
+                    item = serviceEntityService.getServiceById(itemId);
+                }
+                setValue(item);
             }
         });
 

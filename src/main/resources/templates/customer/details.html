@@ -33,6 +33,12 @@
         </ul>
         <p th:if="${#lists.isEmpty(customer.orders)}" style="color:#777; font-style:italic;">No orders.</p>
 
+        <h3>Contracts</h3>
+        <ul th:if="${not #lists.isEmpty(customer.contracts)}">
+            <li th:each="contract : ${customer.contracts}" th:text="${contract.name}"></li>
+        </ul>
+        <p th:if="${#lists.isEmpty(customer.contracts)}" style="color:#777; font-style:italic;">No contracts.</p>
+
         <a href="/customers" class="btn-back">&larr; Back to List</a>
     </div>
 </div>
